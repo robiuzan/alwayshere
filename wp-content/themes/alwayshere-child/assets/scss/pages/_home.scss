@@ -1,0 +1,894 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Homepage styles — alwayshere.co.il
+// Sections: hero, recipients, promo-banner, products, occasions,
+//           product-types, trust, newsletter
+// RTL logical properties throughout. Mobile-first.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Scroll fade-in ────────────────────────────────────────────────────────────
+
+.ah--fade-in {
+	opacity: 0;
+	transform: translateY(20px);
+	transition: opacity 0.55s ease, transform 0.55s ease;
+
+	&.ah--visible {
+		opacity: 1;
+		transform: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
+
+// ── Shared utilities ─────────────────────────────────────────────────────────
+
+.ah-container {
+	inline-size: 100%;
+	max-inline-size: var(--container);
+	margin-inline: auto;
+	padding-inline: 1.25rem;
+
+	@media (min-width: $bp-md) {
+		padding-inline: 2rem;
+	}
+}
+
+.ah-section-header {
+	text-align: center;
+	margin-block-end: 2rem;
+
+	&__eyebrow {
+		display: block;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin-block-end: 0.5rem;
+	}
+
+	&__title {
+		font-size: clamp(1.5rem, 4vw, 2.25rem);
+		font-weight: 800;
+		color: var(--charcoal);
+		margin-block: 0 0.5rem;
+		line-height: 1.2;
+	}
+
+	&__sub {
+		font-size: 1rem;
+		color: var(--contrast-2);
+		max-inline-size: 520px;
+		margin-inline: auto;
+	}
+}
+
+.ah-section-footer {
+	text-align: center;
+	margin-block-start: 2.5rem;
+}
+
+// Buttons
+.ah-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1.75rem;
+	border-radius: var(--radius-pill);
+	font-family: var(--font);
+	font-size: 1rem;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background var(--ease), color var(--ease), box-shadow var(--ease), transform var(--ease);
+	border: 2px solid transparent;
+	white-space: nowrap;
+
+	&:focus-visible {
+		outline: 3px solid var(--accent);
+		outline-offset: 3px;
+	}
+
+	&--primary {
+		background: var(--accent);
+		color: var(--white);
+		border-color: var(--accent);
+
+		&:hover {
+			background: var(--accent-hover);
+			border-color: var(--accent-hover);
+			transform: translateY(-2px);
+			box-shadow: var(--shadow-hover);
+		}
+	}
+
+	&--outline {
+		background: transparent;
+		color: var(--accent);
+		border-color: var(--accent);
+
+		&:hover {
+			background: var(--accent);
+			color: var(--white);
+			transform: translateY(-2px);
+		}
+	}
+
+	&--white {
+		background: var(--white);
+		color: var(--accent);
+		border-color: var(--white);
+
+		&:hover {
+			background: var(--sky);
+			transform: translateY(-2px);
+		}
+	}
+}
+
+// ── Hero ─────────────────────────────────────────────────────────────────────
+
+.ah-hero {
+	padding-block: var(--section-py-sm);
+	overflow: hidden;
+	background: var(--sky);
+
+	@media (min-width: $bp-lg) {
+		padding-block: var(--section-py);
+	}
+
+	&__inner {
+		display: grid;
+		gap: 2.5rem;
+		align-items: center;
+
+		@media (min-width: $bp-lg) {
+			grid-template-columns: 1fr 420px;
+		}
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+
+		@media (min-width: $bp-lg) {
+			gap: 1.5rem;
+		}
+	}
+
+	&__badge {
+		display: inline-block;
+		padding: 0.35rem 1rem;
+		background: var(--sky);
+		color: var(--accent);
+		border-radius: var(--radius-pill);
+		font-size: 0.875rem;
+		font-weight: 700;
+		align-self: flex-start;
+	}
+
+	&__headline {
+		font-size: clamp(2rem, 5vw, 3.25rem);
+		font-weight: 900;
+		line-height: 1.15;
+		color: var(--charcoal);
+		margin: 0;
+	}
+
+	&__subtext {
+		font-size: 1.0625rem;
+		color: var(--contrast-2);
+		max-inline-size: 480px;
+		margin: 0;
+	}
+
+	&__ctas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	&__trust {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.25rem;
+		border-block-start: 1px solid var(--gray-border);
+		padding-block-start: 1.25rem;
+	}
+
+	&__trust-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--charcoal);
+	}
+
+	&__trust-icon {
+		font-size: 1.25rem;
+	}
+
+	// Image collage
+	&__collage {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 200px 200px;
+		gap: 0.75rem;
+
+		@media (min-width: $bp-lg) {
+			grid-template-rows: 240px 240px;
+		}
+	}
+
+	&__collage-item {
+		margin: 0;
+		border-radius: var(--radius-md);
+		overflow: hidden;
+
+		img {
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+			transition: transform var(--ease-slow);
+		}
+
+		&:hover img {
+			transform: scale(1.04);
+		}
+
+		// Slight rotation on item 2 for a playful look
+		&--2 {
+			transform: rotate(1.5deg);
+		}
+
+		// Tall item spanning rows
+		&--1 {
+			grid-row: span 2;
+		}
+	}
+}
+
+// ── Recipients ───────────────────────────────────────────────────────────────
+
+.ah-recipients {
+	padding-block: var(--section-py-sm);
+	background: var(--white);
+
+	@media (min-width: $bp-md) {
+		padding-block: var(--section-py);
+	}
+
+	&__track {
+		display: flex;
+		gap: 1rem;
+		overflow-x: auto;
+		padding-block-end: 0.5rem;
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		@media (min-width: $bp-lg) {
+			justify-content: center;
+			flex-wrap: wrap;
+			overflow: visible;
+		}
+
+		&--occasions {
+			margin-block-start: 1.25rem;
+		}
+	}
+
+	&__item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.625rem;
+		text-decoration: none;
+		flex-shrink: 0;
+		transition: transform var(--ease);
+
+		&:hover {
+			transform: translateY(-4px);
+
+			.ah-recipients__circle img {
+				border-color: var(--accent);
+			}
+		}
+	}
+
+	&__circle {
+		inline-size: 90px;
+		block-size: 90px;
+		border-radius: 50%;
+		overflow: hidden;
+		margin: 0;
+		border: 3px solid transparent;
+		transition: border-color var(--ease);
+
+		@media (min-width: $bp-lg) {
+			inline-size: 110px;
+			block-size: 110px;
+		}
+
+		img {
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+		}
+	}
+
+	&__label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--charcoal);
+		text-align: center;
+		white-space: nowrap;
+	}
+}
+
+// ── Promo Banner ─────────────────────────────────────────────────────────────
+
+.ah-promo-banner {
+	background: var(--accent);
+	padding-block: 1.75rem;
+
+	&__inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.25rem;
+		text-align: center;
+
+		@media (min-width: $bp-md) {
+			flex-direction: row;
+			justify-content: space-between;
+			text-align: start;
+		}
+	}
+
+	&__text {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	&__badge {
+		font-size: 0.8125rem;
+		font-weight: 700;
+		color: rgba(255 255 255 / 0.7);
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+	}
+
+	&__headline {
+		font-size: 1.25rem;
+		font-weight: 800;
+		color: var(--white);
+		margin: 0;
+	}
+
+	&__sub {
+		font-size: 0.9375rem;
+		color: rgba(255 255 255 / 0.8);
+		margin: 0;
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		flex-shrink: 0;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	&__coupon {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 1.25rem;
+		background: transparent;
+		border: 2px dashed rgba(255 255 255 / 0.6);
+		border-radius: var(--radius-sm);
+		color: var(--white);
+		font-family: 'Courier New', monospace;
+		font-size: 1rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		cursor: pointer;
+		transition: border-color var(--ease), background var(--ease);
+
+		&:hover {
+			border-color: var(--white);
+			background: rgba(255 255 255 / 0.1);
+		}
+	}
+}
+
+// ── Product Grid (shared: featured + best sellers) ───────────────────────────
+
+.ah-products {
+	padding-block: var(--section-py-sm);
+
+	@media (min-width: $bp-md) {
+		padding-block: var(--section-py);
+	}
+
+	&--best-sellers {
+		background: var(--gray-light);
+	}
+
+	&__grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+
+		@media (min-width: $bp-md) {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.25rem;
+		}
+
+		@media (min-width: $bp-lg) {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+}
+
+.ah-product-card {
+	background: var(--white);
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	box-shadow: var(--shadow-card);
+	transition: transform var(--ease), box-shadow var(--ease);
+	display: flex;
+	flex-direction: column;
+
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-hover);
+	}
+
+	&__link {
+		text-decoration: none;
+		color: inherit;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__image-wrap {
+		margin: 0;
+		position: relative;
+		aspect-ratio: 1;
+		overflow: hidden;
+		background: var(--gray-light);
+	}
+
+	&__image {
+		inline-size: 100%;
+		block-size: 100%;
+		object-fit: cover;
+		transition: transform var(--ease-slow);
+
+		.ah-product-card:hover & {
+			transform: scale(1.06);
+		}
+	}
+
+	&__badge {
+		position: absolute;
+		inset-block-start: 0.75rem;
+		inset-inline-start: 0.75rem;
+		padding: 0.2rem 0.6rem;
+		border-radius: var(--radius-pill);
+		font-size: 0.75rem;
+		font-weight: 700;
+
+		&--sale {
+			background: #e53935;
+			color: var(--white);
+		}
+	}
+
+	&__body {
+		padding: 0.875rem 1rem 0.5rem;
+		flex: 1;
+	}
+
+	&__name {
+		font-size: 0.9375rem;
+		font-weight: 600;
+		color: var(--charcoal);
+		margin: 0 0 0.375rem;
+		line-height: 1.3;
+	}
+
+	&__price {
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--accent);
+	}
+
+	&__footer {
+		padding: 0.5rem 1rem 1rem;
+
+		// Override WC button styles inside card footer
+		.button {
+			inline-size: 100%;
+			text-align: center;
+			justify-content: center;
+			border-radius: var(--radius-pill);
+			background: var(--accent);
+			color: var(--white);
+			font-weight: 700;
+			font-size: 0.875rem;
+			padding: 0.6rem 1rem;
+			transition: background var(--ease);
+
+			&:hover {
+				background: var(--accent-hover);
+			}
+		}
+	}
+}
+
+// ── Occasions ────────────────────────────────────────────────────────────────
+
+.ah-occasions {
+	padding-block: var(--section-py-sm);
+
+	@media (min-width: $bp-md) {
+		padding-block: var(--section-py);
+	}
+
+	&__grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.75rem;
+
+		@media (min-width: $bp-md) {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	&__item {
+		// Alternate tall/short items for visual interest
+		&:nth-child(3),
+		&:nth-child(6) {
+			@media (min-width: $bp-md) {
+				grid-row: span 1;
+			}
+		}
+	}
+
+	&__tile {
+		display: flex;
+		align-items: flex-end;
+		padding: 1.25rem;
+		border-radius: var(--radius-md);
+		min-block-size: 160px;
+		text-decoration: none;
+		position: relative;
+		overflow: hidden;
+		background: var(--gray-light) var(--bg-image, none) center / cover no-repeat;
+
+		@media (min-width: $bp-md) {
+			min-block-size: 220px;
+		}
+
+		&:hover {
+			.ah-occasions__overlay {
+				opacity: 0.45;
+			}
+
+			.ah-occasions__name {
+				transform: translateY(-4px);
+			}
+		}
+	}
+
+	&__overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to block-start, rgba(0 0 0 / 0.65) 0%, rgba(0 0 0 / 0.15) 60%);
+		transition: opacity var(--ease);
+		opacity: 0.55;
+	}
+
+	&__name {
+		position: relative;
+		z-index: 1;
+		color: var(--white);
+		font-size: 1rem;
+		font-weight: 700;
+		transition: transform var(--ease);
+	}
+}
+
+// ── Product Types ────────────────────────────────────────────────────────────
+
+.ah-product-types {
+	padding-block: var(--section-py-sm);
+	background: var(--gray-light);
+
+	@media (min-width: $bp-md) {
+		padding-block: var(--section-py);
+	}
+
+	&__grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0.75rem;
+
+		@media (min-width: $bp-md) {
+			grid-template-columns: repeat(4, 1fr);
+		}
+
+		@media (min-width: $bp-lg) {
+			grid-template-columns: repeat(6, 1fr);
+		}
+	}
+
+	&__tile {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		text-decoration: none;
+		transition: transform var(--ease);
+
+		&:hover {
+			transform: translateY(-4px);
+
+			.ah-product-types__image-wrap {
+				box-shadow: var(--shadow-hover);
+			}
+		}
+	}
+
+	&__image-wrap {
+		inline-size: 100%;
+		aspect-ratio: 1;
+		border-radius: var(--radius-md);
+		overflow: hidden;
+		background: var(--white);
+		box-shadow: var(--shadow-card);
+		transition: box-shadow var(--ease);
+
+		img {
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+			transition: transform var(--ease-slow);
+		}
+
+		.ah-product-types__tile:hover & img {
+			transform: scale(1.06);
+		}
+	}
+
+	&__label {
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: var(--charcoal);
+		text-align: center;
+	}
+}
+
+// ── Trust ────────────────────────────────────────────────────────────────────
+
+.ah-trust {
+	padding-block: var(--section-py-sm);
+	background: var(--accent);
+
+	@media (min-width: $bp-md) {
+		padding-block: var(--section-py);
+	}
+
+	&__inner {
+		display: grid;
+		gap: 2.5rem;
+		align-items: center;
+
+		@media (min-width: $bp-lg) {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	&__image-wrap {
+		margin: 0;
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+
+		img {
+			inline-size: 100%;
+			block-size: auto;
+			display: block;
+		}
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	&__heading {
+		font-size: clamp(1.5rem, 3.5vw, 2rem);
+		font-weight: 800;
+		color: var(--white);
+		margin: 0;
+		line-height: 1.25;
+	}
+
+	&__body {
+		color: rgba(255 255 255 / 0.8);
+		font-size: 1rem;
+		line-height: 1.7;
+		margin: 0;
+	}
+
+	&__icons {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	&__icon-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+
+	&__icon {
+		font-size: 1.75rem;
+		flex-shrink: 0;
+		line-height: 1;
+	}
+
+	&__icon-text {
+		display: flex;
+		flex-direction: column;
+		gap: 0.125rem;
+	}
+
+	&__icon-label {
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--white);
+	}
+
+	&__icon-sub {
+		font-size: 0.875rem;
+		color: rgba(255 255 255 / 0.7);
+	}
+
+	.ah-btn--primary {
+		background: var(--white);
+		color: var(--accent);
+		border-color: var(--white);
+
+		&:hover {
+			background: var(--sky);
+			border-color: var(--sky);
+		}
+	}
+}
+
+// ── Newsletter ────────────────────────────────────────────────────────────────
+
+.ah-newsletter {
+	background: var(--gray-light);
+	border-block: 1px solid var(--gray-border);
+	padding-block: 3rem;
+
+	&__inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+		text-align: center;
+
+		@media (min-width: $bp-md) {
+			flex-direction: row;
+			justify-content: space-between;
+			text-align: start;
+		}
+	}
+
+	&__text {
+		display: flex;
+		flex-direction: column;
+		gap: 0.375rem;
+	}
+
+	&__heading {
+		font-size: clamp(1.25rem, 3vw, 1.75rem);
+		font-weight: 800;
+		color: var(--charcoal);
+		margin: 0;
+	}
+
+	&__sub {
+		font-size: 0.9375rem;
+		color: var(--contrast-2);
+		margin: 0;
+	}
+
+	&__form {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+		justify-content: center;
+		flex-shrink: 0;
+
+		@media (min-width: $bp-md) {
+			flex-wrap: nowrap;
+		}
+	}
+
+	&__input {
+		padding: 0.75rem 1.25rem;
+		border-radius: var(--radius-pill);
+		border: 1.5px solid var(--gray-border);
+		background: var(--white);
+		color: var(--charcoal);
+		font-family: var(--font);
+		font-size: 1rem;
+		inline-size: 280px;
+		max-inline-size: 100%;
+		text-align: start;
+		transition: border-color var(--ease);
+
+		&::placeholder {
+			color: var(--gray-mid);
+		}
+
+		&:focus {
+			outline: none;
+			border-color: var(--accent);
+		}
+	}
+
+	&__submit {
+		background: var(--accent);
+		color: var(--white);
+		border-color: var(--accent);
+
+		&:hover {
+			background: var(--accent-hover);
+			border-color: var(--accent-hover);
+		}
+	}
+
+	&__status {
+		inline-size: 100%;
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--accent);
+		margin-block-start: 0.5rem;
+	}
+}

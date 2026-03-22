@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+wp-content/themes/alwayshere-child/node_modules/
+
+# Build artifacts (compiled from SCSS/JS — not committed)
+wp-content/themes/alwayshere-child/assets/css/
+wp-content/themes/alwayshere-child/assets/js/*.js.map
+
+# Vite
+.vite/
+vite.config.js.timestamp-*
+
+# WordPress
+wp-config.php
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+
+# WordPress core (never committed — install via WP CLI or ZIP)
+wp-admin/
+wp-includes/
+index.php
+wp-*.php
+xmlrpc.php
+license.txt
+readme.html
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+*.suo
+*.swp

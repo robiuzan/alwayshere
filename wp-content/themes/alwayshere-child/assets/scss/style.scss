@@ -1,0 +1,9 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Main SCSS entry — alwayshere-child
+// ─────────────────────────────────────────────────────────────────────────────
+
+@import 'base/variables';
+@import 'base/global';
+@import 'components/header';
+@import 'pages/home';
+@import 'pages/single-product';

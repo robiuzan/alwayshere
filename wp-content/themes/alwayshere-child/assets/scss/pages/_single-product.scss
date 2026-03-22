@@ -1,0 +1,981 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Single Product Page — alwayshere.co.il
+// RTL logical properties throughout. Mobile-first.
+// Targets both our custom template parts and WooCommerce's generated markup.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Section header decorative line ───────────────────────────────────────────
+
+.ah-section-header__line {
+	display: block;
+	inline-size: 3rem;
+	block-size: 3px;
+	background: var(--accent);
+	border-radius: 2px;
+	margin-inline: auto;
+	margin-block-start: 0.5rem;
+}
+
+// ── Main product wrapper ──────────────────────────────────────────────────────
+
+.ah-sp {
+	padding-block: 2rem 3.5rem;
+
+	@media (min-width: $bp-lg) {
+		padding-block: 3rem 5rem;
+	}
+
+	&__layout {
+		display: grid;
+		gap: 2rem;
+
+		@media (min-width: $bp-lg) {
+			grid-template-columns: 1fr 1fr;
+			gap: 3rem;
+			align-items: start;
+		}
+	}
+
+	// On mobile: gallery above summary; on desktop: summary left, gallery right
+	&__col-gallery {
+		order: 1;
+
+		@media (min-width: $bp-lg) {
+			order: 2;
+		}
+	}
+
+	&__col-summary {
+		order: 2;
+
+		@media (min-width: $bp-lg) {
+			order: 1;
+		}
+	}
+
+	&__divider {
+		border: none;
+		border-block-start: 1px solid var(--gray-border);
+		margin-block: 1.5rem;
+	}
+}
+
+// ── WooCommerce summary markup overrides ──────────────────────────────────────
+// Scoped to .ah-sp__col-summary to avoid leaking into other pages.
+
+.ah-sp__col-summary {
+
+	// Category tag links (rendered by our hook at priority 4)
+	.ah-sp-cats {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 0.5rem;
+		margin-block-end: 0.5rem;
+
+		a {
+			font-size: 0.8125rem;
+			color: var(--gray-mid);
+			text-decoration: none;
+			transition: color var(--ease);
+
+			&:hover {
+				color: var(--accent);
+			}
+		}
+
+		span {
+			color: var(--gray-border);
+		}
+	}
+
+	// Product title
+	.product_title.entry-title {
+		font-size: clamp(1.6rem, 4vw, 2.25rem);
+		font-weight: 800;
+		color: var(--charcoal);
+		line-height: 1.2;
+		margin-block: 0.5rem 0.75rem;
+	}
+
+	// Brand / meta subline (from get_field or custom hook)
+	.ah-sp-brand {
+		font-size: 0.875rem;
+		color: var(--gray-mid);
+		margin-block-end: 0.75rem;
+
+		a {
+			color: inherit;
+			text-decoration: underline;
+
+			&:hover {
+				color: var(--accent);
+			}
+		}
+	}
+
+	// Rating row
+	.woocommerce-product-rating {
+		display: flex;
+		align-items: center;
+		gap: 0.625rem;
+		flex-wrap: wrap;
+		margin-block-end: 1rem;
+
+		.star-rating {
+			color: var(--yellow);
+			font-size: 1rem;
+			overflow: hidden;
+			position: relative;
+			height: 1.15em;
+			line-height: 1.15;
+
+			&::before {
+				content: 'sssss';
+				letter-spacing: 2px;
+				color: var(--gray-border);
+			}
+
+			span {
+				overflow: hidden;
+				position: absolute;
+				inset-block-start: 0;
+				inset-inline-end: 0;
+				left: 0; // WC uses LTR star rendering, keep this
+				white-space: nowrap;
+
+				&::before {
+					content: 'SSSSS';
+					letter-spacing: 2px;
+					color: var(--yellow);
+				}
+			}
+		}
+
+		.woocommerce-review-link {
+			font-size: 0.875rem;
+			color: var(--gray-mid);
+			text-decoration: none;
+			transition: color var(--ease);
+
+			&:hover {
+				color: var(--accent);
+				text-decoration: underline;
+			}
+		}
+	}
+
+	// Price block
+	.price {
+		display: flex;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-block-end: 0.5rem;
+		line-height: 1;
+
+		del {
+			text-decoration: line-through;
+
+			.woocommerce-Price-amount {
+				color: var(--gray-mid);
+				font-size: 1rem;
+				font-weight: 400;
+			}
+		}
+
+		ins {
+			text-decoration: none;
+
+			.woocommerce-Price-amount {
+				color: var(--charcoal);
+				font-size: 1.75rem;
+				font-weight: 800;
+			}
+		}
+
+		// Simple (no sale) price
+		> .woocommerce-Price-amount {
+			color: var(--charcoal);
+			font-size: 1.75rem;
+			font-weight: 800;
+		}
+	}
+
+	// Discount badge (rendered by our hook at priority 11)
+	.ah-discount-badge-wrap {
+		margin-block-end: 1rem;
+	}
+
+	.ah-discount-badge {
+		display: inline-flex;
+		align-items: center;
+		background: #e6f4ea;
+		color: #1d7a33;
+		font-size: 0.8125rem;
+		font-weight: 700;
+		padding: 0.25rem 0.75rem;
+		border-radius: var(--radius-pill);
+	}
+
+	// Short description
+	.woocommerce-product-details__short-description {
+		font-size: 0.9375rem;
+		color: var(--contrast-2);
+		line-height: 1.7;
+		margin-block-end: 1.25rem;
+
+		p {
+			margin: 0;
+		}
+	}
+
+	// ── Add-to-cart form ─────────────────────────────────────────────────────
+
+	form.cart {
+		margin-block-end: 0;
+
+		// Quantity + button row (wrapped by JS into .ah-cart-row)
+		.ah-cart-row {
+			display: flex;
+			gap: 0.75rem;
+			align-items: stretch;
+			margin-block-end: 0.75rem;
+		}
+
+		// Quantity stepper
+		.quantity {
+			display: flex;
+			align-items: center;
+			border: 1.5px solid var(--gray-border);
+			border-radius: var(--radius-pill);
+			overflow: hidden;
+			flex-shrink: 0;
+
+			.qty {
+				inline-size: 3rem;
+				block-size: 2.875rem;
+				border: none;
+				text-align: center;
+				font-family: var(--font);
+				font-size: 1rem;
+				font-weight: 700;
+				color: var(--charcoal);
+				background: transparent;
+				-moz-appearance: textfield;
+				appearance: textfield;
+
+				&::-webkit-inner-spin-button,
+				&::-webkit-outer-spin-button {
+					-webkit-appearance: none;
+				}
+			}
+
+			.ah-qty-btn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				inline-size: 2.875rem;
+				block-size: 2.875rem;
+				background: var(--gray-light);
+				border: none;
+				cursor: pointer;
+				font-size: 1.375rem;
+				line-height: 1;
+				color: var(--charcoal);
+				transition: background var(--ease);
+				padding: 0;
+
+				&:hover {
+					background: var(--gray-border);
+				}
+
+				&:focus-visible {
+					outline: 2px solid var(--accent);
+					outline-offset: -2px;
+				}
+			}
+		}
+
+		// Add to cart button
+		.single_add_to_cart_button {
+			flex: 1;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			padding: 0.85rem 1.5rem;
+			background: var(--accent);
+			color: var(--white);
+			border: none;
+			border-radius: var(--radius-pill);
+			font-family: var(--font);
+			font-size: 1rem;
+			font-weight: 700;
+			cursor: pointer;
+			transition: background var(--ease), transform var(--ease);
+			text-align: center;
+
+			&::before {
+				content: '🛒';
+				font-size: 0.9em;
+			}
+
+			&:hover:not(:disabled) {
+				background: var(--accent-hover);
+				transform: translateY(-1px);
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+			}
+
+			&:disabled,
+			&.disabled {
+				opacity: 0.55;
+				cursor: not-allowed;
+				transform: none;
+			}
+		}
+
+		// Buy Now button (injected by our hook)
+		.ah-btn-buy-now {
+			display: block;
+			inline-size: 100%;
+			padding: 0.8rem 1.5rem;
+			background: transparent;
+			color: var(--accent);
+			border: 2px solid var(--accent);
+			border-radius: var(--radius-pill);
+			font-family: var(--font);
+			font-size: 1rem;
+			font-weight: 600;
+			cursor: pointer;
+			text-align: center;
+			transition: background var(--ease), color var(--ease);
+			margin-block-end: 1rem;
+
+			&:hover {
+				background: var(--accent);
+				color: var(--white);
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+			}
+		}
+
+		// Variable product variation table
+		table.variations {
+			border: none;
+			inline-size: 100%;
+			margin-block-end: 1rem;
+
+			tbody tr {
+				display: flex;
+				flex-direction: column;
+				gap: 0.375rem;
+				margin-block-end: 1rem;
+			}
+
+			td.label label {
+				font-size: 0.875rem;
+				font-weight: 700;
+				color: var(--charcoal);
+				cursor: default;
+			}
+
+			td.value select {
+				inline-size: 100%;
+				padding: 0.625rem 0.875rem;
+				border: 1.5px solid var(--gray-border);
+				border-radius: var(--radius-sm);
+				font-family: var(--font);
+				font-size: 0.9375rem;
+				color: var(--charcoal);
+				background: var(--white);
+				cursor: pointer;
+				transition: border-color var(--ease);
+
+				&:focus {
+					outline: none;
+					border-color: var(--accent);
+				}
+			}
+
+			.reset_variations {
+				font-size: 0.8125rem;
+				color: var(--gray-mid);
+				text-decoration: none;
+				margin-inline-start: 0.5rem;
+
+				&:hover {
+					color: var(--accent);
+				}
+			}
+		}
+
+		// Variable product price update area
+		.single_variation_wrap {
+			.woocommerce-variation-price {
+				.price {
+					margin-block-end: 0.75rem;
+				}
+			}
+
+			.woocommerce-variation-add-to-cart {
+				display: flex;
+				flex-direction: column;
+				gap: 0.75rem;
+			}
+		}
+	}
+
+	// ── Swatch UI (JS-generated from <select> variations) ────────────────────
+
+	.ah-swatches {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-block: 0.375rem 0.75rem;
+
+		&--color .ah-swatch {
+			inline-size: 2rem;
+			block-size: 2rem;
+			border-radius: 50%;
+			border: 2px solid transparent;
+			box-shadow: 0 0 0 1px var(--gray-border);
+			cursor: pointer;
+			padding: 0;
+			transition: box-shadow var(--ease);
+
+			&.is-active {
+				box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--accent);
+			}
+
+			&:hover:not(.is-active) {
+				box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--gray-mid);
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+			}
+		}
+
+		&--size .ah-swatch {
+			padding: 0.4rem 1rem;
+			border-radius: var(--radius-pill);
+			border: 1.5px solid var(--gray-border);
+			background: var(--white);
+			color: var(--charcoal);
+			font-family: var(--font);
+			font-size: 0.875rem;
+			font-weight: 600;
+			cursor: pointer;
+			transition: background var(--ease), color var(--ease), border-color var(--ease);
+
+			&.is-active {
+				background: var(--accent);
+				color: var(--white);
+				border-color: var(--accent);
+			}
+
+			&:hover:not(.is-active) {
+				border-color: var(--accent);
+				color: var(--accent);
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+			}
+		}
+	}
+}
+
+// ── Gallery ───────────────────────────────────────────────────────────────────
+
+.ah-gallery {
+	position: relative;
+
+	&__badge {
+		position: absolute;
+		inset-block-start: 1rem;
+		inset-inline-start: 1rem;
+		z-index: 2;
+		background: var(--red);
+		color: var(--white);
+		font-weight: 700;
+		font-size: 0.875rem;
+		padding: 0.3rem 0.75rem;
+		border-radius: var(--radius-pill);
+		pointer-events: none;
+	}
+
+	&__main {
+		position: relative;
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+		aspect-ratio: 1 / 1;
+		background: var(--gray-light);
+		margin-block-end: 0.75rem;
+
+		img {
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+			transition: transform 0.4s ease;
+			display: block;
+		}
+
+		&:hover img {
+			transform: scale(1.03);
+		}
+	}
+
+	&__thumbs {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 0.5rem;
+	}
+
+	&__thumb {
+		aspect-ratio: 1 / 1;
+		border-radius: var(--radius-md);
+		overflow: hidden;
+		border: 2px solid transparent;
+		background: var(--gray-light);
+		cursor: pointer;
+		padding: 0;
+		transition: border-color var(--ease), transform var(--ease);
+
+		img {
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		&.is-active {
+			border-color: var(--accent);
+		}
+
+		&:hover {
+			border-color: var(--accent-hover);
+			transform: translateY(-1px);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--accent);
+			outline-offset: 2px;
+		}
+	}
+}
+
+// ── Trust badges ──────────────────────────────────────────────────────────────
+
+.ah-trust-badges {
+	display: flex;
+	gap: 0.5rem 1.5rem;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	flex-wrap: wrap;
+
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		flex: 1;
+		min-inline-size: 120px;
+	}
+
+	&__icon {
+		flex-shrink: 0;
+		color: var(--accent);
+		display: flex;
+		align-items: center;
+	}
+
+	&__text {
+		display: flex;
+		flex-direction: column;
+		font-size: 0.8125rem;
+		line-height: 1.35;
+
+		strong {
+			font-weight: 600;
+			color: var(--charcoal);
+		}
+
+		small {
+			color: var(--gray-mid);
+			font-size: 0.75rem;
+		}
+	}
+}
+
+// ── Why Us section ────────────────────────────────────────────────────────────
+
+.ah-why {
+	padding-block: var(--section-py);
+	background: var(--gray-light);
+
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+
+		@media (min-width: $bp-md) {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	&__card {
+		background: var(--white);
+		border-radius: var(--radius-md);
+		padding: 1.75rem 1.25rem;
+		text-align: center;
+		box-shadow: var(--shadow-card);
+		transition: transform var(--ease), box-shadow var(--ease);
+
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: var(--shadow-hover);
+		}
+	}
+
+	&__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		inline-size: 3.25rem;
+		block-size: 3.25rem;
+		border-radius: 50%;
+		background: var(--sky);
+		color: var(--accent);
+		margin-inline: auto;
+		margin-block-end: 1rem;
+	}
+
+	&__title {
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--charcoal);
+		margin-block: 0 0.375rem;
+	}
+
+	&__sub {
+		font-size: 0.8125rem;
+		color: var(--contrast-2);
+		line-height: 1.55;
+		margin: 0;
+	}
+}
+
+// ── Related products section ──────────────────────────────────────────────────
+
+.ah-related {
+	padding-block: var(--section-py);
+
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+
+		@media (min-width: $bp-md) {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	&__card {
+		background: var(--white);
+		border-radius: var(--radius-md);
+		overflow: hidden;
+		box-shadow: var(--shadow-card);
+		transition: transform var(--ease), box-shadow var(--ease);
+
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: var(--shadow-hover);
+		}
+	}
+
+	&__img-wrap {
+		display: block;
+		position: relative;
+		aspect-ratio: 1 / 1;
+		overflow: hidden;
+		background: var(--gray-light);
+
+		img {
+			inline-size: 100%;
+			block-size: 100%;
+			object-fit: cover;
+			transition: transform 0.4s ease;
+			display: block;
+		}
+
+		&:hover img {
+			transform: scale(1.05);
+		}
+	}
+
+	&__badge {
+		position: absolute;
+		inset-block-start: 0.625rem;
+		inset-inline-start: 0.625rem;
+		background: var(--red);
+		color: var(--white);
+		font-size: 0.75rem;
+		font-weight: 700;
+		padding: 0.2rem 0.6rem;
+		border-radius: var(--radius-pill);
+	}
+
+	&__info {
+		padding: 0.875rem 1rem 1rem;
+	}
+
+	&__title {
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--charcoal);
+		margin-block: 0 0.375rem;
+		line-height: 1.4;
+
+		a {
+			color: inherit;
+			text-decoration: none;
+			transition: color var(--ease);
+
+			&:hover {
+				color: var(--accent);
+			}
+		}
+	}
+
+	&__price {
+		font-weight: 700;
+		font-size: 0.9375rem;
+		margin-block-end: 0.375rem;
+
+		del {
+			font-weight: 400;
+			font-size: 0.8125rem;
+			color: var(--gray-mid);
+			text-decoration: line-through;
+		}
+
+		.woocommerce-Price-amount {
+			color: var(--charcoal);
+		}
+	}
+
+	&__stars {
+		color: var(--yellow);
+		font-size: 0.875rem;
+	}
+}
+
+// ── Reviews section ───────────────────────────────────────────────────────────
+
+.ah-reviews {
+	padding-block: var(--section-py);
+	background: var(--gray-light);
+
+	&__layout {
+		display: grid;
+		gap: 2rem;
+
+		@media (min-width: $bp-md) {
+			grid-template-columns: 260px 1fr;
+			align-items: start;
+		}
+	}
+
+	// Score panel
+	&__score {
+		background: var(--white);
+		border-radius: var(--radius-md);
+		padding: 2rem 1.5rem;
+		text-align: center;
+		box-shadow: var(--shadow-card);
+	}
+
+	&__score-number {
+		font-size: 3.75rem;
+		font-weight: 800;
+		color: var(--charcoal);
+		line-height: 1;
+		margin: 0 0 0.25rem;
+	}
+
+	&__score-stars {
+		color: var(--yellow);
+		font-size: 1.375rem;
+		margin-block-end: 0.25rem;
+	}
+
+	&__score-total {
+		color: var(--gray-mid);
+		font-size: 0.875rem;
+		margin: 0 0 1.5rem;
+	}
+
+	// Rating bars
+	&__bars {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	&__bar-row {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.8125rem;
+	}
+
+	&__bar-label {
+		color: var(--charcoal);
+		flex-shrink: 0;
+		inline-size: 2.5rem;
+		text-align: end;
+		font-weight: 500;
+	}
+
+	&__bar-track {
+		flex: 1;
+		block-size: 8px;
+		background: var(--gray-border);
+		border-radius: 4px;
+		overflow: hidden;
+	}
+
+	&__bar-fill {
+		block-size: 100%;
+		background: var(--yellow);
+		border-radius: 4px;
+		transition: width 0.6s ease;
+	}
+
+	&__bar-count {
+		color: var(--gray-mid);
+		flex-shrink: 0;
+		inline-size: 1.5rem;
+		text-align: start;
+		font-size: 0.75rem;
+	}
+
+	// Review cards grid
+	&__grid {
+		display: grid;
+		gap: 1rem;
+
+		@media (min-width: $bp-sm) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	&__card {
+		background: var(--white);
+		border-radius: var(--radius-md);
+		padding: 1.25rem;
+		box-shadow: var(--shadow-card);
+		transition: box-shadow var(--ease);
+
+		&:hover {
+			box-shadow: var(--shadow-hover);
+		}
+	}
+
+	&__card-header {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-block-end: 0.75rem;
+	}
+
+	&__avatar {
+		inline-size: 2.5rem;
+		block-size: 2.5rem;
+		border-radius: 50%;
+		background: var(--accent);
+		color: var(--white);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 700;
+		font-size: 1.0625rem;
+		flex-shrink: 0;
+	}
+
+	&__reviewer {
+		flex: 1;
+		min-inline-size: 0;
+
+		strong {
+			display: block;
+			font-size: 0.9375rem;
+			font-weight: 700;
+			color: var(--charcoal);
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		time {
+			font-size: 0.8125rem;
+			color: var(--gray-mid);
+		}
+	}
+
+	&__card-stars {
+		color: var(--yellow);
+		font-size: 0.9375rem;
+		margin-block-end: 0.5rem;
+	}
+
+	&__card-text {
+		font-size: 0.9rem;
+		color: var(--contrast-2);
+		line-height: 1.65;
+		margin-block-end: 0.625rem;
+	}
+
+	&__read-more {
+		font-size: 0.875rem;
+		color: var(--accent);
+		font-weight: 600;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+// ── Mobile overrides ──────────────────────────────────────────────────────────
+
+@media (max-width: #{$bp-md - 1px}) {
+	.ah-sp__col-summary {
+		form.cart .ah-cart-row {
+			flex-direction: column;
+
+			.single_add_to_cart_button {
+				inline-size: 100%;
+			}
+		}
+	}
+
+	.ah-trust-badges {
+		gap: 1rem;
+
+		&__item {
+			min-inline-size: calc(50% - 0.5rem);
+		}
+	}
+}
