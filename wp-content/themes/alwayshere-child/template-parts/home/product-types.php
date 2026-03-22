@@ -1,28 +1,36 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+$eyebrow = get_field( 'product_types_eyebrow' ) ?: __( 'קטגוריות מוצרים', 'alwayshere-child' );
+$title   = get_field( 'product_types_title' )   ?: __( 'מה תרצו לעצב היום?', 'alwayshere-child' );
+$sub     = __( 'בחרו קטגוריה וגלו את כל המוצרים שניתן להתאים אישית', 'alwayshere-child' );
+
 $type_slugs = [
-	'nerot', 'kovaimb', 'bakbukim', 'kosot', 'machbarot',
-	'tmunot', 'atim', 'tikim', 'mchazikei-maftechot',
-	'hdpasa-al-zkhukhit', 'hdpasa-al-etz', 'pazal',
-	'pad-ikhbar', 'cholazot', 'magavot', 'tachtit-kosot',
+	'nerot', 'kosot', 'bakbukim', 'tikim', 'pad-ikhbar',
+	'mchazikei-maftechot', 'tachtit-kosot', 'kovaimb', 'machbarot',
+	'hdpasa-al-etz',
 ];
 
 $terms = get_terms( [
 	'taxonomy'   => 'product_cat',
 	'slug'       => $type_slugs,
 	'hide_empty' => false,
-	'number'     => 12,
+	'number'     => 10,
 ] );
 
 if ( is_wp_error( $terms ) || empty( $terms ) ) return;
+
+usort( $terms, function ( $a, $b ) use ( $type_slugs ) {
+	return array_search( $a->slug, $type_slugs, true ) - array_search( $b->slug, $type_slugs, true );
+} );
 ?>
 
-<section class="ah-product-types" aria-label="<?php esc_attr_e( 'מה תרצו לעצב היום?', 'alwayshere-child' ); ?>">
+<section class="ah-product-types" aria-label="<?php echo esc_attr( $title ); ?>">
 	<div class="ah-container">
 		<div class="ah-section-header">
-			<span class="ah-section-header__eyebrow"><?php esc_html_e( 'קולקציה מלאה', 'alwayshere-child' ); ?></span>
-			<h2 class="ah-section-header__title"><?php esc_html_e( 'מה תרצו לעצב היום?', 'alwayshere-child' ); ?></h2>
+			<span class="ah-section-header__eyebrow"><?php echo esc_html( $eyebrow ); ?></span>
+			<h2 class="ah-section-header__title"><?php echo esc_html( $title ); ?></h2>
+			<p class="ah-section-header__sub"><?php echo esc_html( $sub ); ?></p>
 		</div>
 
 		<ul class="ah-product-types__grid" role="list">
@@ -31,22 +39,25 @@ if ( is_wp_error( $terms ) || empty( $terms ) ) return;
 				$img_url      = $thumbnail_id
 					? wp_get_attachment_image_url( $thumbnail_id, 'medium' )
 					: wc_placeholder_img_src( 'medium' );
-				$img_alt      = $thumbnail_id
-					? get_post_meta( $thumbnail_id, '_wp_attachment_image_alt', true )
-					: $term->name;
 			?>
 				<li class="ah-product-types__item" role="listitem">
 					<a href="<?php echo esc_url( get_term_link( $term ) ); ?>" class="ah-product-types__tile">
-						<figure class="ah-product-types__image-wrap">
+						<div class="ah-product-types__bg">
 							<img
 								src="<?php echo esc_url( $img_url ); ?>"
-								alt="<?php echo esc_attr( $img_alt ); ?>"
-								width="200"
-								height="200"
+								alt="<?php echo esc_attr( $term->name ); ?>"
+								width="400"
+								height="350"
 								loading="lazy"
 							>
-						</figure>
-						<span class="ah-product-types__label"><?php echo esc_html( $term->name ); ?></span>
+						</div>
+						<div class="ah-product-types__overlay" aria-hidden="true"></div>
+						<div class="ah-product-types__label">
+							<span class="ah-product-types__name"><?php echo esc_html( $term->name ); ?></span>
+							<div class="ah-product-types__arrow" aria-hidden="true">
+								<svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+							</div>
+						</div>
 					</a>
 				</li>
 			<?php endforeach; ?>

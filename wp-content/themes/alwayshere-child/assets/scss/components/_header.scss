@@ -418,9 +418,12 @@
 // ── Mega Menu ─────────────────────────────────────────────────────────────────
 
 .ah-mega-menu {
+	// Positioned relative to .ah-nav-item.
+	// inset-inline-start: 0 = right: 0 in RTL, so the mega menu's right
+	// border aligns with the right edge of the triggering nav item.
 	position: absolute;
 	inset-block-start: 100%;
-	inset-inline-end: 0;
+	inset-inline-start: 0;
 	background: var(--white);
 	border: 1px solid var(--gray-border);
 	border-block-start: 3px solid var(--accent);

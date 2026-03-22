@@ -70,6 +70,13 @@ function alwayshere_register_homepage_fields(): void {
 				'rows'  => 3,
 			],
 			[
+				'key'          => 'field_alwayshere_hero_headline_highlight',
+				'label'        => 'מילה/צירוף לצביעה בכותרת',
+				'name'         => 'hero_headline_highlight',
+				'type'         => 'text',
+				'instructions' => 'הקלידו את הצירוף המדויק מהכותרת שברצונכם לצבוע',
+			],
+			[
 				'key'   => 'field_alwayshere_hero_subtext',
 				'label' => 'טקסט משני',
 				'name'  => 'hero_subtext',
@@ -103,12 +110,26 @@ function alwayshere_register_homepage_fields(): void {
 				'type'  => 'url',
 			],
 			[
+				'key'           => 'field_alwayshere_hero_floating_tag_top',
+				'label'         => 'תג צף — עליון',
+				'name'          => 'hero_floating_tag_top',
+				'type'          => 'text',
+				'default_value' => '⭐ 4.9 ב-Google',
+			],
+			[
+				'key'           => 'field_alwayshere_hero_floating_tag_bottom',
+				'label'         => 'תג צף — תחתון',
+				'name'          => 'hero_floating_tag_bottom',
+				'type'          => 'text',
+				'default_value' => '🎁 10,000+ מתנות נמסרו',
+			],
+			[
 				'key'          => 'field_alwayshere_hero_images',
-				'label'        => 'תמונות קולאז׳ (4 תמונות)',
+				'label'        => 'תמונות קולאז׳ (5 תמונות)',
 				'name'         => 'hero_images',
 				'type'         => 'repeater',
-				'min'          => 4,
-				'max'          => 4,
+				'min'          => 5,
+				'max'          => 5,
 				'button_label' => 'הוסף תמונה',
 				'sub_fields'   => [
 					[
@@ -131,6 +152,12 @@ function alwayshere_register_homepage_fields(): void {
 				'button_label' => 'הוסף תג',
 				'sub_fields'   => [
 					[
+						'key'   => 'field_alwayshere_hero_trust_icon_url',
+						'label' => 'תמונת אייקון (URL)',
+						'name'  => 'icon_url',
+						'type'  => 'url',
+					],
+					[
 						'key'   => 'field_alwayshere_trust_icon',
 						'label' => 'אייקון (dashicon class או SVG)',
 						'name'  => 'icon',
@@ -140,6 +167,12 @@ function alwayshere_register_homepage_fields(): void {
 						'key'   => 'field_alwayshere_trust_label',
 						'label' => 'טקסט',
 						'name'  => 'label',
+						'type'  => 'text',
+					],
+					[
+						'key'   => 'field_alwayshere_hero_trust_subtitle',
+						'label' => 'תת-טקסט',
+						'name'  => 'subtitle',
 						'type'  => 'text',
 					],
 				],
@@ -211,6 +244,20 @@ function alwayshere_register_homepage_fields(): void {
 		'menu_order' => 30,
 		'fields'     => [
 			[
+				'key'           => 'field_alwayshere_trust_tag',
+				'label'         => 'תגית מעל הכותרת',
+				'name'          => 'trust_tag',
+				'type'          => 'text',
+				'default_value' => 'אודות Always Here',
+			],
+			[
+				'key'           => 'field_alwayshere_trust_heading_highlight',
+				'label'         => 'מילה/צירוף לצביעה בכותרת',
+				'name'          => 'trust_heading_highlight',
+				'type'          => 'text',
+				'instructions'  => 'הקלידו את הצירוף המדויק מהכותרת שברצונכם לצבוע',
+			],
+			[
 				'key'           => 'field_alwayshere_trust_image',
 				'label'         => 'תמונה',
 				'name'          => 'trust_image',
@@ -240,6 +287,12 @@ function alwayshere_register_homepage_fields(): void {
 				'max'          => 4,
 				'button_label' => 'הוסף נקודה',
 				'sub_fields'   => [
+					[
+						'key'   => 'field_alwayshere_trust_feat_icon_url',
+						'label' => 'תמונת אייקון (URL)',
+						'name'  => 'icon_url',
+						'type'  => 'url',
+					],
 					[
 						'key'   => 'field_alwayshere_trust_icon_item',
 						'label' => 'אייקון (SVG/dashicon)',
@@ -276,6 +329,167 @@ function alwayshere_register_homepage_fields(): void {
 		],
 	] );
 
+	// ── Recipients ────────────────────────────────────────────────────────
+	acf_add_local_field_group( [
+		'key'        => 'group_alwayshere_home_recipients',
+		'title'      => 'הום — למי המתנה?',
+		'location'   => [ [ [
+			'param'    => 'page_type',
+			'operator' => '==',
+			'value'    => 'front_page',
+		] ] ],
+		'menu_order' => 25,
+		'fields'     => [
+			[
+				'key'           => 'field_alwayshere_recip_title',
+				'label'         => 'כותרת',
+				'name'          => 'recipients_title',
+				'type'          => 'text',
+				'default_value' => 'למי המתנה?',
+			],
+			[
+				'key'           => 'field_alwayshere_recip_sub',
+				'label'         => 'טקסט משני',
+				'name'          => 'recipients_sub',
+				'type'          => 'text',
+				'default_value' => 'בחרו את הנמען ומצאו מתנה שיאהבו',
+			],
+		],
+	] );
+
+	// ── Featured Products ──────────────────────────────────────────────────
+	acf_add_local_field_group( [
+		'key'        => 'group_alwayshere_home_featured',
+		'title'      => 'הום — הצעות מיוחדות',
+		'location'   => [ [ [
+			'param'    => 'page_type',
+			'operator' => '==',
+			'value'    => 'front_page',
+		] ] ],
+		'menu_order' => 35,
+		'fields'     => [
+			[
+				'key'           => 'field_alwayshere_feat_eyebrow',
+				'label'         => 'תת-כותרת עליונה',
+				'name'          => 'featured_eyebrow',
+				'type'          => 'text',
+				'default_value' => 'בחירות העורכים',
+			],
+			[
+				'key'           => 'field_alwayshere_feat_title',
+				'label'         => 'כותרת',
+				'name'          => 'featured_title',
+				'type'          => 'text',
+				'default_value' => 'הצעות מיוחדות',
+			],
+			[
+				'key'           => 'field_alwayshere_feat_sub',
+				'label'         => 'טקסט משני',
+				'name'          => 'featured_sub',
+				'type'          => 'text',
+				'default_value' => 'מתנות שאנחנו הכי אוהבים — אישיות, יפות ומרגשות',
+			],
+			[
+				'key'           => 'field_alwayshere_feat_cta_label',
+				'label'         => 'טקסט כפתור',
+				'name'          => 'featured_cta_label',
+				'type'          => 'text',
+				'default_value' => 'לכל המוצרים',
+			],
+		],
+	] );
+
+	// ── Best Sellers ───────────────────────────────────────────────────────
+	acf_add_local_field_group( [
+		'key'        => 'group_alwayshere_home_bestsellers',
+		'title'      => 'הום — הנמכרים ביותר',
+		'location'   => [ [ [
+			'param'    => 'page_type',
+			'operator' => '==',
+			'value'    => 'front_page',
+		] ] ],
+		'menu_order' => 36,
+		'fields'     => [
+			[
+				'key'           => 'field_alwayshere_bs_eyebrow',
+				'label'         => 'תת-כותרת עליונה',
+				'name'          => 'bestsellers_eyebrow',
+				'type'          => 'text',
+				'default_value' => 'הלקוחות בחרו',
+			],
+			[
+				'key'           => 'field_alwayshere_bs_title',
+				'label'         => 'כותרת',
+				'name'          => 'bestsellers_title',
+				'type'          => 'text',
+				'default_value' => 'המוצרים הכי אהובים',
+			],
+			[
+				'key'           => 'field_alwayshere_bs_sub',
+				'label'         => 'טקסט משני',
+				'name'          => 'bestsellers_sub',
+				'type'          => 'text',
+				'default_value' => 'המתנות שאלפי לקוחות כבר אהבו',
+			],
+		],
+	] );
+
+	// ── Occasions ─────────────────────────────────────────────────────────
+	acf_add_local_field_group( [
+		'key'        => 'group_alwayshere_home_occasions',
+		'title'      => 'הום — לפי אירוע',
+		'location'   => [ [ [
+			'param'    => 'page_type',
+			'operator' => '==',
+			'value'    => 'front_page',
+		] ] ],
+		'menu_order' => 37,
+		'fields'     => [
+			[
+				'key'           => 'field_alwayshere_occ_eyebrow',
+				'label'         => 'תת-כותרת עליונה',
+				'name'          => 'occasions_eyebrow',
+				'type'          => 'text',
+				'default_value' => 'מתנה לכל רגע',
+			],
+			[
+				'key'           => 'field_alwayshere_occ_title',
+				'label'         => 'כותרת',
+				'name'          => 'occasions_title',
+				'type'          => 'text',
+				'default_value' => 'לאיזה אירוע המתנה?',
+			],
+		],
+	] );
+
+	// ── Product Types ──────────────────────────────────────────────────────
+	acf_add_local_field_group( [
+		'key'        => 'group_alwayshere_home_product_types',
+		'title'      => 'הום — סוגי מוצרים',
+		'location'   => [ [ [
+			'param'    => 'page_type',
+			'operator' => '==',
+			'value'    => 'front_page',
+		] ] ],
+		'menu_order' => 38,
+		'fields'     => [
+			[
+				'key'           => 'field_alwayshere_pt_eyebrow',
+				'label'         => 'תת-כותרת עליונה',
+				'name'          => 'product_types_eyebrow',
+				'type'          => 'text',
+				'default_value' => 'קולקציה מלאה',
+			],
+			[
+				'key'           => 'field_alwayshere_pt_title',
+				'label'         => 'כותרת',
+				'name'          => 'product_types_title',
+				'type'          => 'text',
+				'default_value' => 'מה תרצו לעצב היום?',
+			],
+		],
+	] );
+
 	// ── Newsletter ────────────────────────────────────────────────────────
 	acf_add_local_field_group( [
 		'key'        => 'group_alwayshere_home_newsletter',
@@ -304,8 +518,5 @@ function alwayshere_register_homepage_fields(): void {
 		],
 	] );
 }
-// Field groups are saved to the database via migrate-acf-fields.php.
-// Call directly only on fresh installs where DB groups don't exist yet.
-if ( ! acf_get_field_group( 'group_alwayshere_home_hero' ) ) {
-	alwayshere_register_homepage_fields();
-}
+// Always register as local field groups — ACF merges local + DB, local takes priority.
+alwayshere_register_homepage_fields();
