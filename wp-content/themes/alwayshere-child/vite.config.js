@@ -27,6 +27,7 @@ export default defineConfig( {
 				'assets/js/home':            resolve( __dirname, 'assets/js/home.js' ),
 				'assets/js/single-product':  resolve( __dirname, 'assets/js/single-product.js' ),
 				'assets/js/category':        resolve( __dirname, 'assets/js/category.js' ),
+			'assets/js/checkout':        resolve( __dirname, 'assets/js/checkout.js' ),
 			},
 
 			output: {

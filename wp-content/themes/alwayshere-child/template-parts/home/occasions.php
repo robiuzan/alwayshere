@@ -34,11 +34,24 @@ $terms = get_terms( [
 	'hide_empty' => false,
 ] );
 
-if ( is_wp_error( $terms ) || empty( $terms ) ) return;
+$use_dummy = is_wp_error( $terms ) || empty( $terms );
 
-usort( $terms, function ( $a, $b ) use ( $occasion_slugs ) {
-	return array_search( $a->slug, $occasion_slugs, true ) - array_search( $b->slug, $occasion_slugs, true );
-} );
+if ( ! $use_dummy ) {
+	usort( $terms, function ( $a, $b ) use ( $occasion_slugs ) {
+		return array_search( $a->slug, $occasion_slugs, true ) - array_search( $b->slug, $occasion_slugs, true );
+	} );
+}
+
+$dummy_occasions = [
+	[ 'name' => 'יום הולדת', 'sub' => 'מתנות שיגרמו לחיוך' ],
+	[ 'name' => 'חתונה',     'sub' => 'לרגע הכי מיוחד' ],
+	[ 'name' => 'לידה וברית','sub' => 'ברוך הבא לעולם' ],
+	[ 'name' => 'בר/בת מצווה','sub' => 'מזל טוב!' ],
+	[ 'name' => 'יום נישואים','sub' => 'חוגגים אהבה' ],
+	[ 'name' => 'ולנטיין',   'sub' => 'מהלב שלך ללב שלו/ה' ],
+	[ 'name' => 'חגים',      'sub' => 'מתנות לכל חג' ],
+	[ 'name' => 'סתם כי בא לך','sub' => 'בלי סיבה, עם הרבה אהבה' ],
+];
 ?>
 
 <section class="ah-occasions ah-occasions--gray" aria-label="<?php echo esc_attr( $title ); ?>">
@@ -50,6 +63,18 @@ usort( $terms, function ( $a, $b ) use ( $occasion_slugs ) {
 		</div>
 
 		<div class="ah-occasions__grid">
+			<?php if ( $use_dummy ) :
+				foreach ( $dummy_occasions as $dummy ) : ?>
+					<div class="ah-occasions__tile">
+						<div class="ah-occasions__bg"></div>
+						<div class="ah-occasions__overlay" aria-hidden="true"></div>
+						<div class="ah-occasions__text">
+							<span class="ah-occasions__name"><?php echo esc_html( $dummy['name'] ); ?></span>
+							<span class="ah-occasions__sub"><?php echo esc_html( $dummy['sub'] ); ?></span>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			<?php else : ?>
 			<?php foreach ( $terms as $term ) :
 				$thumbnail_id = get_term_meta( $term->term_id, 'thumbnail_id', true );
 				$img_url      = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'large' ) : '';
@@ -75,6 +100,7 @@ usort( $terms, function ( $a, $b ) use ( $occasion_slugs ) {
 					</div>
 				</a>
 			<?php endforeach; ?>
+			<?php endif; ?>
 		</div>
 	</div>
 </section>

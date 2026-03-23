@@ -8,6 +8,11 @@ add_filter( 'locale', fn() => 'he_IL' );
 add_filter( 'generate_sidebar_layout', fn() => 'no-sidebar' );
 add_filter( 'generate_get_layout',     fn() => 'no-sidebar' );
 
+// Remove default WC coupon form above checkout — we include it inside our template.
+add_action( 'wp', function(): void {
+	remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
+} );
+
 // ── Header hooks ─────────────────────────────────────────────────────────────
 
 add_action( 'generate_before_header', 'alwayshere_render_topbar', 5 );
@@ -64,6 +69,14 @@ function alwayshere_enqueue_styles(): void {
 		true
 	);
 
+	// Newsletter bar appears in footer on every non-homepage page — needs AJAX data.
+	if ( ! is_front_page() ) {
+		wp_localize_script( 'alwayshere-header', 'alwayshere', [
+			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+			'nonce'   => wp_create_nonce( 'alwayshere_newsletter' ),
+		] );
+	}
+
 	if ( is_front_page() ) {
 		wp_enqueue_script(
 			'alwayshere-home',
@@ -93,6 +106,16 @@ function alwayshere_enqueue_styles(): void {
 			'nonce'       => wp_create_nonce( 'alwayshere_product' ),
 			'checkoutUrl' => function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : '/checkout/',
 		] );
+	}
+
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+		wp_enqueue_script(
+			'alwayshere-checkout',
+			get_stylesheet_directory_uri() . '/assets/js/checkout.js',
+			[],
+			wp_get_theme()->get( 'Version' ),
+			true
+		);
 	}
 
 	if ( is_product_category() ) {

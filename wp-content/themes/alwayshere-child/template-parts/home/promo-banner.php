@@ -1,13 +1,11 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$headline = get_field( 'promo_headline' );
-$subtext  = get_field( 'promo_subtext' );
-$coupon   = get_field( 'promo_coupon' );
+$headline = get_field( 'promo_headline' ) ?: __( '🎁 מבצע מוגבל — 30% הנחה על כל הסטור', 'alwayshere-child' );
+$subtext  = get_field( 'promo_subtext' )  ?: __( 'השתמשו בקוד ALWAYS30 בסיום הרכישה', 'alwayshere-child' );
+$coupon   = get_field( 'promo_coupon' )   ?: 'ALWAYS30';
 $cta_l    = get_field( 'promo_cta_label' ) ?: __( 'קנה עכשיו וחסוך', 'alwayshere-child' );
-$cta_url  = get_field( 'promo_cta_url' );
-
-if ( ! $headline ) return;
+$cta_url  = get_field( 'promo_cta_url' )  ?: ( function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : '/' );
 ?>
 
 <div class="ah-promo-banner" aria-label="<?php esc_attr_e( 'מבצע מיוחד', 'alwayshere-child' ); ?>">

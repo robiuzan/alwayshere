@@ -19,6 +19,15 @@ h1, h2, h3, h4, h5, h6,
 	font-family: var(--font) !important;
 }
 
+// ── Force GP site wrapper to full viewport width ──────────────────────────────
+
+// GP Customizer can set a "site container width" on #page/.site. Override it.
+#page,
+.site {
+	max-width: 100% !important;
+	width: 100% !important;
+}
+
 // ── Remove GeneratePress width/float constraints ───────────────────────────────
 
 // GP-specific column classes — force full width.
@@ -50,12 +59,17 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .site-content > .grid-container,
-#page .site-content,
-.site-content,
 #content {
 	max-width: 100% !important;
 	padding: 0 !important;
 	margin: 0 !important;
+}
+
+// Makes .site-content a transparent box — child sections stretch full width
+// and center themselves via their own .ah-container constraints.
+#page .site-content,
+.site-content {
+	display: contents;
 }
 
 // Force #primary (the content column) to always be 100% wide — no sidebar.
