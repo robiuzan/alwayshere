@@ -1,11 +1,14 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+$bs_slug  = get_field( 'bestsellers_category' ) ?: '';
+
 $products = wc_get_products( [
-	'status'  => 'publish',
-	'limit'   => 4,
-	'orderby' => 'popularity',
-	'order'   => 'DESC',
+	'status'   => 'publish',
+	'limit'    => 4,
+	'orderby'  => 'popularity',
+	'order'    => 'DESC',
+	'category' => $bs_slug ? [ $bs_slug ] : [],
 ] );
 
 if ( empty( $products ) ) return;

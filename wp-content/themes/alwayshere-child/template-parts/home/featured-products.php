@@ -1,13 +1,20 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$products = wc_get_products( [
-	'status'   => 'publish',
-	'featured' => true,
-	'limit'    => 4,
-	'orderby'  => 'date',
-	'order'    => 'DESC',
-] );
+$feat_slug = get_field( 'featured_category' ) ?: '';
+
+$query_args = [
+	'status'  => 'publish',
+	'limit'   => 4,
+	'orderby' => 'date',
+	'order'   => 'DESC',
+];
+if ( $feat_slug ) {
+	$query_args['category'] = [ $feat_slug ];
+} else {
+	$query_args['featured'] = true;
+}
+$products = wc_get_products( $query_args );
 
 // Use dummy cards when no featured products are set yet.
 $use_dummy = empty( $products );

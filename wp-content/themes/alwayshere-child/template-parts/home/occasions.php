@@ -5,18 +5,7 @@ $eyebrow = get_field( 'occasions_eyebrow' ) ?: __( 'מתנות לפי אירוע
 $title   = get_field( 'occasions_title' )   ?: __( 'לאיזה אירוע המתנה?', 'alwayshere-child' );
 $sub     = __( 'בחרו את האירוע ומצאו את המתנה המושלמת', 'alwayshere-child' );
 
-$occasion_slugs = [
-	'yom-huledet',
-	'chatuna',
-	'leida-ubrita',
-	'bar-bat-mitzva',
-	'yom-nisuin',
-	'yom-ahava',
-	'chagim',
-	'stam-ki-ba-lecha',
-];
-
-// Fallback subtitle per slug.
+// Subtitle per slug — used for both ACF-selected and default terms.
 $subtitles = [
 	'yom-huledet'      => 'מתנות שיגרמו לחיוך',
 	'chatuna'          => 'לרגע הכי מיוחד',
@@ -28,19 +17,37 @@ $subtitles = [
 	'stam-ki-ba-lecha' => 'בלי סיבה, עם הרבה אהבה',
 ];
 
-$terms = get_terms( [
-	'taxonomy'   => 'product_cat',
-	'slug'       => $occasion_slugs,
-	'hide_empty' => false,
-] );
+// Use ACF-selected categories when set; fall back to hardcoded slugs.
+$acf_slugs = get_field( 'occasions_categories' );
+
+if ( ! empty( $acf_slugs ) && is_array( $acf_slugs ) ) {
+	$raw   = get_terms( [
+		'taxonomy'   => 'product_cat',
+		'slug'       => $acf_slugs,
+		'hide_empty' => false,
+	] );
+	$terms = is_wp_error( $raw ) ? [] : array_values( $raw );
+	usort( $terms, fn( $a, $b ) =>
+		array_search( $a->slug, $acf_slugs, true ) - array_search( $b->slug, $acf_slugs, true )
+	);
+} else {
+	$occasion_slugs = [
+		'yom-huledet', 'chatuna', 'leida-ubrita', 'bar-bat-mitzva',
+		'yom-nisuin', 'yom-ahava', 'chagim', 'stam-ki-ba-lecha',
+	];
+	$terms = get_terms( [
+		'taxonomy'   => 'product_cat',
+		'slug'       => $occasion_slugs,
+		'hide_empty' => false,
+	] );
+	if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+		usort( $terms, fn( $a, $b ) =>
+			array_search( $a->slug, $occasion_slugs, true ) - array_search( $b->slug, $occasion_slugs, true )
+		);
+	}
+}
 
 $use_dummy = is_wp_error( $terms ) || empty( $terms );
-
-if ( ! $use_dummy ) {
-	usort( $terms, function ( $a, $b ) use ( $occasion_slugs ) {
-		return array_search( $a->slug, $occasion_slugs, true ) - array_search( $b->slug, $occasion_slugs, true );
-	} );
-}
 
 $dummy_occasions = [
 	[ 'name' => 'יום הולדת', 'sub' => 'מתנות שיגרמו לחיוך' ],

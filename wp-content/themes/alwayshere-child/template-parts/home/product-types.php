@@ -6,11 +6,18 @@ $title   = get_field( 'product_types_title' )   ?: __( 'מה תרצו לעצב �
 $sub     = __( 'בחרו קטגוריה וגלו את כל המוצרים שניתן להתאים אישית', 'alwayshere-child' );
 
 // Use ACF-selected categories when set; fall back to hardcoded slugs.
-$acf_terms = get_field( 'product_types_categories' );
+$acf_slugs = get_field( 'product_types_categories' );
 
-if ( ! empty( $acf_terms ) && is_array( $acf_terms ) ) {
-	// ACF taxonomy field with return_format=object returns WP_Term objects.
-	$terms = array_values( array_filter( $acf_terms, fn( $t ) => $t instanceof WP_Term ) );
+if ( ! empty( $acf_slugs ) && is_array( $acf_slugs ) ) {
+	$raw   = get_terms( [
+		'taxonomy'   => 'product_cat',
+		'slug'       => $acf_slugs,
+		'hide_empty' => false,
+	] );
+	$terms = is_wp_error( $raw ) ? [] : array_values( $raw );
+	usort( $terms, fn( $a, $b ) =>
+		array_search( $a->slug, $acf_slugs, true ) - array_search( $b->slug, $acf_slugs, true )
+	);
 } else {
 	$type_slugs = [
 		'nerot', 'kosot', 'bakbukim', 'tikim', 'pad-ikhbar',

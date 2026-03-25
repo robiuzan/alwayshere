@@ -396,6 +396,15 @@ function alwayshere_register_homepage_fields(): void {
 				'type'          => 'text',
 				'default_value' => 'לכל המוצרים',
 			],
+			[
+				'key'          => 'field_alwayshere_feat_category',
+				'label'        => 'קטגוריה להצגה',
+				'name'         => 'featured_category',
+				'type'         => 'select',
+				'choices'      => [],
+				'allow_null'   => 1,
+				'instructions' => 'בחרו קטגוריה כדי להציג מוצרים ממנה. ריק = מוצרים מומלצים מכל הקטגוריות.',
+			],
 		],
 	] );
 
@@ -431,6 +440,15 @@ function alwayshere_register_homepage_fields(): void {
 				'type'          => 'text',
 				'default_value' => 'המתנות שאלפי לקוחות כבר אהבו',
 			],
+			[
+				'key'          => 'field_alwayshere_bs_category',
+				'label'        => 'קטגוריה להצגה',
+				'name'         => 'bestsellers_category',
+				'type'         => 'select',
+				'choices'      => [],
+				'allow_null'   => 1,
+				'instructions' => 'בחרו קטגוריה כדי להציג מוצרים ממנה. ריק = הנמכרים ביותר מכל הקטגוריות.',
+			],
 		],
 	] );
 
@@ -458,6 +476,14 @@ function alwayshere_register_homepage_fields(): void {
 				'name'          => 'occasions_title',
 				'type'          => 'text',
 				'default_value' => 'לאיזה אירוע המתנה?',
+			],
+			[
+				'key'          => 'field_alwayshere_occ_categories',
+				'label'        => 'קטגוריות להצגה',
+				'name'         => 'occasions_categories',
+				'type'         => 'checkbox',
+				'choices'      => [],
+				'instructions' => 'בחרו את קטגוריות האירועים שיופיעו בסעיף זה. אם לא נבחרו — תוצג רשימת ברירת המחדל.',
 			],
 		],
 	] );
@@ -488,18 +514,12 @@ function alwayshere_register_homepage_fields(): void {
 				'default_value' => 'מה תרצו לעצב היום?',
 			],
 			[
-				'key'           => 'field_alwayshere_pt_categories',
-				'label'         => 'קטגוריות להצגה',
-				'name'          => 'product_types_categories',
-				'type'          => 'taxonomy',
-				'taxonomy'      => 'product_cat',
-				'field_type'    => 'multi_select',
-				'multiple'      => 1,
-				'allow_null'    => 1,
-				'return_format' => 'object',
-				'save_terms'    => 0,
-				'load_terms'    => 0,
-				'instructions'  => 'בחרו את הקטגוריות שיופיעו בסעיף זה. אם לא נבחרו — תוצג רשימת ברירת המחדל.',
+				'key'          => 'field_alwayshere_pt_categories',
+				'label'        => 'קטגוריות להצגה',
+				'name'         => 'product_types_categories',
+				'type'         => 'checkbox',
+				'choices'      => [],
+				'instructions' => 'בחרו את הקטגוריות שיופיעו בסעיף זה. אם לא נבחרו — תוצג רשימת ברירת המחדל.',
 			],
 		],
 	] );
@@ -534,3 +554,39 @@ function alwayshere_register_homepage_fields(): void {
 }
 // Always register as local field groups — ACF merges local + DB, local takes priority.
 alwayshere_register_homepage_fields();
+
+// Populate product category choices for all homepage category pickers.
+// Using acf/load_field (server-side) avoids ACF's AJAX taxonomy loading entirely.
+function alwayshere_get_product_cat_choices(): array {
+	$terms = get_terms( [
+		'taxonomy'   => 'product_cat',
+		'hide_empty' => false,
+		'orderby'    => 'name',
+		'order'      => 'ASC',
+	] );
+	if ( is_wp_error( $terms ) || empty( $terms ) ) {
+		return [];
+	}
+	$choices = [];
+	foreach ( $terms as $term ) {
+		$choices[ $term->slug ] = $term->name;
+	}
+	return $choices;
+}
+
+$alwayshere_cat_field_keys = [
+	'field_alwayshere_occ_categories',
+	'field_alwayshere_pt_categories',
+	'field_alwayshere_feat_category',
+	'field_alwayshere_bs_category',
+];
+foreach ( $alwayshere_cat_field_keys as $alwayshere_cat_key ) {
+	add_filter(
+		'acf/load_field/key=' . $alwayshere_cat_key,
+		function( array $field ): array {
+			$field['choices'] = alwayshere_get_product_cat_choices();
+			return $field;
+		}
+	);
+}
+unset( $alwayshere_cat_field_keys, $alwayshere_cat_key );
