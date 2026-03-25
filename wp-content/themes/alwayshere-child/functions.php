@@ -4,6 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // Force Hebrew RTL on all pages.
 add_filter( 'locale', fn() => 'he_IL' );
 
+// Disable user registration — guests checkout only.
+add_filter( 'woocommerce_checkout_registration_enabled',  '__return_false' );
+add_filter( 'woocommerce_checkout_registration_required', '__return_false' );
+add_filter( 'option_users_can_register',                  '__return_zero'  );
+
 // Force full-width layout (no sidebar) on all pages.
 add_filter( 'generate_sidebar_layout', fn() => 'no-sidebar' );
 add_filter( 'generate_get_layout',     fn() => 'no-sidebar' );
@@ -11,6 +16,13 @@ add_filter( 'generate_get_layout',     fn() => 'no-sidebar' );
 // Remove default WC coupon form above checkout — we include it inside our template.
 add_action( 'wp', function(): void {
 	remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
+} );
+
+// ── Hide specific nav menu items by title ────────────────────────────────────
+
+add_filter( 'wp_nav_menu_objects', function( array $items ): array {
+	$hidden = [ 'AI Studio', 'צרו קשר', 'אודות' ];
+	return array_filter( $items, fn( $item ) => ! in_array( $item->title, $hidden, true ) );
 } );
 
 // ── Header hooks ─────────────────────────────────────────────────────────────
@@ -106,6 +118,16 @@ function alwayshere_enqueue_styles(): void {
 			'nonce'       => wp_create_nonce( 'alwayshere_product' ),
 			'checkoutUrl' => function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : '/checkout/',
 		] );
+	}
+
+	if ( function_exists( 'is_cart' ) && is_cart() ) {
+		wp_enqueue_script(
+			'alwayshere-cart',
+			get_stylesheet_directory_uri() . '/assets/js/cart.js',
+			[],
+			wp_get_theme()->get( 'Version' ),
+			true
+		);
 	}
 
 	if ( function_exists( 'is_checkout' ) && is_checkout() ) {

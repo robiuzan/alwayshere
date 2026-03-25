@@ -172,7 +172,7 @@ do_action( 'woocommerce_before_cart' );
 											'max_value'  => $_product->get_max_purchase_quantity(),
 											'min_value'  => '1',
 											'classes'    => [ 'input-text', 'qty', 'text' ],
-										] );
+										], $_product );
 									}
 									?>
 								</div>

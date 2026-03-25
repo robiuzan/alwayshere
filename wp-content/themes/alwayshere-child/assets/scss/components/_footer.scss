@@ -168,32 +168,23 @@
 	}
 
 	&__logo {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.625rem;
+		display: inline-block;
 		text-decoration: none;
 		margin-block-end: 1.125rem;
-	}
 
-	&__logo-icon {
-		inline-size: 2.5rem;
-		block-size: 2.5rem;
-		background: var(--accent);
-		border-radius: 10px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.25rem;
-		flex-shrink: 0;
-	}
+		// Logo rendered by get_custom_logo() wraps the img in another <a> — flatten it.
+		.custom-logo-link {
+			display: block;
+		}
 
-	&__logo-name {
-		font-size: 1.25rem;
-		font-weight: 800;
-		color: var(--white);
-
-		span {
-			color: var(--teal-light);
+		img,
+		.custom-logo {
+			display: block;
+			max-width: 190px;
+			width: 100%;
+			height: auto;
+			// Invert dark logos to white so they're visible on the dark footer.
+			filter: brightness(0) invert(1);
 		}
 	}
 

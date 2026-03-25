@@ -653,6 +653,15 @@
 		background: var(--sky);
 		border-inline-start: 4px solid var(--accent);
 		color: var(--accent);
+		direction: rtl;
+		text-align: right;
+
+		// WC floats this icon left — override to RTL side.
+		&::before {
+			float: right;
+			margin-inline-end: 0;
+			margin-inline-start: 0.5rem;
+		}
 	}
 }
 

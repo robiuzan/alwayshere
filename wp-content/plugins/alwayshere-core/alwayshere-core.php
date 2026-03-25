@@ -25,6 +25,9 @@ function alwayshere_load_acf_fields(): void {
 // ── Product personalization ───────────────────────────────────────────────────
 
 require_once ALWAYSHERE_CORE_DIR . 'includes/personalization.php';
+require_once ALWAYSHERE_CORE_DIR . 'includes/setup-terms-page.php';
+require_once ALWAYSHERE_CORE_DIR . 'includes/setup-content-pages.php';
+require_once ALWAYSHERE_CORE_DIR . 'includes/hebrew-strings.php';
 
 // ── One-time product setup ───────────────────────────────────────────────────
 // Runs once when an admin visits the dashboard, then self-disables via option.

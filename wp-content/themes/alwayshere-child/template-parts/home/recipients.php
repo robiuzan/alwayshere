@@ -5,30 +5,16 @@ $section_title = get_field( 'recipients_title' ) ?: __( 'למי המתנה?', 'a
 $section_sub   = get_field( 'recipients_sub' )   ?: __( 'בחר את הנמען ומצא את המתנה המושלמת', 'alwayshere-child' );
 $section_tag   = __( 'קנה לפי נמען', 'alwayshere-child' );
 
-// Pull recipient WC categories by slug (8 bubbles).
-$recipient_slugs = [
-	'matana-leisha',
-	'matana-legever',
-	'matana-lechayyal',
-	'labayit',
-	'lamisrad',
-	'hdpasot-al-muazarim',
-	'matana-lachaver',
-	'matana-lesaba',
-];
-
+// Pull all child categories under "מי מקבל" (ID 16).
 $terms = get_terms( [
 	'taxonomy'   => 'product_cat',
-	'slug'       => $recipient_slugs,
+	'parent'     => 16,
 	'hide_empty' => false,
+	'orderby'    => 'menu_order',
+	'order'      => 'ASC',
 ] );
 
 if ( is_wp_error( $terms ) || empty( $terms ) ) return;
-
-// Preserve slug order.
-usort( $terms, function ( $a, $b ) use ( $recipient_slugs ) {
-	return array_search( $a->slug, $recipient_slugs, true ) - array_search( $b->slug, $recipient_slugs, true );
-} );
 ?>
 
 <section class="ah-recipients" aria-label="<?php echo esc_attr( $section_title ); ?>">

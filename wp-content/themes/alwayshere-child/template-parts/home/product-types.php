@@ -5,26 +5,32 @@ $eyebrow = get_field( 'product_types_eyebrow' ) ?: __( 'קטגוריות מוצ�
 $title   = get_field( 'product_types_title' )   ?: __( 'מה תרצו לעצב היום?', 'alwayshere-child' );
 $sub     = __( 'בחרו קטגוריה וגלו את כל המוצרים שניתן להתאים אישית', 'alwayshere-child' );
 
-$type_slugs = [
-	'nerot', 'kosot', 'bakbukim', 'tikim', 'pad-ikhbar',
-	'mchazikei-maftechot', 'tachtit-kosot', 'kovaimb', 'machbarot',
-	'hdpasa-al-etz',
-];
+// Use ACF-selected categories when set; fall back to hardcoded slugs.
+$acf_terms = get_field( 'product_types_categories' );
 
-$terms = get_terms( [
-	'taxonomy'   => 'product_cat',
-	'slug'       => $type_slugs,
-	'hide_empty' => false,
-	'number'     => 10,
-] );
+if ( ! empty( $acf_terms ) && is_array( $acf_terms ) ) {
+	// ACF taxonomy field with return_format=object returns WP_Term objects.
+	$terms = array_values( array_filter( $acf_terms, fn( $t ) => $t instanceof WP_Term ) );
+} else {
+	$type_slugs = [
+		'nerot', 'kosot', 'bakbukim', 'tikim', 'pad-ikhbar',
+		'mchazikei-maftechot', 'tachtit-kosot', 'kovaimb', 'machbarot',
+		'hdpasa-al-etz',
+	];
+	$terms = get_terms( [
+		'taxonomy'   => 'product_cat',
+		'slug'       => $type_slugs,
+		'hide_empty' => false,
+		'number'     => 10,
+	] );
+	if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+		usort( $terms, fn( $a, $b ) =>
+			array_search( $a->slug, $type_slugs, true ) - array_search( $b->slug, $type_slugs, true )
+		);
+	}
+}
 
 $use_dummy = is_wp_error( $terms ) || empty( $terms );
-
-if ( ! $use_dummy ) {
-	usort( $terms, function ( $a, $b ) use ( $type_slugs ) {
-		return array_search( $a->slug, $type_slugs, true ) - array_search( $b->slug, $type_slugs, true );
-	} );
-}
 
 $dummy_types = [
 	'נרות', 'כוסות', 'בקבוקים', 'תיקים', 'פד עכבר',

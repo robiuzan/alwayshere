@@ -487,6 +487,20 @@ function alwayshere_register_homepage_fields(): void {
 				'type'          => 'text',
 				'default_value' => 'מה תרצו לעצב היום?',
 			],
+			[
+				'key'           => 'field_alwayshere_pt_categories',
+				'label'         => 'קטגוריות להצגה',
+				'name'          => 'product_types_categories',
+				'type'          => 'taxonomy',
+				'taxonomy'      => 'product_cat',
+				'field_type'    => 'multi_select',
+				'multiple'      => 1,
+				'allow_null'    => 1,
+				'return_format' => 'object',
+				'save_terms'    => 0,
+				'load_terms'    => 0,
+				'instructions'  => 'בחרו את הקטגוריות שיופיעו בסעיף זה. אם לא נבחרו — תוצג רשימת ברירת המחדל.',
+			],
 		],
 	] );
 

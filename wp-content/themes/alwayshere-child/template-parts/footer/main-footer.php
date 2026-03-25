@@ -21,12 +21,21 @@ $current_year = gmdate( 'Y' );
 
 		<!-- Brand column -->
 		<div class="ah-footer__brand">
-			<a href="<?php echo esc_url( $home_url ); ?>" class="ah-footer__logo" rel="home">
-				<span class="ah-footer__logo-icon" aria-hidden="true">🎁</span>
-				<span class="ah-footer__logo-name">
-					Always <span><?php esc_html_e( 'Here', 'alwayshere-child' ); ?></span>
-				</span>
-			</a>
+			<?php if ( has_custom_logo() ) : ?>
+				<a href="<?php echo esc_url( $home_url ); ?>" class="ah-footer__logo" rel="home">
+					<?php echo get_custom_logo(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</a>
+			<?php else : ?>
+				<a href="<?php echo esc_url( $home_url ); ?>" class="ah-footer__logo ah-footer__logo--fallback" rel="home">
+					<img
+						src="<?php echo esc_url( content_url( 'uploads/2026/03/Always-here-logo.webp' ) ); ?>"
+						alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
+						width="160"
+						height="68"
+						loading="lazy"
+					>
+				</a>
+			<?php endif; ?>
 
 			<p class="ah-footer__desc">
 				<?php esc_html_e( 'מתנות אישיות שמגיעות ישר מהלב. מאות מוצרים עם עיצוב מותאם אישית לכל אירוע ולכל נמען.', 'alwayshere-child' ); ?>
@@ -61,13 +70,7 @@ $current_year = gmdate( 'Y' );
 				</div>
 			</address>
 
-			<div class="ah-footer__social">
-				<a href="#" class="ah-footer__social-btn" aria-label="Instagram">📸</a>
-				<a href="#" class="ah-footer__social-btn" aria-label="TikTok">🎵</a>
-				<a href="#" class="ah-footer__social-btn" aria-label="Facebook">👍</a>
-				<a href="#" class="ah-footer__social-btn" aria-label="WhatsApp">💬</a>
 			</div>
-		</div>
 
 		<!-- Products column -->
 		<nav class="ah-footer__col" aria-label="<?php esc_attr_e( 'מוצרים', 'alwayshere-child' ); ?>">
@@ -140,7 +143,7 @@ $current_year = gmdate( 'Y' );
 		</p>
 
 		<nav class="ah-footer__legal" aria-label="<?php esc_attr_e( 'קישורים משפטיים', 'alwayshere-child' ); ?>">
-			<a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>"><?php esc_html_e( 'תנאי שימוש', 'alwayshere-child' ); ?></a>
+			<a href="<?php echo esc_url( home_url( '/תקנון-אתר/' ) ); ?>"><?php esc_html_e( 'תקנון אתר', 'alwayshere-child' ); ?></a>
 			<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'פרטיות', 'alwayshere-child' ); ?></a>
 			<a href="<?php echo esc_url( home_url( '/accessibility/' ) ); ?>"><?php esc_html_e( 'נגישות', 'alwayshere-child' ); ?></a>
 		</nav>

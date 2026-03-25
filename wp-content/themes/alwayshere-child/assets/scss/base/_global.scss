@@ -87,6 +87,20 @@ h1, h2, h3, h4, h5, h6,
 	display: none !important;
 }
 
+// Fix WooCommerce notices RTL — WC floats its icon left by default.
+.woocommerce-info,
+.woocommerce-message,
+.woocommerce-error {
+	direction: rtl;
+	text-align: right;
+
+	&::before {
+		float: right;
+		margin-inline-start: 0.5rem;
+		margin-inline-end: 0;
+	}
+}
+
 // Remove GeneratePress default article/page padding.
 .site-main,
 .entry-content,
