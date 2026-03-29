@@ -172,6 +172,29 @@ function alwayshere_render_personalization_form(): void {
 			</div>
 
 		<?php endforeach; ?>
+
+		<?php
+		// Show preview button only when a preview base image is configured.
+		$preview_image = get_field( 'alwayshere_preview_image', $product->get_id() );
+		if ( ! empty( $preview_image ) ) :
+		?>
+			<button type="button" class="ah-personalization__preview-btn" id="ah-preview-btn">
+				<?php esc_html_e( '👁 הצג תצוגה מקדימה', 'alwayshere-core' ); ?>
+			</button>
+		<?php endif; ?>
+
+	</div>
+
+	<!-- Live preview modal -->
+	<div class="ah-preview-modal" id="ah-preview-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e( 'תצוגה מקדימה של המוצר', 'alwayshere-core' ); ?>">
+		<div class="ah-preview-modal__backdrop" id="ah-preview-modal-backdrop"></div>
+		<div class="ah-preview-modal__box">
+			<button class="ah-preview-modal__close" id="ah-preview-modal-close" aria-label="<?php esc_attr_e( 'סגור', 'alwayshere-core' ); ?>">&#10005;</button>
+			<h4 class="ah-preview-modal__title"><?php esc_html_e( 'תצוגה מקדימה', 'alwayshere-core' ); ?></h4>
+			<div class="ah-preview-modal__canvas-wrap" id="ah-preview-modal-canvas-wrap">
+				<!-- Canvas is moved here by JS when modal opens -->
+			</div>
+		</div>
 	</div>
 
 	<?php

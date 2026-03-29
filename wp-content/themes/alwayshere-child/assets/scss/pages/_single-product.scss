@@ -1107,6 +1107,29 @@
 		background: var(--white);
 		cursor: pointer;
 	}
+
+	// ── Preview button ──────────────────────────────────────────────────────
+
+	&__preview-btn {
+		display: block;
+		inline-size: 100%;
+		margin-block-start: 0.75rem;
+		padding: 0.65rem 1rem;
+		background: transparent;
+		border: 2px solid var(--accent);
+		border-radius: var(--radius-sm);
+		color: var(--accent);
+		font-family: var(--font);
+		font-size: 0.9375rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: background var(--ease), color var(--ease);
+
+		&:hover {
+			background: var(--accent);
+			color: var(--white);
+		}
+	}
 }
 
 // ── Live preview canvas ──────────────────────────────────────────────────────
@@ -1114,6 +1137,65 @@
 .ah-preview-canvas {
 	border-radius: var(--radius-md);
 	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+// ── Preview modal ────────────────────────────────────────────────────────────
+
+.ah-preview-modal {
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	align-items: center;
+	justify-content: center;
+
+	&.is-open {
+		display: flex;
+	}
+
+	&__backdrop {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.7);
+	}
+
+	&__box {
+		position: relative;
+		z-index: 1;
+		background: var(--white);
+		border-radius: var(--radius-md);
+		padding: 1.5rem;
+		max-inline-size: min(90vw, 640px);
+		max-block-size: 90vh;
+		overflow-y: auto;
+		box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+	}
+
+	&__title {
+		font-size: 1.125rem;
+		font-weight: 700;
+		margin: 0 0 1rem;
+		color: var(--charcoal);
+	}
+
+	&__close {
+		position: absolute;
+		inset-block-start: 0.75rem;
+		inset-inline-end: 0.75rem;
+		background: none;
+		border: none;
+		font-size: 1.25rem;
+		cursor: pointer;
+		color: var(--gray-mid);
+		line-height: 1;
+		padding: 0.25rem;
+
+		&:hover { color: var(--charcoal); }
+	}
+
+	&__canvas-wrap {
+		canvas { border-radius: var(--radius-sm); }
+	}
 }
 
 // ── Mobile overrides ──────────────────────────────────────────────────────────

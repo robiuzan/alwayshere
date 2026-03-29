@@ -321,7 +321,7 @@ acf_add_local_field_group( [
 
 	'menu_order'            => 11,
 	'position'              => 'normal',
-	'style'                 => 'seamless',
+	'style'                 => 'default',
 	'label_placement'       => 'top',
 	'instruction_placement' => 'label',
 	'active'                => true,
