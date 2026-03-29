@@ -1047,6 +1047,73 @@
 			font-weight: 600;
 		}
 	}
+
+	// ── Image upload field ──────────────────────────────────────────────────
+
+	&__upload-wrap {
+		display: flex;
+		flex-direction: column;
+		gap: 0.375rem;
+	}
+
+	&__upload-input {
+		font-family: var(--font);
+		font-size: 0.875rem;
+		color: var(--charcoal);
+		cursor: pointer;
+
+		&::file-selector-button {
+			background: var(--accent);
+			color: var(--white);
+			border: none;
+			border-radius: var(--radius-sm);
+			padding: 0.4rem 0.875rem;
+			font-family: var(--font);
+			font-size: 0.8125rem;
+			font-weight: 600;
+			cursor: pointer;
+			margin-inline-end: 0.625rem;
+			transition: background var(--ease);
+
+			&:hover {
+				background: var(--accent-dark, #163d5a);
+			}
+		}
+	}
+
+	&__upload-hint {
+		font-size: 0.75rem;
+		color: var(--gray-mid);
+	}
+
+	&__upload-status {
+		font-size: 0.8125rem;
+		min-block-size: 1.25rem;
+
+		&.is-loading { color: var(--gray-mid); }
+		&.is-success { color: #2a7a2a; font-weight: 600; }
+		&.is-error   { color: var(--red); }
+		&.is-warning { color: #c07800; }
+	}
+
+	// ── Color picker field ──────────────────────────────────────────────────
+
+	&__input--color {
+		inline-size: 3rem;
+		block-size: 2.5rem;
+		padding: 0.2rem;
+		border: 1.5px solid var(--gray-border);
+		border-radius: var(--radius-sm);
+		background: var(--white);
+		cursor: pointer;
+	}
+}
+
+// ── Live preview canvas ──────────────────────────────────────────────────────
+
+.ah-preview-canvas {
+	border-radius: var(--radius-md);
+	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
 }
 
 // ── Mobile overrides ──────────────────────────────────────────────────────────

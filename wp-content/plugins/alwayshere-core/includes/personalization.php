@@ -9,6 +9,8 @@
  *  4. On order placement, values are copied to order item meta.
  *  5. Values display in: cart, checkout, order emails, admin order screen.
  *
+ * Supported field types: text, textarea, select, image, color.
+ *
  * @package alwayshere-core
  */
 
@@ -38,6 +40,14 @@ function alwayshere_render_personalization_form(): void {
 	if ( empty( $fields ) || ! is_array( $fields ) ) {
 		return;
 	}
+
+	$ratio_labels = [
+		'1:1'  => 'מרובעת (1:1)',
+		'3:2'  => 'אופקית (3:2)',
+		'4:1'  => 'רחבה (4:1)',
+		'16:9' => 'פנורמית (16:9)',
+		'free' => '',
+	];
 	?>
 
 	<div class="ah-personalization" data-ah-personalization>
@@ -56,7 +66,7 @@ function alwayshere_render_personalization_form(): void {
 			$options_raw = isset( $field['options'] ) ? $field['options'] : '';
 		?>
 
-			<div class="ah-personalization__field">
+			<div class="ah-personalization__field" data-field-type="<?php echo esc_attr( $type ); ?>">
 				<label class="ah-personalization__label" for="<?php echo esc_attr( $id ); ?>">
 					<?php echo esc_html( $label ); ?>
 					<?php if ( $required ) : ?>
@@ -77,7 +87,6 @@ function alwayshere_render_personalization_form(): void {
 					></textarea>
 
 				<?php elseif ( 'select' === $type ) :
-					// Parse options — one per line: value|Label or just value.
 					$lines = array_filter( array_map( 'trim', explode( "\n", $options_raw ) ) );
 				?>
 
@@ -97,6 +106,49 @@ function alwayshere_render_personalization_form(): void {
 						<?php endforeach; ?>
 					</select>
 
+				<?php elseif ( 'image' === $type ) :
+					$ratio      = isset( $field['image_ratio'] ) ? $field['image_ratio'] : 'free';
+					$min_width  = isset( $field['image_min_width'] ) ? (int) $field['image_min_width'] : 0;
+					$ratio_hint = ( 'free' !== $ratio && isset( $ratio_labels[ $ratio ] ) ) ? $ratio_labels[ $ratio ] : '';
+				?>
+
+					<div class="ah-personalization__upload-wrap">
+						<input
+							type="file"
+							id="<?php echo esc_attr( $id ); ?>"
+							class="ah-personalization__upload-input"
+							accept="image/jpeg,image/png,image/webp"
+							data-field-index="<?php echo esc_attr( $index ); ?>"
+							<?php echo $min_width > 0 ? 'data-min-width="' . esc_attr( $min_width ) . '"' : ''; ?>
+						>
+						<input
+							type="hidden"
+							name="alwayshere_personalization_img_<?php echo esc_attr( $index ); ?>"
+							id="<?php echo esc_attr( $id ); ?>_hidden"
+						>
+						<?php if ( $ratio_hint ) : ?>
+							<span class="ah-personalization__upload-hint">
+								<?php echo esc_html( 'מומלץ: תמונה ' . $ratio_hint ); ?>
+							</span>
+						<?php endif; ?>
+						<?php if ( $min_width > 0 ) : ?>
+							<span class="ah-personalization__upload-hint">
+								<?php echo esc_html( 'רזולוציה מינימלית: ' . $min_width . 'px' ); ?>
+							</span>
+						<?php endif; ?>
+						<span class="ah-personalization__upload-status" aria-live="polite"></span>
+					</div>
+
+				<?php elseif ( 'color' === $type ) : ?>
+
+					<input
+						type="color"
+						id="<?php echo esc_attr( $id ); ?>"
+						name="<?php echo esc_attr( $name ); ?>"
+						class="ah-personalization__input ah-personalization__input--color"
+						value="#000000"
+					>
+
 				<?php else : // text (default) ?>
 
 					<input
@@ -111,7 +163,7 @@ function alwayshere_render_personalization_form(): void {
 
 				<?php endif; ?>
 
-				<?php if ( $maxlength > 0 && 'select' !== $type ) : ?>
+				<?php if ( $maxlength > 0 && in_array( $type, [ 'text', 'textarea' ], true ) ) : ?>
 					<span class="ah-personalization__counter" aria-live="polite" data-max="<?php echo esc_attr( $maxlength ); ?>">
 						0 / <?php echo esc_html( $maxlength ); ?>
 					</span>
@@ -154,9 +206,23 @@ function alwayshere_validate_personalization( bool $passed, int $product_id ): b
 			continue;
 		}
 
+		$type  = isset( $field['type'] ) ? $field['type'] : 'text';
+		$label = isset( $field['label'] ) ? $field['label'] : __( 'שדה', 'alwayshere-core' );
+
+		if ( 'image' === $type ) {
+			$img_key = 'alwayshere_personalization_img_' . $index;
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$att_id = isset( $_POST[ $img_key ] ) ? absint( wp_unslash( $_POST[ $img_key ] ) ) : 0;
+			if ( $att_id < 1 ) {
+				/* translators: %s = field label */
+				wc_add_notice( sprintf( __( 'אנא העלה תמונה עבור השדה: %s', 'alwayshere-core' ), $label ), 'error' );
+				$passed = false;
+			}
+			continue;
+		}
+
 		$value = isset( $submitted[ $index ] ) ? trim( sanitize_text_field( $submitted[ $index ] ) ) : '';
 		if ( '' === $value ) {
-			$label = isset( $field['label'] ) ? $field['label'] : __( 'שדה', 'alwayshere-core' );
 			/* translators: %s = field label */
 			wc_add_notice( sprintf( __( 'אנא מלא את השדה: %s', 'alwayshere-core' ), $label ), 'error' );
 			$passed = false;
@@ -191,10 +257,44 @@ function alwayshere_add_personalization_to_cart( array $cart_item_data, int $pro
 		: [];
 
 	$saved = [];
+
 	foreach ( $defined_fields as $index => $field ) {
+		$type = isset( $field['type'] ) ? $field['type'] : 'text';
+
+		if ( 'image' === $type ) {
+			$img_key = 'alwayshere_personalization_img_' . $index;
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$att_id = isset( $_POST[ $img_key ] ) ? absint( wp_unslash( $_POST[ $img_key ] ) ) : 0;
+			if ( $att_id > 0 ) {
+				$url = wp_get_attachment_url( $att_id );
+				if ( $url ) {
+					$saved[ $index ] = [
+						'label'         => sanitize_text_field( $field['label'] ?? '' ),
+						'value'         => esc_url_raw( $url ),
+						'type'          => 'image',
+						'attachment_id' => $att_id,
+					];
+				}
+			}
+			continue;
+		}
+
+		if ( 'color' === $type ) {
+			$raw   = isset( $submitted[ $index ] ) ? (string) $submitted[ $index ] : '';
+			$value = sanitize_hex_color( $raw ) ?: '';
+			if ( '' !== $value ) {
+				$saved[ $index ] = [
+					'label' => sanitize_text_field( $field['label'] ?? '' ),
+					'value' => $value,
+					'type'  => 'color',
+				];
+			}
+			continue;
+		}
+
+		// text, textarea, select
 		$raw   = isset( $submitted[ $index ] ) ? $submitted[ $index ] : '';
 		$value = sanitize_text_field( $raw );
-
 		if ( '' === $value ) {
 			continue;
 		}
@@ -205,14 +305,15 @@ function alwayshere_add_personalization_to_cart( array $cart_item_data, int $pro
 		}
 
 		$saved[ $index ] = [
-			'label' => isset( $field['label'] ) ? sanitize_text_field( $field['label'] ) : '',
+			'label' => sanitize_text_field( $field['label'] ?? '' ),
 			'value' => $value,
+			'type'  => $type,
 		];
 	}
 
 	if ( ! empty( $saved ) ) {
 		$cart_item_data['alwayshere_personalization'] = $saved;
-		// Unique key so WC treats two identical products with different text as separate line items.
+		// Unique key so WC treats two identical products with different customization as separate line items.
 		$cart_item_data['alwayshere_personalization_key'] = md5( (string) json_encode( $saved ) );
 	}
 
@@ -229,10 +330,20 @@ function alwayshere_display_personalization_in_cart( array $item_data, array $ca
 	}
 
 	foreach ( $cart_item['alwayshere_personalization'] as $entry ) {
-		$item_data[] = [
-			'key'   => esc_html( $entry['label'] ),
-			'value' => esc_html( $entry['value'] ),
-		];
+		$type = isset( $entry['type'] ) ? $entry['type'] : 'text';
+
+		if ( 'image' === $type ) {
+			$item_data[] = [
+				'key'     => esc_html( $entry['label'] ),
+				'value'   => '',
+				'display' => '<img src="' . esc_url( $entry['value'] ) . '" width="60" height="60" style="object-fit:cover;border-radius:4px;display:block;" alt="">',
+			];
+		} else {
+			$item_data[] = [
+				'key'   => esc_html( $entry['label'] ),
+				'value' => esc_html( $entry['value'] ),
+			];
+		}
 	}
 
 	return $item_data;
@@ -253,11 +364,69 @@ function alwayshere_save_personalization_to_order(
 	}
 
 	foreach ( $values['alwayshere_personalization'] as $entry ) {
-		// Data was sanitized with sanitize_text_field() at cart-add time. Store raw; escape at output.
+		// Data was sanitized at cart-add time. Store raw; escape at output.
 		$item->add_meta_data(
 			$entry['label'],
 			$entry['value'],
 			true
 		);
 	}
+}
+
+// ── 6. Inject preview data for canvas JS ─────────────────────────────────────
+
+add_action( 'wp_enqueue_scripts', 'alwayshere_enqueue_preview_data', 20 );
+
+function alwayshere_enqueue_preview_data(): void {
+	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+		return;
+	}
+
+	if ( ! wp_script_is( 'alwayshere-single-product', 'enqueued' ) ) {
+		return;
+	}
+
+	if ( ! function_exists( 'get_field' ) ) {
+		return;
+	}
+
+	$post_id = get_queried_object_id();
+	if ( ! $post_id ) {
+		return;
+	}
+
+	$enabled = get_field( 'alwayshere_enable_personalization', $post_id );
+	if ( ! $enabled ) {
+		return;
+	}
+
+	$preview_image = get_field( 'alwayshere_preview_image', $post_id );
+	if ( empty( $preview_image ) ) {
+		return;
+	}
+
+	$base_url = is_array( $preview_image ) ? ( $preview_image['url'] ?? '' ) : wp_get_attachment_url( (int) $preview_image );
+	if ( ! $base_url ) {
+		return;
+	}
+
+	$zone = [
+		'x' => (float) ( get_field( 'alwayshere_preview_zone_x', $post_id ) ?: 20 ) / 100,
+		'y' => (float) ( get_field( 'alwayshere_preview_zone_y', $post_id ) ?: 20 ) / 100,
+		'w' => (float) ( get_field( 'alwayshere_preview_zone_w', $post_id ) ?: 60 ) / 100,
+		'h' => (float) ( get_field( 'alwayshere_preview_zone_h', $post_id ) ?: 60 ) / 100,
+	];
+
+	wp_localize_script( 'alwayshere-single-product', 'ahPreview', [
+		'baseImage'   => esc_url( $base_url ),
+		'zone'        => $zone,
+		'uploadNonce' => wp_create_nonce( 'alwayshere_personalization_upload' ),
+		'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
+		'i18n'        => [
+			'uploading'   => 'מעלה תמונה...',
+			'uploadError' => 'שגיאה בהעלאת הקובץ. נסה שוב.',
+			'tooSmall'    => 'התמונה קטנה מדי — מומלץ ',
+			'uploaded'    => '✓ התמונה הועלתה',
+		],
+	] );
 }
