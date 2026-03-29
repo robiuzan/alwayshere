@@ -229,7 +229,7 @@ acf_add_local_field_group( [
 // ── Field Group: Live Preview Canvas ─────────────────────────────────────────
 
 acf_add_local_field_group( [
-	'key'      => 'group_alwayshere_preview',
+	'key'      => 'group_ah_live_preview',
 	'title'    => 'תצוגה מקדימה חיה',
 	'fields'   => [
 
@@ -324,5 +324,5 @@ acf_add_local_field_group( [
 	'style'                 => 'default',
 	'label_placement'       => 'top',
 	'instruction_placement' => 'label',
-	'active'                => true,
+	'active'                => 1,
 ] );
