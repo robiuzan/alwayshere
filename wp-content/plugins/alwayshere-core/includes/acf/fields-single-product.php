@@ -203,7 +203,31 @@ acf_add_local_field_group( [
 					],
 				],
 
-			], // end sub_fields
+				// Available font sizes the customer can choose (text/textarea only).
+				[
+					'key'               => 'field_alwayshere_pf_font_size_options',
+					'label'             => 'גדלי גופן זמינים',
+					'name'              => 'font_size_options',
+					'type'              => 'text',
+					'placeholder'       => '14,18,24,32',
+					'instructions'      => 'גדלים בפיקסלים, מופרדים בפסיק. ריק = גודל אוטומטי לפי גודל אזור ההדפסה.',
+					'conditional_logic' => [
+						[
+							[
+								'field'    => 'field_alwayshere_pf_type',
+								'operator' => '==',
+								'value'    => 'text',
+							],
+						],
+						[
+							[
+								'field'    => 'field_alwayshere_pf_type',
+								'operator' => '==',
+								'value'    => 'textarea',
+							],
+						],
+					],
+				],			], // end sub_fields
 		], // end repeater
 
 	],

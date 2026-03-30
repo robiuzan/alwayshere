@@ -64,6 +64,16 @@ function alwayshere_render_personalization_form(): void {
 			$required    = ! empty( $field['required'] );
 			$maxlength   = isset( $field['maxlength'] ) ? (int) $field['maxlength'] : 0;
 			$options_raw = isset( $field['options'] ) ? $field['options'] : '';
+			$font_size_options_raw = isset( $field['font_size_options'] ) ? $field['font_size_options'] : '';
+			$font_sizes             = [];
+			if ( '' !== $font_size_options_raw ) {
+				foreach ( explode( ',', $font_size_options_raw ) as $s ) {
+					$s = absint( trim( $s ) );
+					if ( $s > 0 ) {
+						$font_sizes[] = $s;
+					}
+				}
+			}
 		?>
 
 			<div class="ah-personalization__field" data-field-type="<?php echo esc_attr( $type ); ?>">
@@ -167,6 +177,23 @@ function alwayshere_render_personalization_form(): void {
 					<span class="ah-personalization__counter" aria-live="polite" data-max="<?php echo esc_attr( $maxlength ); ?>">
 						0 / <?php echo esc_html( $maxlength ); ?>
 					</span>
+				<?php endif; ?>
+
+				<?php if ( ! empty( $font_sizes ) && in_array( $type, [ 'text', 'textarea' ], true ) ) : ?>
+					<div class="ah-personalization__font-size-wrap">
+						<label for="<?php echo esc_attr( $id ); ?>_fs" class="ah-personalization__font-size-label">
+							<?php esc_html_e( 'גודל גופן:', 'alwayshere-core' ); ?>
+						</label>
+						<select
+							id="<?php echo esc_attr( $id ); ?>_fs"
+							name="alwayshere_personalization_font_size[<?php echo esc_attr( $index ); ?>]"
+							class="ah-personalization__input ah-personalization__input--select ah-personalization__input--font-size"
+						>
+							<?php foreach ( $font_sizes as $fs ) : ?>
+								<option value="<?php echo esc_attr( $fs ); ?>"><?php echo esc_html( $fs ); ?>px</option>
+							<?php endforeach; ?>
+						</select>
+					</div>
 				<?php endif; ?>
 
 			</div>
@@ -327,10 +354,16 @@ function alwayshere_add_personalization_to_cart( array $cart_item_data, int $pro
 			$value = mb_substr( $value, 0, $maxlength, 'UTF-8' );
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$font_size_post = isset( $_POST['alwayshere_personalization_font_size'][ $index ] )
+			? absint( wp_unslash( $_POST['alwayshere_personalization_font_size'][ $index ] ) )
+			: 0;
+
 		$saved[ $index ] = [
 			'label' => sanitize_text_field( $field['label'] ?? '' ),
 			'value' => $value,
 			'type'  => $type,
+			'font_size' => $font_size_post > 0 ? $font_size_post : 0,
 		];
 	}
 

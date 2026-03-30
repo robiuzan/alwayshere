@@ -1096,6 +1096,28 @@
 		&.is-warning { color: #c07800; }
 	}
 
+	// ── Font size picker ──────────────────────────────────────────────────
+
+	&__font-size-wrap {
+		display: flex;
+		align-items: center;
+		gap: 0.625rem;
+		margin-block-start: 0.375rem;
+	}
+
+	&__font-size-label {
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: var(--gray-mid);
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
+	&__input--font-size {
+		inline-size: auto;
+		min-inline-size: 7rem;
+	}
+
 	// ── Color picker field ──────────────────────────────────────────────────
 
 	&__input--color {
