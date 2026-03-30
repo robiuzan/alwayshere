@@ -18,15 +18,7 @@ $logo_url    = content_url( 'uploads/2026/03/Always-here-logo.webp' );
 				</svg>
 			</button>
 
-	
-<a class="ah-hdr-btn" title="<?php esc_attr_e( 'כניסה לחשבון', 'alwayshere-child' ); ?>" href="<?php echo esc_url( $account_url ); ?>">
-				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-					<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
-				</svg>
-				<span class="ah-hdr-btn__label"><?php esc_html_e( 'כניסה', 'alwayshere-child' ); ?></span>
-			</a>
-
-			<a class="ah-hdr-btn ah-hdr-btn--cart" title="<?php esc_attr_e( 'עגלת קניות', 'alwayshere-child' ); ?>" href="<?php echo esc_url( $cart_url ); ?>">
+<a class="ah-hdr-btn ah-hdr-btn--cart" title="<?php esc_attr_e( 'עגלת קניות', 'alwayshere-child' ); ?>" href="<?php echo esc_url( $cart_url ); ?>">
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
 					<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
 					<path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>

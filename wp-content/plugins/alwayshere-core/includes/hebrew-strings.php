@@ -104,7 +104,7 @@ function alwayshere_translate_wc_strings( string $translated, string $text, stri
 		'Free shipping'                         => 'משלוח חינם',
 		'Flat rate'                             => 'תעריף קבוע',
 		'Local pickup'                          => 'איסוף עצמי',
-		'Proceed to checkout'                   => '🔒 לתשלום מאובטח',
+		'Proceed to checkout'                   => 'לתשלום מאובטח',
 		'Apply coupon'                          => 'החל קופון',
 		'Coupon code'                           => 'קוד קופון',
 		'Remove'                                => 'הסר',

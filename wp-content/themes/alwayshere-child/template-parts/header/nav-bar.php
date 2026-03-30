@@ -16,15 +16,14 @@ $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 
 				<div class="ah-mega-col ah-mega-col--cats">
 					<h5><?php esc_html_e( 'לפי נמען', 'alwayshere-child' ); ?></h5>
 					<ul>
-						<li><a href="<?php echo esc_url( get_term_link( 'mi-mekabel', 'product_cat' ) ?: $shop_url ); ?>"><?php esc_html_e( 'לגבר', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'לאישה', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'לחייל / חיילת', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'ליום הולדת', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'לאירועים', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'לבית', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'ליום אהבה', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'ליום נישואין', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'למשרד', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/mi-mekabel/matana-leisha/' ) ); ?>"><?php esc_html_e( 'לאישה', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/mi-mekabel/matana-legever/' ) ); ?>"><?php esc_html_e( 'לגבר', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/mi-mekabel/labayit/' ) ); ?>"><?php esc_html_e( 'לבית', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/mi-mekabel/lechaver-chavera/' ) ); ?>"><?php esc_html_e( 'לחבר/חברה', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/mi-mekabel/matana-lechayyal/' ) ); ?>"><?php esc_html_e( 'לחייל/חיילת', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/mi-mekabel/lemore-mechanech/' ) ); ?>"><?php esc_html_e( 'למורה', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/mi-mekabel/lamisrad/' ) ); ?>"><?php esc_html_e( 'למשרד', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/mi-mekabel/lesaba-savta/' ) ); ?>"><?php esc_html_e( 'לסבא/סבתא', 'alwayshere-child' ); ?></a></li>
 					</ul>
 				</div>
 				<div class="ah-mega-divider"></div>
@@ -70,14 +69,16 @@ $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 
 				<div class="ah-mega-col ah-mega-col--cats">
 					<h5><?php esc_html_e( 'לפי סוג מוצר', 'alwayshere-child' ); ?></h5>
 					<ul>
-						<li><a href="#"><?php esc_html_e( 'הדפסה על עץ', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'הדפסה על זכוכית', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'ספלים מודפסים', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'כריות פאזל', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'חולצות מודפסות', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'מחזיקי מפתחות', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'נרות ריחניים', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'תכשיטים מעוצבים', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/מוצרים/כוסות/' ) ); ?>"><?php esc_html_e( 'ספלים', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/מוצרים/כובעים/' ) ); ?>"><?php esc_html_e( 'כובעים', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/מוצרים/בקבוקים/' ) ); ?>"><?php esc_html_e( 'בקבוקים', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/מוצרים/תיקים/' ) ); ?>"><?php esc_html_e( 'תיקים', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/מוצרים/נרות/' ) ); ?>"><?php esc_html_e( 'נרות', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/מוצרים/תחתיות/' ) ); ?>"><?php esc_html_e( 'תחתיות', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/מוצרים/מחברות/' ) ); ?>"><?php esc_html_e( 'מחברות', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/מוצרים/מחזיקי-מפתחות/' ) ); ?>"><?php esc_html_e( 'מחזיקי מפתחות', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/מוצרים/פד-עכבר/' ) ); ?>"><?php esc_html_e( 'פד עכבר', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/מוצרים/הדפסה-על-עץ/' ) ); ?>"><?php esc_html_e( 'הדפסה על עץ', 'alwayshere-child' ); ?></a></li>
 						<li><a href="<?php echo esc_url( $shop_url ); ?>" class="ah-mega-col__all"><?php esc_html_e( '← כל המוצרים', 'alwayshere-child' ); ?></a></li>
 					</ul>
 				</div>
@@ -124,14 +125,13 @@ $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 
 				<div class="ah-mega-col ah-mega-col--cats">
 					<h5><?php esc_html_e( 'לפי אירוע', 'alwayshere-child' ); ?></h5>
 					<ul>
-						<li><a href="#"><?php esc_html_e( 'יום הולדת', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'חתונה ואירוסין', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'לידה ובריתות', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'בר / בת מצווה', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'ימי נישואין', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'ימי אהבה', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'חגים', 'alwayshere-child' ); ?></a></li>
-						<li><a href="#"><?php esc_html_e( 'סתם כי בא לך', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/אירועים/יום-הולדת/' ) ); ?>"><?php esc_html_e( 'יום הולדת', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/אירועים/חתונה/' ) ); ?>"><?php esc_html_e( 'חתונה', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/אירועים/יום-נישואים/' ) ); ?>"><?php esc_html_e( 'יום נישואים', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/אירועים/ולנטיין/' ) ); ?>"><?php esc_html_e( 'ולנטיין', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/אירועים/חגים/' ) ); ?>"><?php esc_html_e( 'חגים', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/אירועים/בר-בת-מצווה/' ) ); ?>"><?php esc_html_e( 'בר/בת מצווה', 'alwayshere-child' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/product-category/אירועים/לידה-וברית/' ) ); ?>"><?php esc_html_e( 'לידה וברית', 'alwayshere-child' ); ?></a></li>
 					</ul>
 				</div>
 				<div class="ah-mega-divider"></div>
