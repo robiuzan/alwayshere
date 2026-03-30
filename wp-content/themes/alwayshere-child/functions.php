@@ -181,8 +181,7 @@ function alwayshere_single_product_hooks(): void {
 	// Add discount percentage badge below the price.
 	add_action( 'woocommerce_single_product_summary', 'alwayshere_render_discount_badge', 11 );
 
-	// Add "Buy Now" button after the add-to-cart button.
-	add_action( 'woocommerce_after_add_to_cart_button', 'alwayshere_render_buy_now_button', 10 );
+	// Buy Now button removed.
 }
 
 function alwayshere_render_product_cats(): void {

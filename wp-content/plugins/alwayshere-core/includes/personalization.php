@@ -76,7 +76,7 @@ function alwayshere_render_personalization_form(): void {
 			}
 		?>
 
-			<div class="ah-personalization__field" data-field-type="<?php echo esc_attr( $type ); ?>">
+			<div class="ah-personalization__field" data-field-type="<?php echo esc_attr( $type ); ?>"<?php if ( ! empty( $font_sizes ) && in_array( $type, [ 'text', 'textarea' ], true ) ) : ?> data-font-size="<?php echo esc_attr( $font_sizes[0] ); ?>"<?php endif; ?>>
 				<label class="ah-personalization__label" for="<?php echo esc_attr( $id ); ?>">
 					<?php echo esc_html( $label ); ?>
 					<?php if ( $required ) : ?>
@@ -147,6 +147,23 @@ function alwayshere_render_personalization_form(): void {
 							</span>
 						<?php endif; ?>
 						<span class="ah-personalization__upload-status" aria-live="polite"></span>
+
+						<div class="ah-personalization__img-controls" hidden>
+							<div class="ah-personalization__img-control-row">
+								<label class="ah-personalization__img-control-label">
+									<?php esc_html_e( 'מיקום אופקי', 'alwayshere-core' ); ?>
+									<input type="range" class="ah-personalization__img-x" min="0" max="100" value="50">
+								</label>
+								<label class="ah-personalization__img-control-label">
+									<?php esc_html_e( 'מיקום אנכי', 'alwayshere-core' ); ?>
+									<input type="range" class="ah-personalization__img-y" min="0" max="100" value="50">
+								</label>
+								<label class="ah-personalization__img-control-label">
+									<?php esc_html_e( 'גודל תמונה', 'alwayshere-core' ); ?>
+									<input type="range" class="ah-personalization__img-scale" min="10" max="200" value="100">
+								</label>
+							</div>
+						</div>
 					</div>
 
 				<?php elseif ( 'color' === $type ) : ?>
@@ -179,22 +196,7 @@ function alwayshere_render_personalization_form(): void {
 					</span>
 				<?php endif; ?>
 
-				<?php if ( ! empty( $font_sizes ) && in_array( $type, [ 'text', 'textarea' ], true ) ) : ?>
-					<div class="ah-personalization__font-size-wrap">
-						<label for="<?php echo esc_attr( $id ); ?>_fs" class="ah-personalization__font-size-label">
-							<?php esc_html_e( 'גודל גופן:', 'alwayshere-core' ); ?>
-						</label>
-						<select
-							id="<?php echo esc_attr( $id ); ?>_fs"
-							name="alwayshere_personalization_font_size[<?php echo esc_attr( $index ); ?>]"
-							class="ah-personalization__input ah-personalization__input--select ah-personalization__input--font-size"
-						>
-							<?php foreach ( $font_sizes as $fs ) : ?>
-								<option value="<?php echo esc_attr( $fs ); ?>"><?php echo esc_html( $fs ); ?>px</option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-				<?php endif; ?>
+				<?php // Font size is admin-configured via data-font-size attribute; no customer-facing picker. ?>
 
 			</div>
 
