@@ -74,9 +74,13 @@ function alwayshere_render_personalization_form(): void {
 					}
 				}
 			}
+			$allowed_families = [ 'Heebo', 'Frank Ruhl Libre', 'David Libre', 'Noto Serif Hebrew', 'Rubik' ];
+			$font_family      = ( isset( $field['font_family'] ) && in_array( $field['font_family'], $allowed_families, true ) )
+				? $field['font_family']
+				: 'Heebo';
 		?>
 
-			<div class="ah-personalization__field" data-field-type="<?php echo esc_attr( $type ); ?>"<?php if ( ! empty( $font_sizes ) && in_array( $type, [ 'text', 'textarea' ], true ) ) : ?> data-font-size="<?php echo esc_attr( $font_sizes[0] ); ?>"<?php endif; ?>>
+			<div class="ah-personalization__field" data-field-type="<?php echo esc_attr( $type ); ?>"<?php if ( ! empty( $font_sizes ) && in_array( $type, [ 'text', 'textarea' ], true ) ) : ?> data-font-size="<?php echo esc_attr( $font_sizes[0] ); ?>"<?php endif; ?><?php if ( in_array( $type, [ 'text', 'textarea' ], true ) ) : ?> data-font-family="<?php echo esc_attr( $font_family ); ?>"<?php endif; ?>>
 				<label class="ah-personalization__label" for="<?php echo esc_attr( $id ); ?>">
 					<?php echo esc_html( $label ); ?>
 					<?php if ( $required ) : ?>
@@ -196,7 +200,10 @@ function alwayshere_render_personalization_form(): void {
 					</span>
 				<?php endif; ?>
 
-				<?php // Font size is admin-configured via data-font-size attribute; no customer-facing picker. ?>
+				<?php // Font family and size are admin-configured; hidden inputs carry the values to cart. ?>
+				<?php if ( in_array( $type, [ 'text', 'textarea' ], true ) ) : ?>
+				<input type="hidden" name="alwayshere_personalization_font_family[<?php echo esc_attr( $index ); ?>]" value="<?php echo esc_attr( $font_family ); ?>">
+				<?php endif; ?>
 
 			</div>
 
@@ -361,11 +368,19 @@ function alwayshere_add_personalization_to_cart( array $cart_item_data, int $pro
 			? absint( wp_unslash( $_POST['alwayshere_personalization_font_size'][ $index ] ) )
 			: 0;
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$font_family_post    = isset( $_POST['alwayshere_personalization_font_family'][ $index ] )
+			? sanitize_text_field( wp_unslash( $_POST['alwayshere_personalization_font_family'][ $index ] ) )
+			: 'Heebo';
+		$allowed_cart_fonts  = [ 'Heebo', 'Frank Ruhl Libre', 'David Libre', 'Noto Serif Hebrew', 'Rubik' ];
+		$font_family_post    = in_array( $font_family_post, $allowed_cart_fonts, true ) ? $font_family_post : 'Heebo';
+
 		$saved[ $index ] = [
-			'label' => sanitize_text_field( $field['label'] ?? '' ),
-			'value' => $value,
-			'type'  => $type,
-			'font_size' => $font_size_post > 0 ? $font_size_post : 0,
+			'label'       => sanitize_text_field( $field['label'] ?? '' ),
+			'value'       => $value,
+			'type'        => $type,
+			'font_size'   => $font_size_post > 0 ? $font_size_post : 0,
+			'font_family' => $font_family_post,
 		];
 	}
 
@@ -433,7 +448,10 @@ function alwayshere_save_personalization_to_order(
 
 // ── 6. Inject preview data for canvas JS ─────────────────────────────────────
 
-add_action( 'wp_enqueue_scripts', 'alwayshere_enqueue_preview_data', 20 );
+// Priority 1 — runs in wp_footer before footer scripts are printed (priority 20).
+// Using wp_footer guarantees the full WooCommerce query context is available,
+// avoiding silent failures from get_queried_object_id() returning 0 during wp_enqueue_scripts.
+add_action( 'wp_footer', 'alwayshere_enqueue_preview_data', 1 );
 
 function alwayshere_enqueue_preview_data(): void {
 	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
@@ -467,6 +485,13 @@ function alwayshere_enqueue_preview_data(): void {
 	if ( ! $base_url ) {
 		return;
 	}
+
+	wp_enqueue_style(
+		'alwayshere-personalization-fonts',
+		'https://fonts.googleapis.com/css2?family=Heebo&family=Frank+Ruhl+Libre&family=David+Libre&family=Noto+Serif+Hebrew&family=Rubik&display=swap',
+		[],
+		null
+	);
 
 	$zone = [
 		'x' => (float) ( get_field( 'alwayshere_preview_zone_x', $post_id ) ?: 20 ) / 100,
