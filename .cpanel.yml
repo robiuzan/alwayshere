@@ -2,8 +2,6 @@
 deployment:
   tasks:
     # Deploy child theme
-    - export DEPLOYPATH=/home/$USER/public_html/wp-content/themes/alwayshere-child
-    - /bin/cp -r wp-content/themes/alwayshere-child $DEPLOYPATH
+    - /bin/cp -r wp-content/themes/alwayshere-child /home/bestsale/public_html/wp-content/themes/alwayshere-child
     # Deploy custom plugin
-    - export PLUGINPATH=/home/$USER/public_html/wp-content/plugins/alwayshere-core
-    - /bin/cp -r wp-content/plugins/alwayshere-core $PLUGINPATH
+    - /bin/cp -r wp-content/plugins/alwayshere-core /home/bestsale/public_html/wp-content/plugins/alwayshere-core
