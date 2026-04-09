@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    # Deploy child theme
+    - export DEPLOYPATH=/home/$USER/public_html/wp-content/themes/alwayshere-child
+    - /bin/cp -r wp-content/themes/alwayshere-child $DEPLOYPATH
+    # Deploy custom plugin
+    - export PLUGINPATH=/home/$USER/public_html/wp-content/plugins/alwayshere-core
+    - /bin/cp -r wp-content/plugins/alwayshere-core $PLUGINPATH

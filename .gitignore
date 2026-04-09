@@ -2,8 +2,8 @@
 node_modules/
 wp-content/themes/alwayshere-child/node_modules/
 
-# Build artifacts (compiled from SCSS/JS — not committed)
-wp-content/themes/alwayshere-child/assets/css/
+# JS source maps only — CSS and JS bundles ARE committed so the server needs no Node.
+# Always run `npm run build` before pushing.
 wp-content/themes/alwayshere-child/assets/js/*.js.map
 
 # Vite

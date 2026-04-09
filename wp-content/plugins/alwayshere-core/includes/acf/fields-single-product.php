@@ -227,7 +227,43 @@ acf_add_local_field_group( [
 							],
 						],
 					],
-				],			], // end sub_fields
+				],
+
+			// Font family for canvas preview (text/textarea only).
+			[
+				'key'               => 'field_alwayshere_pf_font_family',
+				'label'             => 'גופן לתצוגה מקדימה',
+				'name'              => 'font_family',
+				'type'              => 'select',
+				'choices'           => [
+					'Heebo'             => 'היבו — מודרני (ברירת מחדל)',
+					'Frank Ruhl Libre'  => 'פרנק רול — פורמלי קלאסי',
+					'David Libre'       => 'דוד — אלגנטי עתיק',
+					'Noto Serif Hebrew' => 'נוטו — סריף מודרני',
+					'Rubik'             => 'רוביק — עגול ידידותי',
+				],
+				'default_value'     => 'Heebo',
+				'return_format'     => 'value',
+				'instructions'      => 'הגופן שיוצג על הטקסט בתצוגה המקדימה.',
+				'conditional_logic' => [
+					[
+						[
+							'field'    => 'field_alwayshere_pf_type',
+							'operator' => '==',
+							'value'    => 'text',
+						],
+					],
+					[
+						[
+							'field'    => 'field_alwayshere_pf_type',
+							'operator' => '==',
+							'value'    => 'textarea',
+						],
+					],
+				],
+			],
+
+		], // end sub_fields
 		], // end repeater
 
 	],

@@ -9,6 +9,7 @@ add_filter( 'woocommerce_checkout_registration_enabled',  '__return_false' );
 add_filter( 'woocommerce_checkout_registration_required', '__return_false' );
 add_filter( 'option_users_can_register',                  '__return_zero'  );
 
+
 // Force full-width layout (no sidebar) on all pages.
 add_filter( 'generate_sidebar_layout', fn() => 'no-sidebar' );
 add_filter( 'generate_get_layout',     fn() => 'no-sidebar' );
