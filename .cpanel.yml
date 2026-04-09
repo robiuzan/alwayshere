@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    # Deploy child theme — trailing slash on source = sync contents, not the folder itself
-    - rsync -a --delete wp-content/themes/alwayshere-child/ /home/bestsale/public_html/wp-content/themes/alwayshere-child/
+    # Deploy child theme — copy contents (dot) into destination
+    - /bin/cp -rf wp-content/themes/alwayshere-child/. /home/bestsale/public_html/wp-content/themes/alwayshere-child/
     # Deploy custom plugin
-    - rsync -a --delete wp-content/plugins/alwayshere-core/ /home/bestsale/public_html/wp-content/plugins/alwayshere-core/
+    - /bin/cp -rf wp-content/plugins/alwayshere-core/. /home/bestsale/public_html/wp-content/plugins/alwayshere-core/
