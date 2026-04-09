@@ -70,7 +70,7 @@ function alwayshere_enqueue_styles(): void {
 		'alwayshere-child-style',
 		get_stylesheet_directory_uri() . '/assets/css/style.css',
 		[ 'parent-style' ],
-		wp_get_theme()->get( 'Version' )
+		(string) filemtime( get_stylesheet_directory() . '/assets/css/style.css' )
 	);
 
 	// Global — loaded on every page.
