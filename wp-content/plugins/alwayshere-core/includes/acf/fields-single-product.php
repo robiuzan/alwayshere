@@ -286,6 +286,42 @@ acf_add_local_field_group( [
 	'active'                => true,
 ] );
 
+// ── Field Group: Product Video ───────────────────────────────────────────────
+
+acf_add_local_field_group( [
+	'key'      => 'group_alwayshere_product_video',
+	'title'    => 'וידאו מוצר',
+	'fields'   => [
+		[
+			'key'           => 'field_alwayshere_product_video',
+			'label'         => 'סרטון מוצר (MP4)',
+			'name'          => 'alwayshere_product_video',
+			'type'          => 'file',
+			'return_format' => 'array',
+			'library'       => 'all',
+			'mime_types'    => 'mp4',
+			'instructions'  => 'קובץ MP4 שיוצג בגלריית המוצר לצד התמונות. לחיצה על התמונה הממוזערת תחליף את התמונה הראשית בסרטון.',
+		],
+	],
+
+	'location' => [
+		[
+			[
+				'param'    => 'post_type',
+				'operator' => '==',
+				'value'    => 'product',
+			],
+		],
+	],
+
+	'menu_order'            => 9,
+	'position'              => 'normal',
+	'style'                 => 'default',
+	'label_placement'       => 'top',
+	'instruction_placement' => 'label',
+	'active'                => true,
+] );
+
 // ── Field Group: Live Preview Canvas ─────────────────────────────────────────
 
 acf_add_local_field_group( [

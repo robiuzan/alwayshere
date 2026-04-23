@@ -13,6 +13,10 @@ $main_id = $product->get_image_id();
 $gallery = $product->get_gallery_image_ids();
 $all_ids = array_filter( array_merge( [ $main_id ], $gallery ) );
 
+// Optional product video (MP4) — added as an extra thumbnail after gallery images.
+$video = function_exists( 'get_field' ) ? get_field( 'alwayshere_product_video', $product->get_id() ) : null;
+$video_url = ( is_array( $video ) && ! empty( $video['url'] ) ) ? $video['url'] : '';
+
 $sale_pct = '';
 if ( $product->is_on_sale() ) {
 	$regular = (float) $product->get_regular_price();
@@ -49,7 +53,7 @@ if ( $product->is_on_sale() ) {
 		<?php endif; ?>
 	</figure>
 
-	<?php if ( count( $all_ids ) > 1 ) : ?>
+	<?php if ( count( $all_ids ) > 1 || $video_url ) : ?>
 		<div class="ah-gallery__thumbs" role="list" aria-label="<?php esc_attr_e( 'גלריה', 'alwayshere-child' ); ?>">
 			<?php foreach ( $all_ids as $i => $img_id ) :
 				$thumb_url = wp_get_attachment_image_url( $img_id, 'thumbnail' );
@@ -73,6 +77,32 @@ if ( $product->is_on_sale() ) {
 					>
 				</button>
 			<?php endforeach; ?>
+
+			<?php if ( $video_url ) :
+				$poster_url = $main_id ? wp_get_attachment_image_url( $main_id, 'thumbnail' ) : '';
+			?>
+				<button
+					class="ah-gallery__thumb ah-gallery__thumb--video"
+					role="listitem"
+					data-video="<?php echo esc_url( $video_url ); ?>"
+					data-poster="<?php echo esc_url( $main_id ? wp_get_attachment_image_url( $main_id, 'large' ) : '' ); ?>"
+					aria-label="<?php esc_attr_e( 'הצג סרטון מוצר', 'alwayshere-child' ); ?>"
+					aria-pressed="false"
+				>
+					<?php if ( $poster_url ) : ?>
+						<img
+							src="<?php echo esc_url( $poster_url ); ?>"
+							alt=""
+							loading="lazy"
+						>
+					<?php endif; ?>
+					<span class="ah-gallery__thumb-play" aria-hidden="true">
+						<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M8 5v14l11-7z"/>
+						</svg>
+					</span>
+				</button>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 
