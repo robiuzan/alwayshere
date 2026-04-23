@@ -40,6 +40,14 @@ $sub     = get_field( 'bestsellers_sub' )     ?: __( 'הלקוחות שלנו כ
 					? wp_get_attachment_image_url( $hover_img_id, 'woocommerce_thumbnail' )
 					: null;
 			?>
+				<div class="ah-card-wrap">
+				<?php
+				// Set up WC global $product for the heart button.
+				$GLOBALS['product'] = $product;
+				if ( class_exists( 'Alwayshere_Favorites' ) ) {
+					Alwayshere_Favorites::render_heart_button();
+				}
+				?>
 				<a href="<?php echo esc_url( $product_url ); ?>" class="ah-card">
 					<div class="ah-card__img">
 						<img
@@ -75,6 +83,7 @@ $sub     = get_field( 'bestsellers_sub' )     ?: __( 'הלקוחות שלנו כ
 						</div>
 					</div>
 				</a>
+				</div>
 			<?php endforeach; ?>
 		</div>
 	</div>

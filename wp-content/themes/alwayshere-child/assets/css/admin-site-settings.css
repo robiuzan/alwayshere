@@ -1,0 +1,72 @@
+/**
+ * Admin Site Settings page styles.
+ */
+
+/* ── Tab content area ──────────────────────────────────────────────────────── */
+
+.ah-settings__tabs {
+	margin-block-end: 1.5rem;
+}
+
+/* ── Section cards ─────────────────────────────────────────────────────────── */
+
+.ah-settings__section {
+	margin-block-end: 2rem;
+	padding: 1.5rem;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	max-width: 700px;
+}
+
+.ah-settings__section h2 {
+	margin-block-start: 0;
+}
+
+/* ── Repeater table ────────────────────────────────────────────────────────── */
+
+.ah-settings__repeater {
+	width: 100%;
+	border-collapse: collapse;
+	margin-block-end: 0.75rem;
+}
+
+.ah-settings__repeater th {
+	text-align: start;
+	padding-block: 0.5rem;
+	padding-inline: 0.5rem 0;
+	font-weight: 600;
+}
+
+.ah-settings__repeater td {
+	padding-block: 0.375rem;
+	padding-inline: 0.5rem 0;
+	vertical-align: middle;
+}
+
+.ah-settings__remove-row {
+	color: #b32d2e !important;
+	font-size: 1.25rem !important;
+	line-height: 1 !important;
+	padding: 0.125rem 0.5rem !important;
+}
+
+.ah-settings__add-row {
+	margin-block-start: 0.5rem;
+}
+
+.ah-settings__emoji-input {
+	text-align: center;
+	font-size: 1.25rem;
+}
+
+/* ── form-table inside section cards ───────────────────────────────────────── */
+
+.ah-settings__section .form-table th {
+	width: 160px;
+	padding-block: 0.75rem;
+}
+
+.ah-settings__section .form-table td {
+	padding-block: 0.75rem;
+}

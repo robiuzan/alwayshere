@@ -4,27 +4,72 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // Force Hebrew RTL on all pages.
 add_filter( 'locale', fn() => 'he_IL' );
 
-// Disable user registration — guests checkout only.
-add_filter( 'woocommerce_checkout_registration_enabled',  '__return_false' );
-add_filter( 'woocommerce_checkout_registration_required', '__return_false' );
-add_filter( 'option_users_can_register',                  '__return_zero'  );
+// Force ₪ symbol to the left of the price (Hebrew convention: ₪99).
+add_filter( 'option_woocommerce_currency_pos', fn() => 'left' );
+
+// Registration & checkout account creation handled by Alwayshere_Account class in alwayshere-core.
 
 
 // Force full-width layout (no sidebar) on all pages.
 add_filter( 'generate_sidebar_layout', fn() => 'no-sidebar' );
 add_filter( 'generate_get_layout',     fn() => 'no-sidebar' );
 
+// Use classic widget editor — block widget editor has compatibility issues with GeneratePress.
+add_filter( 'gutenberg_use_widgets_block_editor', '__return_false' );
+add_filter( 'use_widgets_block_editor', '__return_false' );
+
+// ── Register menu locations ──────────────────────────────────────────────────
+
+add_action( 'after_setup_theme', function(): void {
+	register_nav_menus( [
+		'desktop-menu'   => __( 'תפריט ראשי (דסקטופ)', 'alwayshere-child' ),
+		'mobile-menu'    => __( 'תפריט מובייל', 'alwayshere-child' ),
+		'footer-bottom'  => __( 'תפריט תחתון (פוטר)', 'alwayshere-child' ),
+	] );
+} );
+
+require_once get_stylesheet_directory() . '/includes/class-alwayshere-mobile-menu-walker.php';
+require_once get_stylesheet_directory() . '/includes/class-alwayshere-desktop-menu-walker.php';
+require_once get_stylesheet_directory() . '/includes/class-alwayshere-site-settings.php';
+
+Alwayshere_Site_Settings::init();
+
+// ── Register footer widget areas ─────────────────────────────────────────────
+
+add_action( 'widgets_init', 'alwayshere_register_footer_widgets' );
+function alwayshere_register_footer_widgets(): void {
+	$columns = [
+		'footer-1' => __( 'Footer Column 1 — מוצרים', 'alwayshere-child' ),
+		'footer-2' => __( 'Footer Column 2 — לפי נמען', 'alwayshere-child' ),
+		'footer-3' => __( 'Footer Column 3 — ALWAYS HERE', 'alwayshere-child' ),
+	];
+
+	foreach ( $columns as $id => $name ) {
+		register_sidebar( [
+			'name'          => $name,
+			'id'            => $id,
+			'before_widget' => '<div id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h4 class="ah-footer__col-title">',
+			'after_title'   => '</h4>',
+		] );
+	}
+}
+
 // Remove default WC coupon form above checkout — we include it inside our template.
 add_action( 'wp', function(): void {
 	remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
 } );
 
-// ── Hide specific nav menu items by title ────────────────────────────────────
+// ── Hide specific nav menu items by title (GeneratePress primary only) ───────
 
-add_filter( 'wp_nav_menu_objects', function( array $items ): array {
+add_filter( 'wp_nav_menu_objects', function( array $items, object $args ): array {
+	if ( ! isset( $args->theme_location ) || 'primary' !== $args->theme_location ) {
+		return $items;
+	}
 	$hidden = [ 'AI Studio', 'צרו קשר', 'אודות' ];
 	return array_filter( $items, fn( $item ) => ! in_array( $item->title, $hidden, true ) );
-} );
+}, 10, 2 );
 
 // ── Header hooks ─────────────────────────────────────────────────────────────
 
@@ -82,6 +127,26 @@ function alwayshere_enqueue_styles(): void {
 		true
 	);
 
+	// Favorites heart button — loaded on pages with product cards.
+	if ( is_front_page() || is_shop() || is_product_category() || is_product_tag() || is_product()
+		|| ( function_exists( 'is_account_page' ) && is_account_page() ) ) {
+		wp_enqueue_script(
+			'alwayshere-favorites',
+			get_stylesheet_directory_uri() . '/assets/js/favorites.js',
+			[],
+			(string) filemtime( get_stylesheet_directory() . '/assets/js/favorites.js' ),
+			true
+		);
+
+		$account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : '/my-account/';
+		wp_localize_script( 'alwayshere-favorites', 'alwayshereAccount', [
+			'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+			'favNonce'   => wp_create_nonce( 'alwayshere_favorites' ),
+			'isLoggedIn' => is_user_logged_in(),
+			'loginUrl'   => $account_url,
+		] );
+	}
+
 	// Newsletter bar appears in footer on every non-homepage page — needs AJAX data.
 	if ( ! is_front_page() ) {
 		wp_localize_script( 'alwayshere-header', 'alwayshere', [
@@ -137,6 +202,16 @@ function alwayshere_enqueue_styles(): void {
 			get_stylesheet_directory_uri() . '/assets/js/checkout.js',
 			[],
 			wp_get_theme()->get( 'Version' ),
+			true
+		);
+	}
+
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+		wp_enqueue_script(
+			'alwayshere-my-account',
+			get_stylesheet_directory_uri() . '/assets/js/my-account.js',
+			[],
+			(string) filemtime( get_stylesheet_directory() . '/assets/js/my-account.js' ),
 			true
 		);
 	}

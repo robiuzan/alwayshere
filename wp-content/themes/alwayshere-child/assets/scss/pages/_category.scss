@@ -32,9 +32,56 @@ $bp-xl: 1240px;
 	background: linear-gradient(135deg, var(--sky) 0%, var(--sky-mid) 50%, var(--sky-deep) 100%);
 	padding-block: var(--section-py-sm) var(--section-py);
 	text-align: center;
+	position: relative;
 
 	@media (min-width: $bp-md) {
 		padding-block: var(--section-py);
+	}
+
+	// Background image variant — set via inline style on the section.
+	&--has-bg {
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+
+		// Dark overlay for text readability over the photo.
+		&::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.45);
+			z-index: 0;
+		}
+
+		.ah-container {
+			position: relative;
+			z-index: 1;
+		}
+
+		.ah-cat-hero__breadcrumb {
+			color: rgba(255, 255, 255, 0.8);
+
+			a {
+				color: var(--white);
+
+				&:hover,
+				&:focus-visible {
+					color: var(--white);
+				}
+			}
+		}
+
+		.ah-cat-hero__sep {
+			color: rgba(255, 255, 255, 0.5);
+		}
+
+		.ah-cat-hero__title {
+			color: var(--white);
+		}
+
+		.ah-cat-hero__desc {
+			color: rgba(255, 255, 255, 0.9);
+		}
 	}
 
 	&__breadcrumb {

@@ -82,6 +82,13 @@ $cta_label = get_field( 'featured_cta_label' ) ?: __( 'לכל המוצרים', '
 						: null;
 					$desc = wp_trim_words( $product->get_short_description() ?: $product->get_description(), 10, '...' );
 				?>
+					<div class="ah-card-wrap">
+					<?php
+					$GLOBALS['product'] = $product;
+					if ( class_exists( 'Alwayshere_Favorites' ) ) {
+						Alwayshere_Favorites::render_heart_button();
+					}
+					?>
 					<a href="<?php echo esc_url( $product_url ); ?>" class="ah-card">
 						<div class="ah-card__img">
 							<img class="ah-card__img-main" src="<?php echo esc_url( $main_url ); ?>" alt="<?php echo esc_attr( $product->get_name() ); ?>" width="500" height="240" loading="lazy">
@@ -105,6 +112,7 @@ $cta_label = get_field( 'featured_cta_label' ) ?: __( 'לכל המוצרים', '
 							</div>
 						</div>
 					</a>
+					</div>
 				<?php endforeach; ?>
 			<?php endif; ?>
 		</div>

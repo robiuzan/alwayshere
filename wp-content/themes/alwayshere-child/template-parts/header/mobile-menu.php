@@ -1,9 +1,17 @@
 <?php
+/**
+ * Mobile slide-out menu.
+ *
+ * Menu items are managed in wp-admin → Appearance → Menus → "תפריט מובייל".
+ * Items with children become accordion toggles; top-level items are flat links.
+ * Add the CSS class "highlight" to a menu item to style it as a promo link.
+ *
+ * @package alwayshere-child
+ */
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$logo_url    = content_url( 'uploads/2026/03/Always-here-logo.webp' );
-$account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : '/my-account/';
-$shop_url    = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : '/shop/';
+$logo_url = content_url( 'uploads/2026/03/Always-here-logo.webp' );
 ?>
 <div class="ah-mobile-overlay" id="ah-mobile-overlay" aria-hidden="true"></div>
 
@@ -22,61 +30,35 @@ $shop_url    = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalin
 	</div>
 
 	<nav class="ah-mobile-menu__nav">
-		<div class="ah-mobile-menu__section-title"><?php esc_html_e( 'ניווט מהיר', 'alwayshere-child' ); ?></div>
-
-		<button class="ah-mobile-menu__link" data-submenu="cats" aria-expanded="false">
-			<?php esc_html_e( 'קטגוריות', 'alwayshere-child' ); ?>
-			<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-		</button>
-		<div class="ah-mobile-submenu" id="ah-sub-cats" hidden>
-			<a href="#"><?php esc_html_e( 'לגבר', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'לאישה', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'לחייל / חיילת', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'ליום הולדת', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'לאירועים', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'לבית', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'ליום אהבה', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'ליום נישואין', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'למשרד', 'alwayshere-child' ); ?></a>
-		</div>
-
-		<button class="ah-mobile-menu__link" data-submenu="prods" aria-expanded="false">
-			<?php esc_html_e( 'מוצרים', 'alwayshere-child' ); ?>
-			<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-		</button>
-		<div class="ah-mobile-submenu" id="ah-sub-prods" hidden>
-			<a href="#"><?php esc_html_e( 'הדפסה על עץ', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'הדפסה על זכוכית', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'ספלים מודפסים', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'כריות פאזל', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'חולצות מודפסות', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'מחזיקי מפתחות', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'כובעים מודפסים', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'תכשיטים מעוצבים', 'alwayshere-child' ); ?></a>
-		</div>
-
-		<button class="ah-mobile-menu__link" data-submenu="events" aria-expanded="false">
-			<?php esc_html_e( 'לפי אירוע', 'alwayshere-child' ); ?>
-			<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-		</button>
-		<div class="ah-mobile-submenu" id="ah-sub-events" hidden>
-			<a href="#"><?php esc_html_e( 'יום הולדת', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'חתונה ואירוסין', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'לידה ובריתות', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'בר / בת מצווה', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'ימי נישואין', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'ימי אהבה', 'alwayshere-child' ); ?></a>
-			<a href="#"><?php esc_html_e( 'חגים', 'alwayshere-child' ); ?></a>
-		</div>
-
-		<a href="#" class="ah-mobile-menu__link ah-mobile-menu__link--highlight"><?php esc_html_e( 'מבצעים 🔥', 'alwayshere-child' ); ?></a>
-
-		<div class="ah-mobile-menu__section-title"><?php esc_html_e( 'עוד', 'alwayshere-child' ); ?></div>
-		<a href="#" class="ah-mobile-menu__link"><?php esc_html_e( 'AI Studio ✨', 'alwayshere-child' ); ?></a>
-		<a href="#" class="ah-mobile-menu__link"><?php esc_html_e( 'הנמכרים ביותר', 'alwayshere-child' ); ?></a>
-		<a href="#" class="ah-mobile-menu__link"><?php esc_html_e( 'אודות', 'alwayshere-child' ); ?></a>
-		<a href="#" class="ah-mobile-menu__link"><?php esc_html_e( 'צרו קשר', 'alwayshere-child' ); ?></a>
+		<?php
+		if ( has_nav_menu( 'mobile-menu' ) ) {
+			wp_nav_menu( [
+				'theme_location' => 'mobile-menu',
+				'container'      => false,
+				'items_wrap'     => '%3$s',
+				'walker'         => new Alwayshere_Mobile_Menu_Walker(),
+				'depth'          => 2,
+				'fallback_cb'    => false,
+			] );
+		} else {
+			// Fallback: prompt admin to assign a menu.
+			echo '<p class="ah-mobile-menu__link" style="opacity:.6">';
+			esc_html_e( 'הגדירו תפריט מובייל בלוח הבקרה → תפריטים', 'alwayshere-child' );
+			echo '</p>';
+		}
+		?>
 	</nav>
+
+	<div class="ah-mobile-menu__account">
+		<?php $account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : '/my-account/'; ?>
+		<a href="<?php echo esc_url( $account_url ); ?>" class="ah-mobile-menu__account-link">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+				<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+				<circle cx="12" cy="7" r="4"/>
+			</svg>
+			<?php echo esc_html( is_user_logged_in() ? 'החשבון שלי' : 'כניסה / הרשמה' ); ?>
+		</a>
+	</div>
 
 	<div class="ah-mobile-menu__footer">
 		<a href="tel:0556601006" class="ah-mobile-menu__contact">

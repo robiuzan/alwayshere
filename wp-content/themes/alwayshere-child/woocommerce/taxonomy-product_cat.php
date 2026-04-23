@@ -21,6 +21,13 @@ $term_id   = $term instanceof WP_Term ? $term->term_id    : 0;
 $term_name = $term instanceof WP_Term ? $term->name       : '';
 $term_desc = $term instanceof WP_Term ? $term->description : '';
 
+// Hero background image (ACF field on product_cat term).
+$hero_bg_id  = $term_id ? (int) get_field( 'cat_hero_bg', 'product_cat_' . $term_id ) : 0;
+$hero_bg_url = $hero_bg_id ? wp_get_attachment_image_url( $hero_bg_id, 'full' ) : '';
+$hero_style  = $hero_bg_url
+	? sprintf( ' style="background-image:url(%s);"', esc_url( $hero_bg_url ) )
+	: '';
+
 // Fetch direct child sub-categories for the navigation strip.
 // hide_empty: true — no dead-end clicks for visitors.
 $child_terms = [];
@@ -37,7 +44,7 @@ if ( $term_id ) {
 ?>
 
 <?php /* ── Category Hero ─────────────────────────────────────── */ ?>
-<section class="ah-cat-hero" aria-label="<?php echo esc_attr( $term_name ); ?>">
+<section class="ah-cat-hero<?php echo $hero_bg_url ? ' ah-cat-hero--has-bg' : ''; ?>"<?php echo $hero_style; ?> aria-label="<?php echo esc_attr( $term_name ); ?>">
 	<div class="ah-container">
 
 		<nav class="ah-cat-hero__breadcrumb" aria-label="<?php esc_attr_e( 'נתיב ניווט', 'alwayshere-child' ); ?>">
@@ -171,6 +178,12 @@ if ( $term_id ) {
 								<?php esc_html_e( 'מבצע', 'alwayshere-child' ); ?>
 							</span>
 						<?php endif; ?>
+
+						<?php
+						if ( class_exists( 'Alwayshere_Favorites' ) ) {
+							Alwayshere_Favorites::render_heart_button();
+						}
+						?>
 
 						<a
 							href="<?php echo esc_url( get_permalink() ); ?>"

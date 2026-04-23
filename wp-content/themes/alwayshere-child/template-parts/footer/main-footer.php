@@ -2,16 +2,20 @@
 /**
  * Footer — main dark footer (brand + nav columns + trust row + bottom bar).
  *
+ * Columns are powered by widget areas (footer-1 to footer-4).
+ * Trust badges & payment methods are managed from Site Settings.
+ * Bottom bar legal links come from the "footer-bottom" menu location.
+ *
  * @package alwayshere-child
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$shop_url     = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' )      : '/shop/';
-$cart_url     = function_exists( 'wc_get_cart_url' )       ? wc_get_cart_url()                    : '/cart/';
-$account_url  = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : '/my-account/';
 $home_url     = home_url( '/' );
 $current_year = gmdate( 'Y' );
+
+$trust_badges    = Alwayshere_Site_Settings::get_trust_badges();
+$payment_methods = Alwayshere_Site_Settings::get_payment_methods();
 ?>
 
 <footer class="ah-footer" role="contentinfo">
@@ -19,7 +23,7 @@ $current_year = gmdate( 'Y' );
 	<!-- ── Main columns ─────────────────────────────────────────── -->
 	<div class="ah-footer__main">
 
-		<!-- Brand column -->
+		<!-- Brand column — always rendered (not a widget area) -->
 		<div class="ah-footer__brand">
 			<?php if ( has_custom_logo() ) : ?>
 				<a href="<?php echo esc_url( $home_url ); ?>" class="ah-footer__logo" rel="home">
@@ -69,91 +73,74 @@ $current_year = gmdate( 'Y' );
 					<?php esc_html_e( 'דרך שרה 25/2, זכרון יעקב', 'alwayshere-child' ); ?>
 				</address>
 			</address>
+		</div>
 
-			</div>
+		<!-- Products column (widget area 1) -->
+		<div class="ah-footer__col">
+			<?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
+				<?php dynamic_sidebar( 'footer-1' ); ?>
+			<?php endif; ?>
+		</div>
 
-		<!-- Products column -->
-		<nav class="ah-footer__col" aria-label="<?php esc_attr_e( 'מוצרים', 'alwayshere-child' ); ?>">
-			<h4 class="ah-footer__col-title"><?php esc_html_e( 'מוצרים', 'alwayshere-child' ); ?></h4>
-			<ul>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'הדפסה על עץ', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'הדפסה על זכוכית', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'ספלים מודפסים', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'כריות פאזל', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'חולצות מודפסות', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'מחזיקי מפתחות', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'נרות ריחניים', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'תכשיטים מעוצבים', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'מסגרות תמונות', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>" class="ah-footer__col-link--accent"><?php esc_html_e( '← כל המוצרים', 'alwayshere-child' ); ?></a></li>
-			</ul>
-		</nav>
+		<!-- Recipients column (widget area 2) -->
+		<div class="ah-footer__col">
+			<?php if ( is_active_sidebar( 'footer-2' ) ) : ?>
+				<?php dynamic_sidebar( 'footer-2' ); ?>
+			<?php endif; ?>
+		</div>
 
-		<!-- Recipients column -->
-		<nav class="ah-footer__col" aria-label="<?php esc_attr_e( 'לפי נמען', 'alwayshere-child' ); ?>">
-			<h4 class="ah-footer__col-title"><?php esc_html_e( 'לפי נמען', 'alwayshere-child' ); ?></h4>
-			<ul>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'לגבר', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'לאישה', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'לחייל / חיילת', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'ליום הולדת', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'לאירועים', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'לבית', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'ליום אהבה', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'ליום נישואין', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'למשרד', 'alwayshere-child' ); ?></a></li>
-			</ul>
-		</nav>
-
-		<!-- Company column -->
-		<nav class="ah-footer__col" aria-label="<?php esc_attr_e( 'Always Here', 'alwayshere-child' ); ?>">
-			<h4 class="ah-footer__col-title">ALWAYS HERE</h4>
-			<ul>
-				<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>"><?php esc_html_e( 'אודות', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>">AI Print Studio</a></li>
-				<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'מבצעים', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>"><?php esc_html_e( 'בלוג השראה', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'צרו קשר', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>"><?php esc_html_e( 'שאלות נפוצות', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/shipping-policy/' ) ); ?>"><?php esc_html_e( 'מדיניות משלוחים', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/returns-policy/' ) ); ?>"><?php esc_html_e( 'מדיניות החזרות', 'alwayshere-child' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'הגנת פרטיות', 'alwayshere-child' ); ?></a></li>
-			</ul>
-		</nav>
+		<!-- Company column (widget area 3) -->
+		<div class="ah-footer__col">
+			<?php if ( is_active_sidebar( 'footer-3' ) ) : ?>
+				<?php dynamic_sidebar( 'footer-3' ); ?>
+			<?php endif; ?>
+		</div>
 
 	</div><!-- .ah-footer__main -->
 
-	<!-- ── Trust badges ─────────────────────────────────────────── -->
-	<div class="ah-footer__trust-row">
-		<div class="ah-trust-chip"><span aria-hidden="true">🔒</span> <?php esc_html_e( 'תשלום מאובטח SSL', 'alwayshere-child' ); ?></div>
-		<div class="ah-trust-chip"><span aria-hidden="true">✅</span> <?php esc_html_e( 'איכות מובטחת', 'alwayshere-child' ); ?></div>
-		<div class="ah-trust-chip"><span aria-hidden="true">🔄</span> <?php esc_html_e( 'החזרה קלה', 'alwayshere-child' ); ?></div>
-		<div class="ah-trust-chip"><span aria-hidden="true">🚚</span> <?php esc_html_e( 'משלוח מהיר לכל הארץ', 'alwayshere-child' ); ?></div>
-		<div class="ah-trust-chip"><span aria-hidden="true">🎁</span> <?php esc_html_e( 'אריזת מתנה כלולה', 'alwayshere-child' ); ?></div>
-		<div class="ah-trust-chip"><span aria-hidden="true">⭐</span> <?php esc_html_e( 'דירוג 4.9 מ-5', 'alwayshere-child' ); ?></div>
-	</div>
+	<?php if ( ! empty( $trust_badges ) ) : ?>
+		<!-- ── Trust badges ─────────────────────────────────────────── -->
+		<div class="ah-footer__trust-row">
+			<?php foreach ( $trust_badges as $badge ) : ?>
+				<div class="ah-trust-chip">
+					<?php if ( ! empty( $badge['icon'] ) ) : ?>
+						<span aria-hidden="true"><?php echo esc_html( $badge['icon'] ); ?></span>
+					<?php endif; ?>
+					<?php echo esc_html( $badge['text'] ); ?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 
 	<!-- ── Bottom bar ────────────────────────────────────────────── -->
 	<div class="ah-footer__bottom">
 
 		<p class="ah-footer__copy">
-			© <?php echo esc_html( $current_year ); ?>
+			&copy; <?php echo esc_html( $current_year ); ?>
 			<a href="<?php echo esc_url( $home_url ); ?>">Always Here</a>.
-			<?php esc_html_e( 'כל הזכויות שמורות. עוצב באהבה 🤍', 'alwayshere-child' ); ?>
+			<?php esc_html_e( 'כל הזכויות שמורות. עוצב באהבה', 'alwayshere-child' ); ?> &#x1F90D;
 		</p>
 
-		<nav class="ah-footer__legal" aria-label="<?php esc_attr_e( 'קישורים משפטיים', 'alwayshere-child' ); ?>">
-			<a href="<?php echo esc_url( home_url( '/תקנון-אתר/' ) ); ?>"><?php esc_html_e( 'תקנון אתר', 'alwayshere-child' ); ?></a>
-			<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'פרטיות', 'alwayshere-child' ); ?></a>
-			<a href="<?php echo esc_url( home_url( '/accessibility/' ) ); ?>"><?php esc_html_e( 'נגישות', 'alwayshere-child' ); ?></a>
-		</nav>
+		<?php if ( has_nav_menu( 'footer-bottom' ) ) : ?>
+			<nav class="ah-footer__legal" aria-label="<?php esc_attr_e( 'קישורים משפטיים', 'alwayshere-child' ); ?>">
+				<?php
+				wp_nav_menu( [
+					'theme_location' => 'footer-bottom',
+					'container'      => false,
+					'menu_class'     => 'ah-footer__legal-list',
+					'depth'          => 1,
+				] );
+				?>
+			</nav>
+		<?php endif; ?>
 
-		<div class="ah-footer__payments" aria-label="<?php esc_attr_e( 'אמצעי תשלום', 'alwayshere-child' ); ?>">
-			<span class="ah-pay-chip">VISA</span>
-			<span class="ah-pay-chip">MC</span>
-			<span class="ah-pay-chip">PayPal</span>
-			<span class="ah-pay-chip">BIT</span>
-		</div>
+		<?php if ( ! empty( $payment_methods ) ) : ?>
+			<div class="ah-footer__payments" aria-label="<?php esc_attr_e( 'אמצעי תשלום', 'alwayshere-child' ); ?>">
+				<?php foreach ( $payment_methods as $method ) : ?>
+					<span class="ah-pay-chip"><?php echo esc_html( $method ); ?></span>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
 
 	</div><!-- .ah-footer__bottom -->
 

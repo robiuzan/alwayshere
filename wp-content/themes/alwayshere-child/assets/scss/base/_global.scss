@@ -8,6 +8,7 @@ html,
 body {
 	direction: rtl;
 	text-align: right;
+	overflow-x: clip;
 }
 
 // ── Typography — force Varela Round on all text, including GP heading overrides ──
