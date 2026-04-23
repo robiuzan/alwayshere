@@ -22,6 +22,13 @@ function alwayshere_load_acf_fields(): void {
 	}
 }
 
+// ── Account & dashboard ─────────────────────────────────────────────────────
+
+require_once ALWAYSHERE_CORE_DIR . 'includes/account/class-alwayshere-account.php';
+require_once ALWAYSHERE_CORE_DIR . 'includes/account/class-alwayshere-favorites.php';
+require_once ALWAYSHERE_CORE_DIR . 'includes/account/class-alwayshere-recently-viewed.php';
+require_once ALWAYSHERE_CORE_DIR . 'includes/account/class-alwayshere-google-login.php';
+
 // ── Product personalization ───────────────────────────────────────────────────
 
 require_once ALWAYSHERE_CORE_DIR . 'includes/personalization.php';
@@ -29,6 +36,15 @@ require_once ALWAYSHERE_CORE_DIR . 'includes/image-upload.php';
 require_once ALWAYSHERE_CORE_DIR . 'includes/setup-terms-page.php';
 require_once ALWAYSHERE_CORE_DIR . 'includes/setup-content-pages.php';
 require_once ALWAYSHERE_CORE_DIR . 'includes/hebrew-strings.php';
+
+// ── Meta Pixel (Facebook/Instagram conversion tracking) ──────────────────────
+
+require_once ALWAYSHERE_CORE_DIR . 'includes/meta-pixel.php';
+
+// ── Email RTL ────────────────────────────────────────────────────────────────
+
+require_once ALWAYSHERE_CORE_DIR . 'includes/email/class-alwayshere-email-rtl.php';
+add_action( 'plugins_loaded', [ 'Alwayshere_Email_RTL', 'init' ] );
 
 // ── One-time product setup ───────────────────────────────────────────────────
 // Runs once when an admin visits the dashboard, then self-disables via option.
