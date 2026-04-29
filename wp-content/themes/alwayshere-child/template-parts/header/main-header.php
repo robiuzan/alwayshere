@@ -4,7 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 $cart_count  = function_exists( 'WC' ) ? WC()->cart->get_cart_contents_count() : 0;
 $cart_url    = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '/cart/';
 $account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : '/my-account/';
-$logo_url    = content_url( 'uploads/2026/03/Always-here-logo.webp' );
+$logo_url    = class_exists( 'Alwayshere_Site_Settings' )
+	? Alwayshere_Site_Settings::get_header_logo_url()
+	: content_url( 'uploads/2026/03/Always-here-logo.webp' );
 ?>
 <header class="ah-main-header" id="ah-main-header" role="banner">
 	<div class="ah-main-header__inner">

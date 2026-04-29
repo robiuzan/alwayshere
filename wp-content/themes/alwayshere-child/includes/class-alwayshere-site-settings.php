@@ -15,6 +15,7 @@ class Alwayshere_Site_Settings {
 	private const TOPBAR_CONTACTS   = 'alwayshere_topbar_contacts';
 	private const TOPBAR_PROMO      = 'alwayshere_topbar_promo';
 	private const TOPBAR_SOCIAL     = 'alwayshere_topbar_social';
+	private const HEADER_LOGO       = 'alwayshere_header_logo';
 
 	/** Menu slug. */
 	private const MENU_SLUG = 'alwayshere-site-settings';
@@ -100,6 +101,12 @@ class Alwayshere_Site_Settings {
 			'sanitize_callback' => [ $this, 'sanitize_topbar_social' ],
 			'default'           => self::default_topbar_social(),
 		] );
+
+		register_setting( self::MENU_SLUG, self::HEADER_LOGO, [
+			'type'              => 'integer',
+			'sanitize_callback' => 'absint',
+			'default'           => 0,
+		] );
 	}
 
 	/**
@@ -109,6 +116,9 @@ class Alwayshere_Site_Settings {
 		if ( 'toplevel_page_' . self::MENU_SLUG !== $hook ) {
 			return;
 		}
+
+		// WP media library scripts — needed for the logo picker.
+		wp_enqueue_media();
 
 		wp_enqueue_style(
 			'alwayshere-site-settings',
@@ -120,7 +130,7 @@ class Alwayshere_Site_Settings {
 		wp_enqueue_script(
 			'alwayshere-site-settings',
 			get_stylesheet_directory_uri() . '/assets/js/admin-site-settings.js',
-			[],
+			[ 'jquery' ],
 			(string) filemtime( get_stylesheet_directory() . '/assets/js/admin-site-settings.js' ),
 			true
 		);
@@ -139,6 +149,7 @@ class Alwayshere_Site_Settings {
 		$contacts        = self::get_topbar_contacts();
 		$promo           = self::get_topbar_promo();
 		$social          = self::get_topbar_social();
+		$logo_id         = self::get_header_logo_id();
 
 		// Determine active tab from URL param (read-only, no state change).
 		$allowed_tabs = [ 'header', 'footer' ];
@@ -167,7 +178,7 @@ class Alwayshere_Site_Settings {
 				<input type="hidden" name="alwayshere_active_tab" value="<?php echo esc_attr( $active_tab ); ?>">
 
 				<?php if ( 'header' === $active_tab ) : ?>
-					<?php $this->render_header_tab( $contacts, $promo, $social ); ?>
+					<?php $this->render_header_tab( $contacts, $promo, $social, $logo_id ); ?>
 				<?php elseif ( 'footer' === $active_tab ) : ?>
 					<?php $this->render_footer_tab( $trust_badges, $payment_methods ); ?>
 				<?php endif; ?>
@@ -184,9 +195,52 @@ class Alwayshere_Site_Settings {
 	 * @param array $contacts Topbar contacts.
 	 * @param array $promo    Topbar promo.
 	 * @param array $social   Topbar social.
+	 * @param int   $logo_id  Header logo attachment ID (0 = use default file).
 	 */
-	private function render_header_tab( array $contacts, array $promo, array $social ): void {
+	private function render_header_tab( array $contacts, array $promo, array $social, int $logo_id ): void {
+		$logo_url = $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
 		?>
+		<!-- Header Logo -->
+		<div class="ah-settings__section">
+			<h2><?php esc_html_e( 'Header Logo', 'alwayshere-child' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Logo shown in the center of the header. Recommended: WebP or PNG, transparent background, ~600px wide.', 'alwayshere-child' ); ?></p>
+
+			<table class="form-table">
+				<tr>
+					<th scope="row">
+						<label><?php esc_html_e( 'Logo Image', 'alwayshere-child' ); ?></label>
+					</th>
+					<td>
+						<div class="ah-settings__logo-picker">
+							<div class="ah-settings__logo-preview" id="ah-logo-preview">
+								<?php if ( $logo_url ) : ?>
+									<img src="<?php echo esc_url( $logo_url ); ?>" alt="">
+								<?php else : ?>
+									<span class="ah-settings__logo-empty"><?php esc_html_e( 'No logo selected — using default.', 'alwayshere-child' ); ?></span>
+								<?php endif; ?>
+							</div>
+
+							<input
+								type="hidden"
+								id="ah-logo-id"
+								name="<?php echo esc_attr( self::HEADER_LOGO ); ?>"
+								value="<?php echo esc_attr( (string) $logo_id ); ?>"
+							>
+
+							<p>
+								<button type="button" class="button" id="ah-logo-select">
+									<?php $logo_id ? esc_html_e( 'Change Logo', 'alwayshere-child' ) : esc_html_e( 'Select Logo', 'alwayshere-child' ); ?>
+								</button>
+								<button type="button" class="button" id="ah-logo-remove" <?php echo $logo_id ? '' : 'style="display:none"'; ?>>
+									<?php esc_html_e( 'Remove', 'alwayshere-child' ); ?>
+								</button>
+							</p>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+
 		<!-- Topbar Contacts -->
 		<div class="ah-settings__section">
 			<h2><?php esc_html_e( 'Top Bar — Contacts', 'alwayshere-child' ); ?></h2>
@@ -517,6 +571,27 @@ class Alwayshere_Site_Settings {
 	public static function get_topbar_social(): array {
 		$social = get_option( self::TOPBAR_SOCIAL, self::default_topbar_social() );
 		return is_array( $social ) ? wp_parse_args( $social, self::default_topbar_social() ) : self::default_topbar_social();
+	}
+
+	/**
+	 * Get header logo attachment ID (0 if none selected).
+	 */
+	public static function get_header_logo_id(): int {
+		return (int) get_option( self::HEADER_LOGO, 0 );
+	}
+
+	/**
+	 * Get the URL of the header logo, falling back to the bundled default file.
+	 */
+	public static function get_header_logo_url(): string {
+		$id = self::get_header_logo_id();
+		if ( $id ) {
+			$url = wp_get_attachment_image_url( $id, 'full' );
+			if ( $url ) {
+				return $url;
+			}
+		}
+		return content_url( 'uploads/2026/03/Always-here-logo.webp' );
 	}
 
 	// ── Sanitization ─────────────────────────────────────────────────────────────
