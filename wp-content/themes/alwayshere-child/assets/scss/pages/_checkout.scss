@@ -905,6 +905,67 @@
 			&:hover { filter: brightness(1.08); }
 		}
 	}
+
+	// Trust / security badges below the payment form.
+	&__trust {
+		margin-block-start: 1.75rem;
+		padding-block-start: 1.5rem;
+		border-block-start: 1px solid var(--gray-border);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	&__trust-badges {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 1.25rem;
+	}
+
+	&__trust-badge {
+		display: flex;
+		align-items: center;
+		gap: 0.375rem;
+		font-size: 0.78rem;
+		font-weight: 600;
+		color: var(--contrast-2);
+
+		svg {
+			width: 1rem;
+			height: 1rem;
+			flex-shrink: 0;
+			color: var(--green);
+		}
+	}
+
+	&__trust-cards {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	&__trust-card {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		height: 1.625rem;
+		padding-inline: 0.5rem;
+		border: 1.5px solid var(--gray-border);
+		border-radius: 4px;
+		font-size: 0.6875rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		color: var(--contrast-2);
+		background: var(--white);
+
+		&--visa  { color: #1a1f71; }
+		&--mc    { color: #eb001b; }
+		&--amex  { color: #007bc1; }
+		&--bit   { color: #6700ff; }
+	}
 }
 
 // ── Order-pay page ────────────────────────────────────────────────────────────
@@ -932,20 +993,45 @@ body.woocommerce-order-pay {
 		padding-block: 2.5rem 5rem !important;
 	}
 
-	// ── Page title injected via hook ──────────────────────────────────────────
+	// Hide the default WP page title — we render our own
+	.entry-title,
+	.page-header {
+		display: none !important;
+	}
+
+	// ── Page title ────────────────────────────────────────────────────────────
 	.ah-order-pay-title {
 		width: 100%;
 		max-width: 620px;
 		margin-inline: auto;
 		padding-inline: 1.25rem;
 		box-sizing: border-box;
-		margin-block-end: 1.5rem;
+		margin-block-end: 1.75rem;
+		text-align: center;
+
+		&__icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 2.75rem;
+			height: 2.75rem;
+			background: var(--sky);
+			border-radius: 50%;
+			color: var(--accent);
+			margin-block-end: 0.875rem;
+
+			svg {
+				width: 1.25rem;
+				height: 1.25rem;
+				stroke-width: 2.5;
+			}
+		}
 
 		h1 {
-			font-size: 1.375rem;
+			font-size: 1.5rem;
 			font-weight: 700;
 			color: var(--charcoal);
-			margin: 0 0 0.25rem;
+			margin: 0 0 0.375rem;
 		}
 
 		p {
@@ -984,36 +1070,38 @@ body.woocommerce-order-pay {
 		li {
 			flex: 1;
 			display: flex;
-			flex-direction: column-reverse; // value on top, label below
+			flex-direction: column; // label (text node) on top, value (<strong>) below
 			align-items: center;
 			justify-content: center;
 			text-align: center;
-			padding: 1.125rem 0.75rem;
+			padding: 1.25rem 0.75rem;
 			border-inline-start: 1px solid var(--gray-border);
+
+			// Label = text node ("מספר הזמנה:")
+			font-size: 0.6875rem;
+			font-weight: 500;
+			color: var(--contrast-3);
+			line-height: 1.4;
+			letter-spacing: 0.01em;
 
 			&:last-child {
 				border-inline-start: none;
 			}
 
-			// Label text (e.g. "מספר הזמנה:")
+			// Value = <strong>
 			strong {
 				display: block;
-				font-size: 0.72rem;
-				font-weight: 500;
-				color: var(--contrast-3);
-				margin-block-start: 0.25rem;
+				font-size: 1rem;
+				font-weight: 700;
+				color: var(--charcoal);
+				margin-block-start: 0.3rem;
 				white-space: nowrap;
+				line-height: 1.2;
 			}
 
-			// Value
-			font-size: 0.9375rem;
-			font-weight: 700;
-			color: var(--charcoal);
-			line-height: 1.3;
-
-			// Highlight the total
-			&.order-total {
+			&.order-total strong {
 				color: var(--accent);
+				font-size: 1.0625rem;
 			}
 		}
 	}

@@ -18,9 +18,15 @@ $totals = $order->get_order_item_totals();
 
 	<!-- Page title -->
 	<div class="ah-order-pay-title">
+		<div class="ah-order-pay-title__icon" aria-hidden="true">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+				<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+				<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+			</svg>
+		</div>
 		<h1><?php esc_html_e( 'השלמת תשלום', 'alwayshere-child' ); ?></h1>
 		<p>
-			<?php esc_html_e( 'בחר/י אמצעי תשלום להשלמת הזמנה מספר', 'alwayshere-child' ); ?>
+			<?php esc_html_e( 'סיום הרכישה עבור הזמנה מספר', 'alwayshere-child' ); ?>
 			<strong>#<?php echo esc_html( $order->get_order_number() ); ?></strong>
 		</p>
 	</div>
@@ -105,6 +111,39 @@ $totals = $order->get_order_item_totals();
 		</div>
 
 	</form><!-- .ah-order-pay__form -->
+
+	<!-- Trust / security badges -->
+	<div class="ah-order-pay__trust" role="complementary" aria-label="<?php esc_attr_e( 'אמצעי אבטחה', 'alwayshere-child' ); ?>">
+		<div class="ah-order-pay__trust-badges">
+			<div class="ah-order-pay__trust-badge">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+					<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+				</svg>
+				<span><?php esc_html_e( 'תשלום מאובטח', 'alwayshere-child' ); ?></span>
+			</div>
+			<div class="ah-order-pay__trust-badge">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+					<polyline points="9 12 11 14 15 10"></polyline>
+				</svg>
+				<span><?php esc_html_e( 'הצפנת SSL 256-bit', 'alwayshere-child' ); ?></span>
+			</div>
+			<div class="ah-order-pay__trust-badge">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<circle cx="12" cy="12" r="10"></circle>
+					<polyline points="9 12 11 14 15 10"></polyline>
+				</svg>
+				<span><?php esc_html_e( 'פרטיך מוגנים', 'alwayshere-child' ); ?></span>
+			</div>
+		</div>
+		<div class="ah-order-pay__trust-cards">
+			<span class="ah-order-pay__trust-card ah-order-pay__trust-card--visa">VISA</span>
+			<span class="ah-order-pay__trust-card ah-order-pay__trust-card--mc">MC</span>
+			<span class="ah-order-pay__trust-card ah-order-pay__trust-card--amex">AMEX</span>
+			<span class="ah-order-pay__trust-card ah-order-pay__trust-card--bit">bit</span>
+		</div>
+	</div><!-- .ah-order-pay__trust -->
 
 </div><!-- .ah-container -->
 </div><!-- .ah-order-pay -->
