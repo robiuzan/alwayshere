@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    # Deploy child theme — copy contents (dot) into destination
-    - /bin/cp -rf wp-content/themes/alwayshere-child/. /home/bestsale/alwayshere.co.il/wp-content/themes/alwayshere-child/
+    # Deploy child theme — absolute source path avoids CWD ambiguity
+    - /bin/cp -rf /home/bestsale/repositories/alwayshere-deploy/wp-content/themes/alwayshere-child/. /home/bestsale/alwayshere.co.il/wp-content/themes/alwayshere-child/
     # Deploy custom plugin
-    - /bin/cp -rf wp-content/plugins/alwayshere-core/. /home/bestsale/alwayshere.co.il/wp-content/plugins/alwayshere-core/
+    - /bin/cp -rf /home/bestsale/repositories/alwayshere-deploy/wp-content/plugins/alwayshere-core/. /home/bestsale/alwayshere.co.il/wp-content/plugins/alwayshere-core/
