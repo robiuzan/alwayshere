@@ -140,6 +140,13 @@ function alwayshere_register_homepage_fields(): void {
 						'return_format' => 'array',
 						'preview_size'  => 'medium',
 					],
+					[
+						'key'          => 'field_alwayshere_hero_image_link',
+						'label'        => 'קישור (אופציונלי)',
+						'name'         => 'link',
+						'type'         => 'url',
+						'instructions' => 'קישור ליעד בלחיצה על התמונה — השאירו ריק אם אין צורך',
+					],
 				],
 			],
 			[

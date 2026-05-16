@@ -90,12 +90,16 @@ if ( $headline && $highlight ) {
 			<div class="ah-hero__visual" aria-hidden="true">
 				<div class="ah-hero__image-grid">
 					<?php foreach ( $images as $row ) :
-						$img = ! empty( $row['image'] ) ? $row['image'] : null;
+						$img  = ! empty( $row['image'] ) ? $row['image'] : null;
 						if ( ! $img ) continue;
-						$src = $img['sizes']['large'] ?? $img['url'];
-						$alt = $img['alt'] ?? '';
+						$src  = $img['sizes']['large'] ?? $img['url'];
+						$alt  = $img['alt'] ?? '';
+						$link = ! empty( $row['link'] ) ? $row['link'] : '';
 					?>
 						<div class="ah-hero__img-card">
+							<?php if ( $link ) : ?>
+								<a class="ah-hero__img-link" href="<?php echo esc_url( $link ); ?>" tabindex="-1" aria-hidden="true"></a>
+							<?php endif; ?>
 							<img
 								src="<?php echo esc_url( $src ); ?>"
 								alt="<?php echo esc_attr( $alt ); ?>"
