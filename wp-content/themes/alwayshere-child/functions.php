@@ -128,6 +128,26 @@ function alwayshere_render_mobile_menu(): void {
 	get_template_part( 'template-parts/header/mobile-menu' );
 }
 
+// ── XootiX Side Cart + tracker.js compatibility ───────────────────────────────
+//
+// The side cart fires `added_to_cart` with a jQuery object as the button
+// parameter. tracker.js calls btn.getAttribute() (a native DOM method) on it,
+// which throws — and jQuery 3.x stops the entire handler chain on uncaught
+// errors, so WooCommerce's fragment refresh never runs and the button stays
+// stuck in a loading state.
+//
+// By attaching this inline script to the 'jquery' handle it runs immediately
+// after jQuery loads, before any plugin can register a handler. The
+// jQuery.event.special 'add' hook then wraps every future added_to_cart
+// listener in try/catch, so one bad plugin can't kill the whole chain.
+add_action( 'wp_enqueue_scripts', 'alwayshere_sidecart_compat' );
+function alwayshere_sidecart_compat(): void {
+	wp_add_inline_script(
+		'jquery',
+		'(function($){var wrap=function(h){var fn=h.handler;h.handler=function(){try{return fn.apply(this,arguments)}catch(e){window.console&&console.warn("[alwayshere] added_to_cart handler error:",e)}}};$.event.special["added_to_cart"]={add:wrap};$.event.special["removed_from_cart"]={add:wrap};})(jQuery);'
+	);
+}
+
 // ── Enqueue scripts & styles ──────────────────────────────────────────────────
 
 add_action( 'wp_enqueue_scripts', 'alwayshere_enqueue_styles' );
