@@ -67,6 +67,8 @@ if ( class_exists( 'Alwayshere_Recently_Viewed' ) ) {
 
 <div class="ah-dashboard">
 
+	<h1 class="ah-dashboard__title"><?php esc_html_e( 'החשבון שלי', 'alwayshere-child' ); ?></h1>
+
 	<!-- ─── Greeting ────────────────────────────────────────────────── -->
 	<div class="ah-dashboard__greeting">
 		<h2><?php echo esc_html( $greeting . ', ' . $first_name . '!' ); ?></h2>

@@ -15,9 +15,16 @@ const ALWAYSHERE_META_PIXEL_ID = '4374601092751521';
  * Base pixel — fires PageView on every page.
  * Priority 1 so it loads before other scripts.
  */
+/** True when running on a local/dev environment — pixel must not fire. */
+function alwayshere_is_pixel_suppressed(): bool {
+	$host = wp_parse_url( home_url(), PHP_URL_HOST ) ?? '';
+	return str_ends_with( $host, '.local' )
+		|| in_array( $host, [ 'localhost', '127.0.0.1' ], true );
+}
+
 add_action( 'wp_head', 'alwayshere_meta_pixel_base', 1 );
 function alwayshere_meta_pixel_base(): void {
-	if ( is_admin() ) {
+	if ( is_admin() || alwayshere_is_pixel_suppressed() ) {
 		return;
 	}
 	?>

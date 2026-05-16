@@ -7,6 +7,9 @@ add_filter( 'locale', fn() => 'he_IL' );
 // Force ₪ symbol to the left of the price (Hebrew convention: ₪99).
 add_filter( 'option_woocommerce_currency_pos', fn() => 'left' );
 
+// Show up to 50 products per page on shop/category archives.
+add_filter( 'loop_shop_per_page', fn() => 50 );
+
 // Registration & checkout account creation handled by Alwayshere_Account class in alwayshere-core.
 
 
@@ -31,6 +34,20 @@ add_action( 'after_setup_theme', function(): void {
 require_once get_stylesheet_directory() . '/includes/class-alwayshere-mobile-menu-walker.php';
 require_once get_stylesheet_directory() . '/includes/class-alwayshere-desktop-menu-walker.php';
 require_once get_stylesheet_directory() . '/includes/class-alwayshere-site-settings.php';
+
+/**
+ * Returns the header logo URL: Customizer custom_logo first, hardcoded fallback second.
+ */
+function alwayshere_get_logo_url(): string {
+	$logo_id = (int) get_theme_mod( 'custom_logo' );
+	if ( $logo_id > 0 ) {
+		$src = wp_get_attachment_image_src( $logo_id, 'full' );
+		if ( ! empty( $src[0] ) ) {
+			return $src[0];
+		}
+	}
+	return content_url( 'uploads/2026/03/Always-here-logo.webp' );
+}
 
 Alwayshere_Site_Settings::init();
 
@@ -60,6 +77,24 @@ function alwayshere_register_footer_widgets(): void {
 add_action( 'wp', function(): void {
 	remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
 } );
+
+// Suppress GeneratePress page title (H1) on all WooCommerce pages — our templates render their own H1.
+add_filter( 'generate_show_title', function( bool $show ): bool {
+	if ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) return false;
+	if ( function_exists( 'is_cart' ) && is_cart() )               return false;
+	if ( function_exists( 'is_checkout' ) && is_checkout() )       return false;
+	return $show;
+} );
+
+// Suppress WooCommerce's own page-title H1 on archive/shop — templates own their H1.
+add_filter( 'woocommerce_show_page_title', '__return_false' );
+
+// Trust badges: hook into product summary at priority 31 (right after ATC button at 30).
+add_action( 'woocommerce_single_product_summary', 'alwayshere_render_trust_badges_summary', 31 );
+function alwayshere_render_trust_badges_summary(): void {
+	echo '<hr class="ah-sp__divider" aria-hidden="true">';
+	get_template_part( 'template-parts/single-product/trust-badges' );
+}
 
 // ── Hide specific nav menu items by title (GeneratePress primary only) ───────
 

@@ -299,6 +299,91 @@ $bp-xl: 1240px;
 }
 
 
+// ─── Filter chips ────────────────────────────────────────────────────────────
+.ah-cat-filters {
+	background: var(--white);
+	border-block-end: 1px solid var(--gray-border);
+	padding-block: 0.75rem;
+
+	&__list {
+		display: flex;
+		flex-wrap: nowrap;
+		gap: 0.5rem;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		overflow-x: auto;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		padding-block-end: 0.125rem; // prevent box-shadow clipping on mobile scroll
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		@media (min-width: $bp-md) {
+			flex-wrap: wrap;
+			overflow-x: visible;
+		}
+	}
+
+	&__item {
+		flex-shrink: 0;
+	}
+
+	&__chip {
+		display: inline-flex;
+		align-items: center;
+		padding-block: 0.375rem;
+		padding-inline: 0.875rem;
+		border: 1px solid var(--gray-border);
+		border-radius: var(--radius-pill);
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--charcoal);
+		text-decoration: none;
+		white-space: nowrap;
+		background: transparent;
+		transition: background var(--ease), border-color var(--ease), color var(--ease);
+
+		&:hover,
+		&:focus-visible {
+			border-color: var(--accent);
+			color: var(--accent);
+			outline: none;
+		}
+
+		&.is-active {
+			background: var(--accent);
+			border-color: var(--accent);
+			color: var(--white);
+
+			.ah-cat-filters__count {
+				background: rgba(255, 255, 255, 0.25);
+				color: var(--white);
+			}
+		}
+	}
+
+	&__count {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 1.25rem;
+		height: 1.25rem;
+		padding-inline: 0.3rem;
+		margin-inline-start: 0.35rem;
+		background: var(--gray-light);
+		color: var(--contrast-2);
+		font-size: 0.75rem;
+		font-weight: 600;
+		border-radius: var(--radius-pill);
+		line-height: 1;
+		transition: background var(--ease), color var(--ease);
+	}
+}
+
+
 // ─── Product Grid ────────────────────────────────────────────────────────────
 .ah-cat-main {
 	padding-block: var(--section-py-sm);
@@ -382,6 +467,7 @@ $bp-xl: 1240px;
 		overflow: hidden;
 		background: var(--gray-light);
 		flex-shrink: 0;
+		position: relative;
 	}
 
 	&__img {
@@ -393,6 +479,17 @@ $bp-xl: 1240px;
 
 		.ah-product-card:hover & {
 			transform: scale(1.06);
+		}
+
+		&--hover {
+			position: absolute;
+			inset: 0;
+			opacity: 0;
+			transition: opacity 0.35s ease;
+
+			.ah-product-card:hover & {
+				opacity: 1;
+			}
 		}
 	}
 

@@ -46,6 +46,16 @@ require_once ALWAYSHERE_CORE_DIR . 'includes/meta-pixel.php';
 require_once ALWAYSHERE_CORE_DIR . 'includes/email/class-alwayshere-email-rtl.php';
 add_action( 'plugins_loaded', [ 'Alwayshere_Email_RTL', 'init' ] );
 
+// ── Admin: per-category product ordering ─────────────────────────────────────
+
+require_once ALWAYSHERE_CORE_DIR . 'includes/admin/class-alwayshere-category-order.php';
+add_action( 'init', [ 'Alwayshere_Category_Order', 'init' ] );
+
+// ── Admin: per-category cross-category filter chips ───────────────────────────
+
+require_once ALWAYSHERE_CORE_DIR . 'includes/admin/class-alwayshere-category-filters.php';
+add_action( 'init', [ 'Alwayshere_Category_Filters', 'init' ] );
+
 // ── One-time product setup ───────────────────────────────────────────────────
 // Runs once when an admin visits the dashboard, then self-disables via option.
 

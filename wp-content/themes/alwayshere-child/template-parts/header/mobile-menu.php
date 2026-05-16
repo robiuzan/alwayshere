@@ -11,7 +11,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$logo_url = content_url( 'uploads/2026/03/Always-here-logo.webp' );
+$logo_url = alwayshere_get_logo_url();
 ?>
 <div class="ah-mobile-overlay" id="ah-mobile-overlay" aria-hidden="true"></div>
 

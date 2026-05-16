@@ -26,6 +26,16 @@ function alwayshere_register_product_cat_fields(): void {
 				'preview_size'  => 'medium',
 				'instructions'  => 'תמונת רקע לבנר הקטגוריה. גודל מומלץ: 1920×600 פיקסלים (יחס 3.2:1). פורמט: JPG או WebP.',
 			],
+			[
+				'key'           => 'field_alwayshere_cat_filter_categories',
+				'label'         => 'קטגוריות סינון',
+				'name'          => 'cat_filter_categories',
+				'type'          => 'checkbox',
+				'choices'       => [],
+				'instructions'  => 'בחר אילו קטגוריות יוצגו כתגי סינון מעל המוצרים בעמוד זה.',
+				'layout'        => 'vertical',
+				'return_format' => 'value',
+			],
 		],
 	] );
 }

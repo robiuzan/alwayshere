@@ -1,14 +1,10 @@
 /**
- * Admin Site Settings — repeater UI for trust badges & payment methods,
- * plus media-library picker for the header logo.
+ * Admin Site Settings — repeater UI for trust badges & payment methods.
  */
 (function () {
 	'use strict';
 
 	document.addEventListener('DOMContentLoaded', () => {
-		// ── Header logo picker (uses WP media library) ─────────────────────────
-		initLogoPicker();
-
 		// Remove row
 		document.addEventListener('click', (e) => {
 			const btn = e.target.closest('.ah-settings__remove-row');
@@ -48,55 +44,6 @@
 			tbody.appendChild(row);
 		});
 	});
-
-	/**
-	 * Wire up the WP media library to the logo Select / Change / Remove buttons.
-	 */
-	function initLogoPicker() {
-		const selectBtn = document.getElementById('ah-logo-select');
-		const removeBtn = document.getElementById('ah-logo-remove');
-		const idInput   = document.getElementById('ah-logo-id');
-		const preview   = document.getElementById('ah-logo-preview');
-
-		if (!selectBtn || !idInput || !preview || typeof wp === 'undefined' || !wp.media) {
-			return;
-		}
-
-		let frame = null;
-
-		selectBtn.addEventListener('click', (e) => {
-			e.preventDefault();
-
-			if (!frame) {
-				frame = wp.media({
-					title: 'בחר/י לוגו',
-					button: { text: 'השתמש/י בלוגו זה' },
-					library: { type: 'image' },
-					multiple: false,
-				});
-
-				frame.on('select', () => {
-					const att = frame.state().get('selection').first().toJSON();
-					idInput.value = att.id;
-					preview.innerHTML = `<img src="${att.url}" alt="">`;
-					selectBtn.textContent = 'החלף לוגו';
-					removeBtn.style.display = '';
-				});
-			}
-
-			frame.open();
-		});
-
-		if (removeBtn) {
-			removeBtn.addEventListener('click', (e) => {
-				e.preventDefault();
-				idInput.value = '0';
-				preview.innerHTML = '<span class="ah-settings__logo-empty">לא נבחר לוגו — משתמש בברירת מחדל.</span>';
-				selectBtn.textContent = 'בחר/י לוגו';
-				removeBtn.style.display = 'none';
-			});
-		}
-	}
 
 	/**
 	 * Re-index all row inputs so PHP receives sequential keys.

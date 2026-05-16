@@ -1,7 +1,37 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:alwayshere.co.il)"
-    ]
+      "WebFetch(domain:alwayshere.co.il)",
+      "Bash(\"c:/Users/robiu/AppData/Roaming/Local/lightning-services/mysql-8.0.35+4/bin/win64/mysql\" -h 127.0.0.1 -P 10005 -u root -proot local -e \"SELECT option_name, option_value FROM wp_options WHERE option_name IN \\(''show_on_front'',''page_on_front'',''page_for_posts''\\) ORDER BY option_name;\")",
+      "Bash(\"c:/Users/robiu/AppData/Roaming/Local/lightning-services/mysql-8.0.35+4/bin/win64/bin/mysql.exe\" -h 127.0.0.1 -P 10005 -u root -proot local -e \"SELECT option_name, option_value FROM wp_options WHERE option_name IN \\(''show_on_front'',''page_on_front'',''page_for_posts''\\) ORDER BY option_name;\")",
+      "Bash(\"c:/Users/robiu/AppData/Roaming/Local/lightning-services/mysql-8.0.35+4/bin/win64/bin/mysql.exe\" -h 127.0.0.1 -P 10005 -u root -proot local -e \"SELECT ID, post_title, post_status, post_type FROM wp_posts WHERE ID=17;\")",
+      "Bash(\"c:/Users/robiu/AppData/Roaming/Local/lightning-services/mysql-8.0.35+4/bin/win64/bin/mysql.exe\" -h 127.0.0.1 -P 10005 -u root -proot local -e \"SELECT ID, post_title, post_status, post_type, post_content FROM wp_posts WHERE ID=17\\\\G\")",
+      "Bash(\"c:/Users/robiu/AppData/Roaming/Local/lightning-services/mysql-8.0.35+4/bin/win64/bin/mysql.exe\" -h 127.0.0.1 -P 10005 -u root -proot local -e \"SELECT meta_key, meta_value FROM wp_postmeta WHERE post_id=17 AND meta_key IN \\(''_wp_page_template'',''_thumbnail_id''\\);\")",
+      "Bash(c:/Users/robiu/AppData/Roaming/Local/lightning-services/mysql-8.0.35+4/bin/win64/bin/mysql.exe -h 127.0.0.1 -P 10005 -u root -proot local -e \"SELECT meta_key, meta_value FROM wp_postmeta WHERE post_id=17;\")",
+      "Bash(cmd /c \"dir /AL c:\\\\Users\\\\robiu\\\\.antigravity\\\\Projects\\\\alwayshere.co.il\\\\wp-content\\\\themes\\\\alwayshere-child\")",
+      "Bash(cmd /c \"dir c:\\\\Users\\\\robiu\\\\.antigravity\\\\Projects\\\\alwayshere.co.il\\\\wp-content\\\\themes\\\\alwayshere-child\")",
+      "Bash(cmd /c \"dir /A c:\\\\Users\\\\robiu\\\\.antigravity\\\\Projects\\\\alwayshere.co.il\\\\wp-content\")",
+      "Bash(WP=\"/c/Users/robiu/AppData/Local/Programs/Local/resources/extraResources/bin/wp-cli/win32/wp\")",
+      "Bash(SITE=\"/c/Users/robiu/Local Sites/alwaysherecoil/app/public\")",
+      "Bash(\"$WP\" --path=\"$SITE\" eval-file \"/c/Users/robiu/AppData/Local/Temp/create-cup-product.php\")",
+      "Bash(npm run:*)",
+      "Bash(grep -r \"alwayshere_save_personalization_to_order\\\\|order.*item.*meta\\\\|woocommerce_order\\\\|email\" /c/Users/robiu/.antigravity/Projects/alwayshere.co.il/wp-content/plugins/alwayshere-core --include=*.php)",
+      "Bash(xargs grep:*)",
+      "Bash(node -e \":*)",
+      "Bash(PHP=\"C:/Users/robiu/AppData/Roaming/Local/lightning-services/php-8.2.29+0/bin/win64/php.exe\")",
+      "Bash(WP_CLI=\"C:/Users/robiu/AppData/Local/Programs/Local/resources/extraResources/bin/wp-cli/wp-cli.phar\")",
+      "Bash(WP_PATH=\"C:/Users/robiu/Local Sites/alwaysherecoil/app/public\")",
+      "Bash(\"$PHP\" \"$WP_CLI\" option delete alwayshere_content_pages_created --path=\"$WP_PATH\")",
+      "Bash(\"$PHP\" \"$WP_CLI\" option delete alwayshere_terms_page_created --path=\"$WP_PATH\")",
+      "Bash(MYSQL=\"/c/Users/robiu/AppData/Roaming/Local/lightning-services/mysql-8.0.35+4/bin/win64/bin/mysql.exe\")",
+      "Bash(\"$MYSQL\" -h 127.0.0.1 -P 10005 -u root -proot local -e \"DELETE FROM wp_options WHERE option_name IN \\(''alwayshere_content_pages_created'',''alwayshere_terms_page_created''\\); SELECT option_name, option_value FROM wp_options WHERE option_name IN \\(''alwayshere_content_pages_created'',''alwayshere_terms_page_created''\\);\")",
+      "Bash(EXT_DIR=\"C:/Users/robiu/AppData/Roaming/Local/lightning-services/php-8.2.29+0/bin/win64/ext\")",
+      "Bash(__NEW_LINE_d1fbe6352361096a__ \"$PHP\" -d extension_dir=\"$EXT_DIR\" -d extension=php_mysqli.dll -d extension=php_openssl.dll -d extension=php_mbstring.dll -d extension=php_curl.dll \"$WP_CLI\" eval 'alwayshere_setup_content_pages\\(\\); alwayshere_setup_terms_page\\(\\); echo \"\"Done.\\\\n\"\";' --path=\"$WP_PATH\")",
+      "Bash(__NEW_LINE_94314e405100c77d__ \"$PHP\" -d extension_dir=\"$EXT_DIR\" -d extension=php_mysqli.dll -d extension=php_openssl.dll -d extension=php_mbstring.dll -d extension=php_curl.dll \"$WP_CLI\" eval 'alwayshere_setup_content_pages\\(\\); alwayshere_setup_terms_page\\(\\); echo \"\"Done.\\\\n\"\";' --path=\"$WP_PATH\" --dbhost=\"127.0.0.1:10005\")",
+      "Bash(__NEW_LINE_2f88f951f57aab9b__ \"$PHP\" -d extension_dir=\"$EXT_DIR\" -d extension=php_mysqli.dll -d extension=php_openssl.dll -d extension=php_mbstring.dll -d extension=php_curl.dll \"$WP_CLI\" eval 'alwayshere_setup_content_pages\\(\\); alwayshere_setup_terms_page\\(\\); echo \"\"Done.\\\\n\"\";' --path=\"$WP_PATH\" --extra-php=\"define\\(''DB_HOST'',''127.0.0.1:10005''\\);\")",
+      "Bash(MYSQL=\"/c/Users/robiu/AppData/Roaming/Local/lightning-services/mysql-8.0.35+4/bin/win64/bin/mysql.exe\" \"$MYSQL\" -h 127.0.0.1 -P 10005 -u root -proot local -e \"SELECT ID, post_name, post_title FROM wp_posts WHERE post_type=''''page'''' AND post_status=''''publish'''' AND post_name IN \\(''''contact'''',''''returns-policy'''',''''\\\\xD7\\\\xAA\\\\xD7\\\\xA7\\\\xD7\\\\xA0\\\\xD7\\\\x95\\\\xD7\\\\x9F-\\\\xD7\\\\x90\\\\xD7\\\\xAA\\\\xD7\\\\xA8''''\\) ORDER BY post_name;\")",
+      "Bash(MYSQL=\"/c/Users/robiu/AppData/Roaming/Local/lightning-services/mysql-8.0.35+4/bin/win64/bin/mysql.exe\" \"$MYSQL\" -h 127.0.0.1 -P 10005 -u root -proot local -e \"SELECT ID, post_name, post_title FROM wp_posts WHERE post_type=''''page'''' AND post_status=''''publish'''' ORDER BY ID;\")"
+    ],
+    "defaultMode": "bypassPermissions"
   }
 }

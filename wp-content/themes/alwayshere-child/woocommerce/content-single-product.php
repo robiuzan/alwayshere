@@ -29,8 +29,6 @@ if ( post_password_required() ) {
 				<?php /* Left column: product info + form */ ?>
 				<div class="ah-sp__col-summary">
 					<?php do_action( 'woocommerce_single_product_summary' ); ?>
-					<hr class="ah-sp__divider" aria-hidden="true">
-					<?php get_template_part( 'template-parts/single-product/trust-badges' ); ?>
 				</div>
 
 				<?php /* Right column: image gallery */ ?>

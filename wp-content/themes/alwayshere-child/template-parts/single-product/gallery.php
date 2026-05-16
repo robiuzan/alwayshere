@@ -33,6 +33,10 @@ if ( $product->is_on_sale() ) {
 		<span class="ah-gallery__badge" aria-hidden="true">-<?php echo esc_html( $sale_pct ); ?>%</span>
 	<?php endif; ?>
 
+	<?php if ( class_exists( 'Alwayshere_Favorites' ) ) {
+		Alwayshere_Favorites::render_heart_button();
+	} ?>
+
 	<figure class="ah-gallery__main" aria-label="<?php echo esc_attr( get_the_title() ); ?>">
 		<?php if ( $main_id ) : ?>
 			<img

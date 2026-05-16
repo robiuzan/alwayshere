@@ -20,9 +20,8 @@ class Alwayshere_Favorites {
 		// AJAX toggle (logged-in users only).
 		add_action( 'wp_ajax_alwayshere_toggle_favorite', [ __CLASS__, 'ajax_toggle' ] );
 
-		// Render heart button on product loops and single product.
+		// Render heart button on product loops (single product is handled in gallery.php).
 		add_action( 'woocommerce_before_shop_loop_item_title', [ __CLASS__, 'render_heart_button' ], 9 );
-		add_action( 'woocommerce_single_product_summary', [ __CLASS__, 'render_heart_button' ], 6 );
 	}
 
 	// ── CRUD ────────────────────────────────────────────────────────────────────

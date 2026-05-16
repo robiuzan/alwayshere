@@ -10,6 +10,13 @@
 	}
 }
 
+.ah-dashboard__title {
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--charcoal);
+	margin-block-end: 1.5rem;
+}
+
 // ── Auth (Login / Register) ─────────────────────────────────────────────────
 
 .ah-auth {

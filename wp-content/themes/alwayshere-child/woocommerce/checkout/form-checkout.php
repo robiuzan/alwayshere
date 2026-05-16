@@ -21,6 +21,8 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 <div class="ah-checkout-page">
 <div class="ah-container">
 
+	<h1 class="ah-checkout__title"><?php esc_html_e( 'השלמת הרכישה', 'alwayshere-child' ); ?></h1>
+
 	<!-- Breadcrumb / progress steps -->
 	<div class="ah-checkout-steps" aria-label="<?php esc_attr_e( 'שלבי הרכישה', 'alwayshere-child' ); ?>">
 		<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="ah-checkout-steps__step ah-checkout-steps__step--done">

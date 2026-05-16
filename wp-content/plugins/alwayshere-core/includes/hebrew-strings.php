@@ -159,3 +159,30 @@ function alwayshere_translate_wc_strings( string $translated, string $text, stri
 
 	return $strings[ $text ] ?? $translated;
 }
+
+// ── WooCommerce page title (H1 on shop / archive pages) ──────────────────────
+
+add_filter( 'woocommerce_page_title', 'alwayshere_hebrew_wc_page_title' );
+
+function alwayshere_hebrew_wc_page_title( string $title ): string {
+	if ( is_shop() )                   return 'חנות';
+	if ( function_exists( 'is_cart' ) && is_cart() )         return 'עגלת הקניות';
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) return 'תשלום';
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) return 'החשבון שלי';
+	return $title;
+}
+
+// ── Document <title> tag translation for WooCommerce pages ───────────────────
+
+add_filter( 'document_title_parts', 'alwayshere_hebrew_document_title_parts', 99 );
+
+function alwayshere_hebrew_document_title_parts( array $parts ): array {
+	if ( ! function_exists( 'is_shop' ) ) return $parts;
+
+	if ( is_shop() )                                    $parts['title'] = 'חנות';
+	elseif ( function_exists( 'is_cart' ) && is_cart() )         $parts['title'] = 'עגלת הקניות';
+	elseif ( function_exists( 'is_checkout' ) && is_checkout() ) $parts['title'] = 'תשלום';
+	elseif ( function_exists( 'is_account_page' ) && is_account_page() ) $parts['title'] = 'החשבון שלי';
+
+	return $parts;
+}

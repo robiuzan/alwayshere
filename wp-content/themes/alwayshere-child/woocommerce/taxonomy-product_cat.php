@@ -136,6 +136,13 @@ if ( $term_id ) {
 	</div>
 </div>
 
+<?php /* ── Category filter chips ──────────────────────────── */ ?>
+<?php
+if ( $term_id && class_exists( 'Alwayshere_Category_Filters' ) ) {
+	Alwayshere_Category_Filters::render_chips( $term_id );
+}
+?>
+
 <?php /* ── Product Grid ─────────────────────────────────────── */ ?>
 <main
 	id="main-content"
@@ -170,6 +177,15 @@ if ( $term_id ) {
 					$img_alt = $img_id
 						? sanitize_text_field( (string) get_post_meta( $img_id, '_wp_attachment_image_alt', true ) )
 						: $p->get_name();
+
+					$gallery_ids = $p->get_gallery_image_ids();
+					$hover_id    = ! empty( $gallery_ids ) ? (int) $gallery_ids[0] : 0;
+					$hover_url   = $hover_id
+						? wp_get_attachment_image_url( $hover_id, 'woocommerce_thumbnail' )
+						: '';
+					$hover_alt   = $hover_id
+						? sanitize_text_field( (string) get_post_meta( $hover_id, '_wp_attachment_image_alt', true ) )
+						: '';
 				?>
 					<li class="ah-product-card" role="listitem">
 
@@ -199,6 +215,17 @@ if ( $term_id ) {
 									loading="lazy"
 									class="ah-product-card__img"
 								>
+								<?php if ( $hover_url ) : ?>
+								<img
+									src="<?php echo esc_url( $hover_url ); ?>"
+									alt="<?php echo esc_attr( $hover_alt ); ?>"
+									width="300"
+									height="300"
+									loading="lazy"
+									class="ah-product-card__img ah-product-card__img--hover"
+									aria-hidden="true"
+								>
+								<?php endif; ?>
 							</figure>
 
 							<div class="ah-product-card__body">

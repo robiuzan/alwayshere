@@ -83,7 +83,7 @@ class Alwayshere_Desktop_Menu_Walker extends Walker_Nav_Menu {
 		// ── Left column: category links ────────────────────────────────
 		$output .= '<div class="ah-mega-col ah-mega-col--cats">' . "\n";
 		if ( $heading ) {
-			$output .= '<h5>' . $heading . '</h5>' . "\n";
+			$output .= '<p class="ah-mega-col__heading">' . $heading . '</p>' . "\n";
 		}
 		$output .= '<ul>' . "\n";
 		$output .= $this->children_buffer;
@@ -96,7 +96,7 @@ class Alwayshere_Desktop_Menu_Walker extends Walker_Nav_Menu {
 			if ( $products_html ) {
 				$output .= '<div class="ah-mega-divider"></div>' . "\n";
 				$output .= '<div class="ah-mega-col ah-mega-col--prods">' . "\n";
-				$output .= '<h5>' . esc_html__( 'מוצרים מומלצים', 'alwayshere-child' ) . '</h5>' . "\n";
+				$output .= '<p class="ah-mega-col__heading">' . esc_html__( 'מוצרים מומלצים', 'alwayshere-child' ) . '</p>' . "\n";
 				$output .= '<div class="ah-mega-products">' . "\n";
 				$output .= $products_html;
 				$output .= '</div>' . "\n";
@@ -223,9 +223,8 @@ class Alwayshere_Desktop_Menu_Walker extends Walker_Nav_Menu {
 		ob_start();
 		foreach ( $products as $product ) {
 			$thumb_id  = $product->get_image_id();
-			$thumb_url = $thumb_id
-				? wp_get_attachment_image_url( $thumb_id, 'medium' )
-				: wc_placeholder_img_src( 'medium' );
+			$thumb_url = ( $thumb_id ? wp_get_attachment_image_url( $thumb_id, 'medium' ) : false )
+				?: wc_placeholder_img_src( 'medium' );
 			$name      = $product->get_name();
 			$permalink = $product->get_permalink();
 			$desc      = $product->get_short_description();

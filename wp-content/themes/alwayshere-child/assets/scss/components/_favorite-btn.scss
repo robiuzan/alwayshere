@@ -82,10 +82,9 @@
 	position: relative;
 }
 
-// On single product page, position heart inline (not absolute) in the summary area.
-.woocommerce div.product .ah-fav-btn {
-	position: relative;
-	inset-block-start: auto;
-	inset-inline-end: auto;
-	margin-block-end: 0.5rem;
+// On single product page, heart sits over the gallery image (top-left corner in RTL).
+.ah-gallery > .ah-fav-btn {
+	inset-block-start: 0.75rem;
+	inset-inline-end: 0.75rem;
+	z-index: 2;
 }
