@@ -10,10 +10,12 @@
 }
 
 .ah-marquee {
-	background: var(--charcoal);
+	background: var(--footer-bg);
 	overflow: hidden;
-	padding-block: 10px;
+	border-top: 1px solid var(--footer-card);
+	border-bottom: 1px solid var(--footer-card);
 	display: flex;
+	direction: ltr; // RTL body reverses flex order — text still renders RTL via Unicode bidi
 	user-select: none;
 
 	@media (prefers-reduced-motion: reduce) {
@@ -23,28 +25,29 @@
 	&__track {
 		display: flex;
 		align-items: center;
+		gap: 48px;
 		min-inline-size: 100%;
 		flex-shrink: 0;
+		padding-block: 14px;
 		white-space: nowrap;
-		animation: ah-marquee-scroll 32s linear infinite;
+		animation: ah-marquee-scroll 30s linear infinite;
 	}
 
 	&__item {
 		display: inline-flex;
 		align-items: center;
-		gap: 6px;
-		padding-inline: 24px;
+		gap: 8px;
 		font-size: 0.8125rem;
 		font-weight: 600;
-		color: rgba(255 255 255 / 0.9);
+		color: #d6ddea;
 		letter-spacing: 0.2px;
 		white-space: nowrap;
 
 		// Dot separator between items.
 		&::after {
 			content: '·';
-			padding-inline-start: 24px;
-			opacity: 0.35;
+			margin-inline-start: 48px;
+			opacity: 0.3;
 		}
 	}
 
