@@ -1,12 +1,10 @@
 // ── Scrolling Trust Marquee ────────────────────────────────────────────────────
-// Two identical tracks side-by-side in a flex row. Each is min-width:100% so
-// together they're 200% wide. Animating translateX(-100%) on each moves the
-// visible window across, and when track 1 exits the clone is already in place —
-// seamless loop at any speed.
+// Single track, items doubled in PHP. Animating translateX(-50%) moves exactly
+// one full set of items off-screen, then loops — seamless at any content width.
 
 @keyframes ah-marquee-scroll {
 	from { transform: translateX(0); }
-	to   { transform: translateX(-100%); }
+	to   { transform: translateX(-50%); }
 }
 
 .ah-marquee {
@@ -14,22 +12,24 @@
 	overflow: hidden;
 	border-top: 1px solid var(--footer-card);
 	border-bottom: 1px solid var(--footer-card);
-	display: flex;
-	direction: ltr; // RTL body reverses flex order — text still renders RTL via Unicode bidi
+	direction: ltr; // RTL body reverses flex — text still renders Hebrew via Unicode bidi
 	user-select: none;
+
+	&:hover .ah-marquee__track {
+		animation-play-state: paused;
+	}
 
 	@media (prefers-reduced-motion: reduce) {
 		.ah-marquee__track { animation-play-state: paused; }
 	}
 
 	&__track {
-		display: flex;
+		display: inline-flex; // sized by content, not container
 		align-items: center;
 		gap: 48px;
-		min-inline-size: 100%;
-		flex-shrink: 0;
 		padding-block: 14px;
 		white-space: nowrap;
+		will-change: transform;
 		animation: ah-marquee-scroll 30s linear infinite;
 	}
 
@@ -43,7 +43,6 @@
 		letter-spacing: 0.2px;
 		white-space: nowrap;
 
-		// Dot separator between items.
 		&::after {
 			content: '·';
 			margin-inline-start: 48px;
