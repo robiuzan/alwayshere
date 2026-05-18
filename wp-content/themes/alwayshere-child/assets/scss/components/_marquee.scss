@@ -19,10 +19,6 @@
 		animation-play-state: paused;
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.ah-marquee__track { animation-play-state: paused; }
-	}
-
 	&__track {
 		display: inline-flex; // sized by content, not container
 		align-items: center;
