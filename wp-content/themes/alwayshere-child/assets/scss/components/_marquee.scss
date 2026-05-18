@@ -1,0 +1,59 @@
+// ── Scrolling Trust Marquee ────────────────────────────────────────────────────
+// Two identical tracks side-by-side in a flex row. Each is min-width:100% so
+// together they're 200% wide. Animating translateX(-100%) on each moves the
+// visible window across, and when track 1 exits the clone is already in place —
+// seamless loop at any speed.
+
+@keyframes ah-marquee-scroll {
+	from { transform: translateX(0); }
+	to   { transform: translateX(-100%); }
+}
+
+.ah-marquee {
+	background: var(--charcoal);
+	overflow: hidden;
+	padding-block: 10px;
+	display: flex;
+	user-select: none;
+
+	@media (prefers-reduced-motion: reduce) {
+		.ah-marquee__track { animation-play-state: paused; }
+	}
+
+	&__track {
+		display: flex;
+		align-items: center;
+		min-inline-size: 100%;
+		flex-shrink: 0;
+		white-space: nowrap;
+		animation: ah-marquee-scroll 32s linear infinite;
+	}
+
+	&__item {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding-inline: 24px;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: rgba(255 255 255 / 0.9);
+		letter-spacing: 0.2px;
+		white-space: nowrap;
+
+		// Dot separator between items.
+		&::after {
+			content: '·';
+			padding-inline-start: 24px;
+			opacity: 0.35;
+		}
+	}
+
+	&__icon {
+		font-size: 1rem;
+		line-height: 1;
+	}
+
+	&__text {
+		white-space: nowrap;
+	}
+}

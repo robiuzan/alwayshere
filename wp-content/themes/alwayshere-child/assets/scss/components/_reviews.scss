@@ -1,0 +1,222 @@
+// ── Reviews / Testimonials Section ────────────────────────────────────────────
+
+.ah-reviews {
+	padding-block: var(--section-py);
+	padding-inline: 3rem;
+	background: var(--gray-light);
+
+	@media (max-width: $bp-md) {
+		padding-block: var(--section-py-sm);
+		padding-inline: 1.5rem;
+	}
+
+	&__inner {
+		max-inline-size: 1240px;
+		margin-inline: auto;
+	}
+
+	// ── Header ────────────────────────────────────────────────────────────────
+
+	&__header {
+		margin-block-end: 2rem;
+	}
+
+	&__eyebrow {
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--accent);
+		margin-block-end: 0.5rem;
+		margin-block-start: 0;
+	}
+
+	&__heading-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+	}
+
+	&__title {
+		font-size: clamp(1.5rem, 2.5vw, 2.125rem);
+		font-weight: 800;
+		color: var(--charcoal);
+		margin: 0;
+		line-height: 1.25;
+	}
+
+	&__summary {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		flex-shrink: 0;
+	}
+
+	&__summary-score {
+		font-size: 2rem;
+		font-weight: 900;
+		color: var(--charcoal);
+		line-height: 1;
+	}
+
+	&__summary-stars {
+		display: flex;
+		gap: 2px;
+	}
+
+	&__summary-count {
+		font-size: 0.8125rem;
+		color: var(--gray-mid);
+		font-weight: 500;
+	}
+
+	// ── Cards row ─────────────────────────────────────────────────────────────
+
+	&__track {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1rem;
+
+		@media (max-width: $bp-lg) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		@media (max-width: $bp-sm) {
+			// Horizontal scroll + snap on mobile.
+			display: flex;
+			overflow-x: auto;
+			scroll-snap-type: x mandatory;
+			gap: 0.875rem;
+			scroll-padding-inline: 1.5rem;
+			padding-block-end: 0.75rem;
+
+			// Hide scrollbar visually.
+			scrollbar-width: none;
+			&::-webkit-scrollbar { display: none; }
+		}
+	}
+
+	// ── Single card ───────────────────────────────────────────────────────────
+
+	&__card {
+		background: var(--white);
+		border-radius: var(--radius-md);
+		padding: 1.25rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.875rem;
+		box-shadow: var(--shadow-card);
+		transition: box-shadow var(--ease), transform var(--ease);
+
+		&:hover {
+			box-shadow: var(--shadow-hover);
+			transform: translateY(-3px);
+		}
+
+		@media (max-width: $bp-sm) {
+			min-inline-size: 75vw;
+			scroll-snap-align: start;
+			flex-shrink: 0;
+		}
+	}
+
+	&__card-header {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.75rem;
+	}
+
+	&__avatar {
+		inline-size: 38px;
+		block-size: 38px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.9375rem;
+		font-weight: 800;
+		color: var(--white);
+		flex-shrink: 0;
+		text-transform: uppercase;
+	}
+
+	&__card-meta {
+		flex: 1;
+		min-inline-size: 0;
+	}
+
+	&__card-name {
+		display: block;
+		font-size: 0.875rem;
+		font-weight: 700;
+		color: var(--charcoal);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&__card-product {
+		display: block;
+		font-size: 0.75rem;
+		color: var(--gray-mid);
+		margin-block-start: 2px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&__verified {
+		display: inline-flex;
+		align-items: center;
+		gap: 3px;
+		background: #e8f5e9;
+		color: var(--green);
+		font-size: 0.6875rem;
+		font-weight: 700;
+		padding: 2px 6px;
+		border-radius: 4px;
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
+	&__stars {
+		display: flex;
+		gap: 2px;
+	}
+
+	&__text {
+		margin: 0;
+		padding: 0;
+		border: none;
+
+		p {
+			font-size: 0.875rem;
+			line-height: 1.65;
+			color: var(--contrast-2);
+			margin: 0;
+		}
+	}
+
+	// ── Dot nav (mobile) ──────────────────────────────────────────────────────
+
+	&__dots {
+		display: none;
+		justify-content: center;
+		gap: 6px;
+		margin-block-start: 1rem;
+
+		@media (max-width: $bp-sm) { display: flex; }
+	}
+
+	&__dot {
+		inline-size: 7px;
+		block-size: 7px;
+		border-radius: 50%;
+		background: var(--gray-border);
+		transition: background var(--ease);
+
+		&.is-active { background: var(--accent); }
+	}
+}
