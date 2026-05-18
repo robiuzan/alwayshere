@@ -63,6 +63,10 @@
 
 	&__promo {
 		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
 		text-align: center;
 		font-weight: 600;
 		letter-spacing: 0.3px;
@@ -81,6 +85,36 @@
 			text-decoration: underline;
 			margin-right: 4px;
 		}
+	}
+
+	&__timer {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+	}
+
+	&__timer-prefix {
+		color: var(--white);
+		font-size: 12px;
+		margin-inline-end: 4px;
+	}
+
+	&__timer-pill {
+		background: rgba(255, 255, 255, 0.15);
+		color: #f5c518;
+		font-family: monospace;
+		font-size: 14px;
+		font-weight: 700;
+		padding: 1px 5px;
+		border-radius: 4px;
+		min-width: 26px;
+		text-align: center;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__timer-sep {
+		color: #f5c518;
+		font-weight: 700;
 	}
 
 	&__social {
@@ -216,10 +250,12 @@
 		white-space: nowrap;
 	}
 
-	&--cart { position: relative; }
+	&--cart,
+	&--fav  { position: relative; }
 }
 
-.ah-cart-count {
+.ah-cart-count,
+.ah-fav-count {
 	position: absolute;
 	inset-block-start: 4px;
 	inset-inline-start: 4px;

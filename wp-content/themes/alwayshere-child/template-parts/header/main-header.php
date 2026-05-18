@@ -5,6 +5,13 @@ $cart_count  = function_exists( 'WC' ) ? WC()->cart->get_cart_contents_count() :
 $cart_url    = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '/cart/';
 $account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : '/my-account/';
 $logo_url    = alwayshere_get_logo_url();
+
+$fav_count = ( is_user_logged_in() && class_exists( 'Alwayshere_Favorites' ) )
+	? Alwayshere_Favorites::get_count( get_current_user_id() )
+	: 0;
+$fav_url   = function_exists( 'wc_get_page_permalink' )
+	? wc_get_page_permalink( 'myaccount' ) . 'favorites/'
+	: '/my-account/favorites/';
 ?>
 <header class="ah-main-header" id="ah-main-header" role="banner">
 	<div class="ah-main-header__inner">
@@ -24,6 +31,17 @@ $logo_url    = alwayshere_get_logo_url();
 					<circle cx="12" cy="7" r="4"/>
 				</svg>
 				<span class="ah-hdr-btn__label"><?php echo esc_html( is_user_logged_in() ? 'חשבון' : 'כניסה' ); ?></span>
+			</a>
+
+			<a class="ah-hdr-btn ah-hdr-btn--fav" title="<?php esc_attr_e( 'המועדפים שלי', 'alwayshere-child' ); ?>" href="<?php echo esc_url( $fav_url ); ?>">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+					<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+				</svg>
+				<span class="ah-hdr-btn__label"><?php esc_html_e( 'מועדפים', 'alwayshere-child' ); ?></span>
+				<span class="ah-fav-count" data-count="<?php echo esc_attr( $fav_count ); ?>"
+					  <?php echo 0 === $fav_count ? 'hidden' : ''; ?>>
+					<?php echo esc_html( $fav_count ); ?>
+				</span>
 			</a>
 
 			<a class="ah-hdr-btn ah-hdr-btn--cart" title="<?php esc_attr_e( 'עגלת קניות', 'alwayshere-child' ); ?>" href="<?php echo esc_url( $cart_url ); ?>">

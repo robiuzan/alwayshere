@@ -6,6 +6,44 @@ $promo    = Alwayshere_Site_Settings::get_topbar_promo();
 $social   = Alwayshere_Site_Settings::get_topbar_social();
 
 $phone_raw = preg_replace( '/[^0-9+]/', '', $contacts['phone'] );
+
+// Countdown timer setup — compute current cycle's initial display server-side to avoid flicker.
+$timer_enabled  = ! empty( $promo['timer_enabled'] );
+$timer_duration = (int) ( $promo['timer_duration_hours'] ?? 72 );
+$timer_anchor   = $promo['timer_anchor'] ?? '';
+$timer_label    = $promo['timer_label_prefix'] ?? 'נגמר בעוד';
+$timer_html     = '';
+
+if ( $timer_enabled && $timer_duration > 0 && '' !== $timer_anchor ) {
+	$anchor_ts   = strtotime( $timer_anchor );
+	$duration_ms = $timer_duration * 3600 * 1000;
+	$anchor_utc  = gmdate( 'c', $anchor_ts );
+
+	// Compute initial remaining seconds for SSR digits.
+	$elapsed     = ( time() - $anchor_ts ) * 1000;
+	$into_cycle  = ( ( $elapsed % $duration_ms ) + $duration_ms ) % $duration_ms;
+	$remaining_s = (int) floor( ( $duration_ms - $into_cycle ) / 1000 );
+	$init_h      = str_pad( (string) floor( $remaining_s / 3600 ), 2, '0', STR_PAD_LEFT );
+	$init_m      = str_pad( (string) floor( ( $remaining_s % 3600 ) / 60 ), 2, '0', STR_PAD_LEFT );
+	$init_s      = str_pad( (string) ( $remaining_s % 60 ), 2, '0', STR_PAD_LEFT );
+
+	ob_start();
+	?>
+	<span class="ah-topbar__timer"
+	      data-ah-countdown
+	      data-anchor="<?php echo esc_attr( $anchor_utc ); ?>"
+	      data-duration-ms="<?php echo esc_attr( (string) $duration_ms ); ?>"
+	      aria-label="<?php echo esc_attr( $timer_label ); ?>">
+		<span class="ah-topbar__timer-prefix"><?php echo esc_html( $timer_label ); ?></span>
+		<span class="ah-topbar__timer-pill" data-ah-countdown-hours><?php echo esc_html( $init_h ); ?></span>
+		<span class="ah-topbar__timer-sep" aria-hidden="true">:</span>
+		<span class="ah-topbar__timer-pill" data-ah-countdown-minutes><?php echo esc_html( $init_m ); ?></span>
+		<span class="ah-topbar__timer-sep" aria-hidden="true">:</span>
+		<span class="ah-topbar__timer-pill" data-ah-countdown-seconds><?php echo esc_html( $init_s ); ?></span>
+	</span>
+	<?php
+	$timer_html = ob_get_clean();
+}
 ?>
 <div class="ah-topbar" role="region" aria-label="<?php esc_attr_e( 'מידע כללי', 'alwayshere-child' ); ?>">
 
@@ -31,23 +69,27 @@ $phone_raw = preg_replace( '/[^0-9+]/', '', $contacts['phone'] );
 		<?php endif; ?>
 	</div>
 
-	<!-- Center — promo -->
+	<!-- Center — promo / timer -->
 	<div class="ah-topbar__promo">
-		<?php if ( '' !== $promo['emoji'] ) : ?>
-			<?php echo esc_html( $promo['emoji'] ); ?>
-		<?php endif; ?>
-		<?php if ( '' !== $promo['text'] ) : ?>
-			<?php echo esc_html( $promo['text'] ); ?>
-		<?php endif; ?>
-		<?php if ( '' !== $promo['highlight'] ) : ?>
-			<strong><?php echo esc_html( $promo['highlight'] ); ?></strong>
-		<?php endif; ?>
-		<?php if ( '' !== $promo['cta_text'] ) : ?>
-			<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php echo esc_html( $promo['cta_text'] ); ?></a>
-		<?php endif; ?>
-		<?php if ( '' !== $promo['shipping_text'] ) : ?>
-			&nbsp;|&nbsp;
-			<?php echo esc_html( $promo['shipping_text'] ); ?>
+		<?php if ( $timer_html ) : ?>
+			<?php echo $timer_html; // phpcs:ignore WordPress.Security.EscapeOutput -- already escaped above ?>
+		<?php else : ?>
+			<?php if ( '' !== $promo['emoji'] ) : ?>
+				<?php echo esc_html( $promo['emoji'] ); ?>
+			<?php endif; ?>
+			<?php if ( '' !== $promo['text'] ) : ?>
+				<?php echo esc_html( $promo['text'] ); ?>
+			<?php endif; ?>
+			<?php if ( '' !== $promo['highlight'] ) : ?>
+				<strong><?php echo esc_html( $promo['highlight'] ); ?></strong>
+			<?php endif; ?>
+			<?php if ( '' !== $promo['cta_text'] ) : ?>
+				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php echo esc_html( $promo['cta_text'] ); ?></a>
+			<?php endif; ?>
+			<?php if ( '' !== $promo['shipping_text'] ) : ?>
+				&nbsp;|&nbsp;
+				<?php echo esc_html( $promo['shipping_text'] ); ?>
+			<?php endif; ?>
 		<?php endif; ?>
 	</div>
 

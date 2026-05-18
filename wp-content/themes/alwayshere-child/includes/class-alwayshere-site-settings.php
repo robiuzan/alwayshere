@@ -321,6 +321,77 @@ class Alwayshere_Site_Settings {
 			</table>
 		</div>
 
+		<!-- Topbar Countdown Timer -->
+		<div class="ah-settings__section">
+			<h2><?php esc_html_e( 'Top Bar — Countdown Timer', 'alwayshere-child' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Auto-repeating cyclic countdown. Timer resets automatically when the cycle expires.', 'alwayshere-child' ); ?></p>
+
+			<table class="form-table">
+				<tr>
+					<th scope="row">
+						<label for="ah-timer-enabled"><?php esc_html_e( 'Enable Timer', 'alwayshere-child' ); ?></label>
+					</th>
+					<td>
+						<input
+							type="checkbox"
+							id="ah-timer-enabled"
+							name="<?php echo esc_attr( self::TOPBAR_PROMO ); ?>[timer_enabled]"
+							value="1"
+							<?php checked( ! empty( $promo['timer_enabled'] ) ); ?>
+						>
+						<label for="ah-timer-enabled"><?php esc_html_e( 'Show countdown in top bar', 'alwayshere-child' ); ?></label>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="ah-timer-duration"><?php esc_html_e( 'Cycle Duration (hours)', 'alwayshere-child' ); ?></label>
+					</th>
+					<td>
+						<input
+							type="number"
+							id="ah-timer-duration"
+							name="<?php echo esc_attr( self::TOPBAR_PROMO ); ?>[timer_duration_hours]"
+							value="<?php echo esc_attr( (int) ( $promo['timer_duration_hours'] ?? 72 ) ); ?>"
+							min="1"
+							max="8760"
+							step="1"
+							class="small-text"
+						>
+						<p class="description"><?php esc_html_e( 'Hours per cycle. Timer restarts at zero automatically.', 'alwayshere-child' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="ah-timer-anchor"><?php esc_html_e( 'Cycle Start (anchor)', 'alwayshere-child' ); ?></label>
+					</th>
+					<td>
+						<input
+							type="datetime-local"
+							id="ah-timer-anchor"
+							name="<?php echo esc_attr( self::TOPBAR_PROMO ); ?>[timer_anchor]"
+							value="<?php echo esc_attr( str_replace( ' ', 'T', $promo['timer_anchor'] ?? '' ) ); ?>"
+							class="regular-text"
+						>
+						<p class="description"><?php esc_html_e( 'When cycle 0 began. Leave empty — set automatically on first save.', 'alwayshere-child' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="ah-timer-label"><?php esc_html_e( 'Label Prefix', 'alwayshere-child' ); ?></label>
+					</th>
+					<td>
+						<input
+							type="text"
+							id="ah-timer-label"
+							name="<?php echo esc_attr( self::TOPBAR_PROMO ); ?>[timer_label_prefix]"
+							value="<?php echo esc_attr( $promo['timer_label_prefix'] ?? 'נגמר בעוד' ); ?>"
+							class="regular-text"
+						>
+					</td>
+				</tr>
+			</table>
+		</div>
+
 		<!-- Topbar Social Links -->
 		<div class="ah-settings__section">
 			<h2><?php esc_html_e( 'Top Bar — Social Links', 'alwayshere-child' ); ?></h2>
@@ -583,19 +654,32 @@ class Alwayshere_Site_Settings {
 
 	/**
 	 * @param mixed $input
-	 * @return array{emoji: string, text: string, highlight: string, cta_text: string, shipping_text: string}
+	 * @return array{emoji: string, text: string, highlight: string, cta_text: string, shipping_text: string, timer_enabled: bool, timer_duration_hours: int, timer_anchor: string, timer_label_prefix: string}
 	 */
 	public function sanitize_topbar_promo( $input ): array {
 		if ( ! is_array( $input ) ) {
 			return self::default_topbar_promo();
 		}
 
+		$duration = isset( $input['timer_duration_hours'] ) ? (int) $input['timer_duration_hours'] : 72;
+		$duration = max( 1, min( 8760, $duration ) );
+
+		// Auto-set anchor to now on first save when left blank.
+		$anchor = isset( $input['timer_anchor'] ) ? sanitize_text_field( $input['timer_anchor'] ) : '';
+		if ( '' === $anchor && ! empty( $input['timer_enabled'] ) ) {
+			$anchor = current_time( 'Y-m-d H:i:s' );
+		}
+
 		return [
-			'emoji'         => isset( $input['emoji'] ) ? sanitize_text_field( $input['emoji'] ) : '',
-			'text'          => isset( $input['text'] ) ? sanitize_text_field( $input['text'] ) : '',
-			'highlight'     => isset( $input['highlight'] ) ? sanitize_text_field( $input['highlight'] ) : '',
-			'cta_text'      => isset( $input['cta_text'] ) ? sanitize_text_field( $input['cta_text'] ) : '',
-			'shipping_text' => isset( $input['shipping_text'] ) ? sanitize_text_field( $input['shipping_text'] ) : '',
+			'emoji'                => isset( $input['emoji'] ) ? sanitize_text_field( $input['emoji'] ) : '',
+			'text'                 => isset( $input['text'] ) ? sanitize_text_field( $input['text'] ) : '',
+			'highlight'            => isset( $input['highlight'] ) ? sanitize_text_field( $input['highlight'] ) : '',
+			'cta_text'             => isset( $input['cta_text'] ) ? sanitize_text_field( $input['cta_text'] ) : '',
+			'shipping_text'        => isset( $input['shipping_text'] ) ? sanitize_text_field( $input['shipping_text'] ) : '',
+			'timer_enabled'        => ! empty( $input['timer_enabled'] ),
+			'timer_duration_hours' => $duration,
+			'timer_anchor'         => $anchor,
+			'timer_label_prefix'   => isset( $input['timer_label_prefix'] ) ? sanitize_text_field( $input['timer_label_prefix'] ) : 'נגמר בעוד',
 		];
 	}
 
@@ -650,15 +734,19 @@ class Alwayshere_Site_Settings {
 	}
 
 	/**
-	 * @return array{emoji: string, text: string, highlight: string, cta_text: string, shipping_text: string}
+	 * @return array{emoji: string, text: string, highlight: string, cta_text: string, shipping_text: string, timer_enabled: bool, timer_duration_hours: int, timer_anchor: string, timer_label_prefix: string}
 	 */
 	private static function default_topbar_promo(): array {
 		return [
-			'emoji'         => '🎁',
-			'text'          => 'מבצע מוגבל —',
-			'highlight'     => '30% הנחה על הכל!',
-			'cta_text'      => 'קנה עכשיו',
-			'shipping_text' => 'משלוח חינם בהזמנות מעל ₪199',
+			'emoji'                => '🎁',
+			'text'                 => 'מבצע מוגבל —',
+			'highlight'            => '30% הנחה על הכל!',
+			'cta_text'             => 'קנה עכשיו',
+			'shipping_text'        => 'משלוח חינם בהזמנות מעל ₪199',
+			'timer_enabled'        => false,
+			'timer_duration_hours' => 72,
+			'timer_anchor'         => '',
+			'timer_label_prefix'   => 'נגמר בעוד',
 		];
 	}
 
