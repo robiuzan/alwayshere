@@ -71,25 +71,30 @@ if ( $timer_enabled && $timer_duration > 0 && '' !== $timer_anchor ) {
 		<?php endif; ?>
 	</div>
 
-	<!-- Center — promo + optional timer -->
-	<?php if ( ! empty( $promo['enabled'] ) ) : ?>
+	<!-- Center — promo text + optional timer (either can be shown independently) -->
+	<?php $promo_on = ! empty( $promo['enabled'] ); ?>
+	<?php if ( $promo_on || $timer_html ) : ?>
 	<div class="ah-topbar__promo">
-		<?php if ( '' !== $promo['emoji'] ) : ?>
-			<?php echo esc_html( $promo['emoji'] ); ?>
-		<?php endif; ?>
-		<?php if ( '' !== $promo['text'] ) : ?>
-			<?php echo esc_html( $promo['text'] ); ?>
-		<?php endif; ?>
-		<?php if ( '' !== $promo['highlight'] ) : ?>
-			<strong><?php echo esc_html( $promo['highlight'] ); ?></strong>
-		<?php endif; ?>
-		<?php if ( '' !== $promo['cta_text'] ) : ?>
-			<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php echo esc_html( $promo['cta_text'] ); ?></a>
+		<?php if ( $promo_on ) : ?>
+			<?php if ( '' !== $promo['emoji'] ) : ?>
+				<?php echo esc_html( $promo['emoji'] ); ?>
+			<?php endif; ?>
+			<?php if ( '' !== $promo['text'] ) : ?>
+				<?php echo esc_html( $promo['text'] ); ?>
+			<?php endif; ?>
+			<?php if ( '' !== $promo['highlight'] ) : ?>
+				<strong><?php echo esc_html( $promo['highlight'] ); ?></strong>
+			<?php endif; ?>
+			<?php if ( '' !== $promo['cta_text'] ) : ?>
+				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php echo esc_html( $promo['cta_text'] ); ?></a>
+			<?php endif; ?>
 		<?php endif; ?>
 		<?php if ( $timer_html ) : ?>
-			<span class="ah-topbar__sep" aria-hidden="true">|</span>
+			<?php if ( $promo_on ) : ?>
+				<span class="ah-topbar__sep" aria-hidden="true">|</span>
+			<?php endif; ?>
 			<?php echo $timer_html; // phpcs:ignore WordPress.Security.EscapeOutput -- already escaped above ?>
-		<?php elseif ( '' !== $promo['shipping_text'] ) : ?>
+		<?php elseif ( $promo_on && '' !== $promo['shipping_text'] ) : ?>
 			<span class="ah-topbar__sep" aria-hidden="true">|</span>
 			<?php echo esc_html( $promo['shipping_text'] ); ?>
 		<?php endif; ?>
