@@ -1,8 +1,8 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$section_title = get_sub_field( 'recipients_title' ) ?: __( 'למי המתנה?', 'alwayshere-child' );
-$section_sub   = get_sub_field( 'recipients_sub' )   ?: __( 'בחר את הנמען ומצא את המתנה המושלמת', 'alwayshere-child' );
+$section_title = get_field( 'recipients_title' ) ?: __( 'למי המתנה?', 'alwayshere-child' );
+$section_sub   = get_field( 'recipients_sub' )   ?: __( 'בחר את הנמען ומצא את המתנה המושלמת', 'alwayshere-child' );
 $section_tag   = __( 'קנה לפי נמען', 'alwayshere-child' );
 
 // Pull all child categories under "מי מקבל" (ID 16).

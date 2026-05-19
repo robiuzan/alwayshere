@@ -1,11 +1,11 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$eyebrow = get_sub_field( 'reviews_eyebrow' )        ?: __( 'מה אומרים עלינו', 'alwayshere-child' );
-$title   = get_sub_field( 'reviews_title' )          ?: __( '1,832 לקוחות לא יכולים לטעות', 'alwayshere-child' );
-$score   = get_sub_field( 'reviews_summary_score' )  ?: '4.9';
-$count   = get_sub_field( 'reviews_summary_count' )  ?: '1,832';
-$items   = get_sub_field( 'reviews_items' );
+$eyebrow = get_field( 'reviews_eyebrow' )        ?: __( 'מה אומרים עלינו', 'alwayshere-child' );
+$title   = get_field( 'reviews_title' )          ?: __( '1,832 לקוחות לא יכולים לטעות', 'alwayshere-child' );
+$score   = get_field( 'reviews_summary_score' )  ?: '4.9';
+$count   = get_field( 'reviews_summary_count' )  ?: '1,832';
+$items   = get_field( 'reviews_items' );
 
 if ( empty( $items ) ) {
 	return;

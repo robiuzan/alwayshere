@@ -1,8 +1,8 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$eyebrow = get_sub_field( 'occasions_eyebrow' ) ?: __( 'מתנות לפי אירוע', 'alwayshere-child' );
-$title   = get_sub_field( 'occasions_title' )   ?: __( 'לאיזה אירוע המתנה?', 'alwayshere-child' );
+$eyebrow = get_field( 'occasions_eyebrow' ) ?: __( 'מתנות לפי אירוע', 'alwayshere-child' );
+$title   = get_field( 'occasions_title' )   ?: __( 'לאיזה אירוע המתנה?', 'alwayshere-child' );
 $sub     = __( 'בחרו את האירוע ומצאו את המתנה המושלמת', 'alwayshere-child' );
 
 // Subtitle per slug — used for both ACF-selected and default terms.
@@ -18,7 +18,7 @@ $subtitles = [
 ];
 
 // Use ACF-selected categories when set; fall back to hardcoded slugs.
-$acf_slugs = get_sub_field( 'occasions_categories' );
+$acf_slugs = get_field( 'occasions_categories' );
 
 if ( ! empty( $acf_slugs ) && is_array( $acf_slugs ) ) {
 	$raw   = get_terms( [

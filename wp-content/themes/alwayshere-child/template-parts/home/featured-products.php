@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$feat_slug = get_sub_field( 'featured_category' ) ?: '';
+$feat_slug = get_field( 'featured_category' ) ?: '';
 
 $query_args = [
 	'status'  => 'publish',
@@ -19,10 +19,10 @@ $products = wc_get_products( $query_args );
 // Use dummy cards when no featured products are set yet.
 $use_dummy = empty( $products );
 
-$eyebrow   = get_sub_field( 'featured_eyebrow' )   ?: __( 'מבצעי היום', 'alwayshere-child' );
-$title     = get_sub_field( 'featured_title' )     ?: __( 'הצעות מיוחדות', 'alwayshere-child' );
-$sub       = get_sub_field( 'featured_sub' )       ?: __( 'מבצעים מוגבלים בזמן — אל תפספסו!', 'alwayshere-child' );
-$cta_label = get_sub_field( 'featured_cta_label' ) ?: __( 'לכל המוצרים', 'alwayshere-child' );
+$eyebrow   = get_field( 'featured_eyebrow' )   ?: __( 'מבצעי היום', 'alwayshere-child' );
+$title     = get_field( 'featured_title' )     ?: __( 'הצעות מיוחדות', 'alwayshere-child' );
+$sub       = get_field( 'featured_sub' )       ?: __( 'מבצעים מוגבלים בזמן — אל תפספסו!', 'alwayshere-child' );
+$cta_label = get_field( 'featured_cta_label' ) ?: __( 'לכל המוצרים', 'alwayshere-child' );
 ?>
 
 <section class="ah-section ah-section--gray" aria-label="<?php echo esc_attr( $title ); ?>">
