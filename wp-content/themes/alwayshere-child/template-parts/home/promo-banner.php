@@ -60,7 +60,6 @@ if ( $show_timer ) {
 		<!-- Col 2 (center): countdown timer (when enabled) -->
 		<?php if ( $show_timer ) : ?>
 			<div class="ah-promo-banner__timer-wrap">
-				<p class="ah-promo-banner__timer-label"><?php echo esc_html( $timer_label ); ?></p>
 				<span class="ah-promo-banner__timer"
 				      data-ah-countdown
 				      data-anchor="<?php echo esc_attr( $anchor_utc ); ?>"
