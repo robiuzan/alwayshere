@@ -4,6 +4,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // Force Hebrew RTL on all pages.
 add_filter( 'locale', fn() => 'he_IL' );
 
+// Disable WordPress emoji script — modern browsers render emoji natively.
+// The wp-emoji.js CDN replacement breaks emoji that are output as plain text in templates.
+add_action( 'init', function(): void {
+	remove_action( 'wp_head',             'print_emoji_detection_script', 7 );
+	remove_action( 'wp_print_styles',     'print_emoji_styles' );
+	remove_filter( 'the_content_feed',    'wp_staticize_emoji' );
+	remove_filter( 'comment_text_rss',    'wp_staticize_emoji' );
+	remove_filter( 'wp_mail',             'wp_staticize_emoji_for_email' );
+} );
+
 // Force ₪ symbol to the left of the price (Hebrew convention: ₪99).
 add_filter( 'option_woocommerce_currency_pos', fn() => 'left' );
 
