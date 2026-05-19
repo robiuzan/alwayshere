@@ -72,6 +72,7 @@ if ( $timer_enabled && $timer_duration > 0 && '' !== $timer_anchor ) {
 	</div>
 
 	<!-- Center — promo + optional timer -->
+	<?php if ( ! empty( $promo['enabled'] ) ) : ?>
 	<div class="ah-topbar__promo">
 		<?php if ( '' !== $promo['emoji'] ) : ?>
 			<?php echo esc_html( $promo['emoji'] ); ?>
@@ -93,6 +94,7 @@ if ( $timer_enabled && $timer_duration > 0 && '' !== $timer_anchor ) {
 			<?php echo esc_html( $promo['shipping_text'] ); ?>
 		<?php endif; ?>
 	</div>
+	<?php endif; ?>
 
 	<!-- Left (RTL: appears left) — social -->
 	<div class="ah-topbar__social">

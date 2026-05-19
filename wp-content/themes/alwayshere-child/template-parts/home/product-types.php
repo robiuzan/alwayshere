@@ -1,12 +1,12 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$eyebrow = get_field( 'product_types_eyebrow' ) ?: __( 'קטגוריות מוצרים', 'alwayshere-child' );
-$title   = get_field( 'product_types_title' )   ?: __( 'מה תרצו לעצב היום?', 'alwayshere-child' );
+$eyebrow = get_sub_field( 'product_types_eyebrow' ) ?: __( 'קטגוריות מוצרים', 'alwayshere-child' );
+$title   = get_sub_field( 'product_types_title' )   ?: __( 'מה תרצו לעצב היום?', 'alwayshere-child' );
 $sub     = __( 'בחרו קטגוריה וגלו את כל המוצרים שניתן להתאים אישית', 'alwayshere-child' );
 
 // Use ACF-selected categories when set; fall back to hardcoded slugs.
-$acf_slugs = get_field( 'product_types_categories' );
+$acf_slugs = get_sub_field( 'product_types_categories' );
 
 if ( ! empty( $acf_slugs ) && is_array( $acf_slugs ) ) {
 	$raw   = get_terms( [

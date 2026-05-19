@@ -1,18 +1,18 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$tag        = get_field( 'hero_badge' )      ?: '';
-$headline   = get_field( 'hero_headline' )   ?: '';
-$highlight  = get_field( 'hero_headline_highlight' ) ?: '';
-$subtext    = get_field( 'hero_subtext' )    ?: '';
-$cta1_label = get_field( 'hero_cta1_label' ) ?: '';
-$cta1_url   = get_field( 'hero_cta1_url' )   ?: '';
-$cta2_label = get_field( 'hero_cta2_label' ) ?: '';
-$cta2_url   = get_field( 'hero_cta2_url' )   ?: '';
-$images     = get_field( 'hero_images' )     ?: [];
-$trust      = get_field( 'hero_trust_items' ) ?: [];
-$float_top  = get_field( 'hero_floating_tag_top' )    ?: '';
-$float_bot  = get_field( 'hero_floating_tag_bottom' ) ?: '';
+$tag        = get_sub_field( 'hero_badge' )      ?: '';
+$headline   = get_sub_field( 'hero_headline' )   ?: '';
+$highlight  = get_sub_field( 'hero_headline_highlight' ) ?: '';
+$subtext    = get_sub_field( 'hero_subtext' )    ?: '';
+$cta1_label = get_sub_field( 'hero_cta1_label' ) ?: '';
+$cta1_url   = get_sub_field( 'hero_cta1_url' )   ?: '';
+$cta2_label = get_sub_field( 'hero_cta2_label' ) ?: '';
+$cta2_url   = get_sub_field( 'hero_cta2_url' )   ?: '';
+$images     = get_sub_field( 'hero_images' )     ?: [];
+$trust      = get_sub_field( 'hero_trust_items' ) ?: [];
+$float_top  = get_sub_field( 'hero_floating_tag_top' )    ?: '';
+$float_bot  = get_sub_field( 'hero_floating_tag_bottom' ) ?: '';
 
 // Wrap the highlighted phrase in a <span> for colour.
 if ( $headline && $highlight ) {

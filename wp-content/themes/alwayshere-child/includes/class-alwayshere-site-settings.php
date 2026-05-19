@@ -248,6 +248,21 @@ class Alwayshere_Site_Settings {
 			<table class="form-table">
 				<tr>
 					<th scope="row">
+						<label for="ah-promo-enabled"><?php esc_html_e( 'Enable Promo', 'alwayshere-child' ); ?></label>
+					</th>
+					<td>
+						<input
+							type="checkbox"
+							id="ah-promo-enabled"
+							name="<?php echo esc_attr( self::TOPBAR_PROMO ); ?>[enabled]"
+							value="1"
+							<?php checked( ! empty( $promo['enabled'] ) ); ?>
+						>
+						<label for="ah-promo-enabled"><?php esc_html_e( 'Show promo bar in the top bar', 'alwayshere-child' ); ?></label>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
 						<label for="ah-promo-emoji"><?php esc_html_e( 'Emoji', 'alwayshere-child' ); ?></label>
 					</th>
 					<td>
@@ -573,7 +588,7 @@ class Alwayshere_Site_Settings {
 	/**
 	 * Get topbar promo.
 	 *
-	 * @return array{emoji: string, text: string, highlight: string, cta_text: string, shipping_text: string}
+	 * @return array{enabled: bool, emoji: string, text: string, highlight: string, cta_text: string, shipping_text: string, timer_enabled: bool, timer_duration_hours: int, timer_anchor: string, timer_label_prefix: string}
 	 */
 	public static function get_topbar_promo(): array {
 		$promo = get_option( self::TOPBAR_PROMO, self::default_topbar_promo() );
@@ -654,7 +669,7 @@ class Alwayshere_Site_Settings {
 
 	/**
 	 * @param mixed $input
-	 * @return array{emoji: string, text: string, highlight: string, cta_text: string, shipping_text: string, timer_enabled: bool, timer_duration_hours: int, timer_anchor: string, timer_label_prefix: string}
+	 * @return array{enabled: bool, emoji: string, text: string, highlight: string, cta_text: string, shipping_text: string, timer_enabled: bool, timer_duration_hours: int, timer_anchor: string, timer_label_prefix: string}
 	 */
 	public function sanitize_topbar_promo( $input ): array {
 		if ( ! is_array( $input ) ) {
@@ -671,6 +686,7 @@ class Alwayshere_Site_Settings {
 		}
 
 		return [
+			'enabled'              => ! empty( $input['enabled'] ),
 			'emoji'                => isset( $input['emoji'] ) ? sanitize_text_field( $input['emoji'] ) : '',
 			'text'                 => isset( $input['text'] ) ? sanitize_text_field( $input['text'] ) : '',
 			'highlight'            => isset( $input['highlight'] ) ? sanitize_text_field( $input['highlight'] ) : '',
@@ -734,10 +750,11 @@ class Alwayshere_Site_Settings {
 	}
 
 	/**
-	 * @return array{emoji: string, text: string, highlight: string, cta_text: string, shipping_text: string, timer_enabled: bool, timer_duration_hours: int, timer_anchor: string, timer_label_prefix: string}
+	 * @return array{enabled: bool, emoji: string, text: string, highlight: string, cta_text: string, shipping_text: string, timer_enabled: bool, timer_duration_hours: int, timer_anchor: string, timer_label_prefix: string}
 	 */
 	private static function default_topbar_promo(): array {
 		return [
+			'enabled'              => true,
 			'emoji'                => '🎁',
 			'text'                 => 'מבצע מוגבל —',
 			'highlight'            => '30% הנחה על הכל!',

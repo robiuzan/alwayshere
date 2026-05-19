@@ -1,14 +1,14 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$tag        = get_field( 'trust_tag' )               ?: __( 'אודות Always Here', 'alwayshere-child' );
-$heading    = get_field( 'trust_heading' )            ?: '';
-$highlight  = get_field( 'trust_heading_highlight' )  ?: '';
-$body       = get_field( 'trust_body' )               ?: '';
-$features   = get_field( 'trust_icons' )              ?: [];
-$cta_label  = get_field( 'trust_cta_label' )          ?: __( 'קרא עוד עלינו', 'alwayshere-child' );
-$cta_url    = get_field( 'trust_cta_url' )            ?: '';
-$image      = get_field( 'trust_image' )              ?: null;
+$tag        = get_sub_field( 'trust_tag' )               ?: __( 'אודות Always Here', 'alwayshere-child' );
+$heading    = get_sub_field( 'trust_heading' )            ?: '';
+$highlight  = get_sub_field( 'trust_heading_highlight' )  ?: '';
+$body       = get_sub_field( 'trust_body' )               ?: '';
+$features   = get_sub_field( 'trust_icons' )              ?: [];
+$cta_label  = get_sub_field( 'trust_cta_label' )          ?: __( 'קרא עוד עלינו', 'alwayshere-child' );
+$cta_url    = get_sub_field( 'trust_cta_url' )            ?: '';
+$image      = get_sub_field( 'trust_image' )              ?: null;
 
 // Build heading HTML — wrap highlighted phrase in <span>.
 if ( $heading && $highlight ) {

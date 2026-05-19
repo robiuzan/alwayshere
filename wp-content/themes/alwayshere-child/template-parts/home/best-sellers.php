@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$bs_slug  = get_field( 'bestsellers_category' ) ?: '';
+$bs_slug  = get_sub_field( 'bestsellers_category' ) ?: '';
 
 $products = wc_get_products( [
 	'status'   => 'publish',
@@ -13,9 +13,9 @@ $products = wc_get_products( [
 
 if ( empty( $products ) ) return;
 
-$eyebrow = get_field( 'bestsellers_eyebrow' ) ?: __( 'הנמכרים ביותר', 'alwayshere-child' );
-$title   = get_field( 'bestsellers_title' )   ?: __( 'המוצרים הכי אהובים', 'alwayshere-child' );
-$sub     = get_field( 'bestsellers_sub' )     ?: __( 'הלקוחות שלנו כבר בחרו — מוצרים שתמיד פוגעים בנקודה', 'alwayshere-child' );
+$eyebrow = get_sub_field( 'bestsellers_eyebrow' ) ?: __( 'הנמכרים ביותר', 'alwayshere-child' );
+$title   = get_sub_field( 'bestsellers_title' )   ?: __( 'המוצרים הכי אהובים', 'alwayshere-child' );
+$sub     = get_sub_field( 'bestsellers_sub' )     ?: __( 'הלקוחות שלנו כבר בחרו — מוצרים שתמיד פוגעים בנקודה', 'alwayshere-child' );
 ?>
 
 <section class="ah-section" aria-label="<?php echo esc_attr( $title ); ?>">

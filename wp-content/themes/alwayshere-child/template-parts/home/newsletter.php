@@ -1,11 +1,11 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$badge      = get_field( 'nl_badge' )      ?: __( '🎁 10% הנחה למצטרפים חדשים', 'alwayshere-child' );
-$heading    = get_field( 'nl_heading' )    ?: __( 'קבל מבצעים בלעדיים ישר למייל', 'alwayshere-child' );
-$subtext    = get_field( 'nl_subtext' )    ?: __( 'הצטרף לאלפי לקוחות מרוצים וקבל השראה ומבצעים', 'alwayshere-child' );
-$cta_label  = get_field( 'nl_cta_label' ) ?: __( 'קבלו 10% הנחה ←', 'alwayshere-child' );
-$disclaimer = get_field( 'nl_disclaimer' ) ?: __( 'אנחנו לא שולחים ספאם. בטל בכל רגע.', 'alwayshere-child' );
+$badge      = get_sub_field( 'nl_badge' )      ?: __( '🎁 10% הנחה למצטרפים חדשים', 'alwayshere-child' );
+$heading    = get_sub_field( 'nl_heading' )    ?: __( 'קבל מבצעים בלעדיים ישר למייל', 'alwayshere-child' );
+$subtext    = get_sub_field( 'nl_subtext' )    ?: __( 'הצטרף לאלפי לקוחות מרוצים וקבל השראה ומבצעים', 'alwayshere-child' );
+$cta_label  = get_sub_field( 'nl_cta_label' ) ?: __( 'קבלו 10% הנחה ←', 'alwayshere-child' );
+$disclaimer = get_sub_field( 'nl_disclaimer' ) ?: __( 'אנחנו לא שולחים ספאם. בטל בכל רגע.', 'alwayshere-child' );
 ?>
 
 <section class="ah-newsletter" aria-label="<?php esc_attr_e( 'הרשמה לניוזלטר', 'alwayshere-child' ); ?>">
