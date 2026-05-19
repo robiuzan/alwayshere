@@ -1,13 +1,13 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$badge      = get_sub_field( 'promo_badge' )     ?: '🔥 מבצע';
-$headline   = get_sub_field( 'promo_headline' )  ?: __( '30% הנחה על כל הסטור', 'alwayshere-child' );
-$subtext    = get_sub_field( 'promo_subtext' )   ?: '';
-$coupon     = get_sub_field( 'promo_coupon' )    ?: 'ALWAYS30';
-$cta_l      = get_sub_field( 'promo_cta_label' ) ?: __( 'למימוש המבצע', 'alwayshere-child' );
-$cta_url    = get_sub_field( 'promo_cta_url' )   ?: ( function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : '/' );
-$bg_color   = get_sub_field( 'promo_bg_color' )  ?: '#2C4FE0';
+$badge      = get_field( 'promo_badge' )     ?: '🔥 מבצע';
+$headline   = get_field( 'promo_headline' )  ?: __( '30% הנחה על כל הסטור', 'alwayshere-child' );
+$subtext    = get_field( 'promo_subtext' )   ?: '';
+$coupon     = get_field( 'promo_coupon' )    ?: 'ALWAYS30';
+$cta_l      = get_field( 'promo_cta_label' ) ?: __( 'למימוש המבצע', 'alwayshere-child' );
+$cta_url    = get_field( 'promo_cta_url' )   ?: ( function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : '/' );
+$bg_color   = get_field( 'promo_bg_color' )  ?: '#2C4FE0';
 
 // Timer fields — share the topbar's countdown so both always display identical time.
 $topbar_promo   = class_exists( 'Alwayshere_Site_Settings' ) ? Alwayshere_Site_Settings::get_topbar_promo() : [];
