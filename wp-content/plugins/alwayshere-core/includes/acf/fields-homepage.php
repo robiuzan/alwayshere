@@ -245,56 +245,7 @@ function alwayshere_register_homepage_fields(): void {
 				'type'          => 'color_picker',
 				'default_value' => '#2C4FE0',
 			],
-			[
-				'key'           => 'field_alwayshere_promo_timer_enabled',
-				'label'         => 'הפעל ספירה לאחור',
-				'name'          => 'promo_timer_enabled',
-				'type'          => 'true_false',
-				'ui'            => 1,
-				'default_value' => 0,
-			],
-			[
-				'key'               => 'field_alwayshere_promo_timer_duration',
-				'label'             => 'אורך מחזור (שעות)',
-				'name'              => 'promo_timer_duration_hours',
-				'type'              => 'number',
-				'default_value'     => 72,
-				'min'               => 1,
-				'max'               => 8760,
-				'step'              => 1,
-				'instructions'      => 'כמה שעות נמשך כל מחזור? הטיימר יתאפס אוטומטית.',
-				'conditional_logic' => [ [ [
-					'field'    => 'field_alwayshere_promo_timer_enabled',
-					'operator' => '==',
-					'value'    => '1',
-				] ] ],
-			],
-			[
-				'key'               => 'field_alwayshere_promo_timer_anchor',
-				'label'             => 'זמן התחלת מחזור ראשון',
-				'name'              => 'promo_timer_anchor',
-				'type'              => 'date_time_picker',
-				'display_format'    => 'd/m/Y H:i',
-				'return_format'     => 'Y-m-d H:i:s',
-				'instructions'      => 'מתי התחיל מחזור ה-0? השאירו ריק — יוגדר אוטומטית בשמירה ראשונה.',
-				'conditional_logic' => [ [ [
-					'field'    => 'field_alwayshere_promo_timer_enabled',
-					'operator' => '==',
-					'value'    => '1',
-				] ] ],
-			],
-			[
-				'key'               => 'field_alwayshere_promo_timer_label',
-				'label'             => 'תווית לפני הטיימר',
-				'name'              => 'promo_timer_label',
-				'type'              => 'text',
-				'default_value'     => 'נגמר בעוד',
-				'conditional_logic' => [ [ [
-					'field'    => 'field_alwayshere_promo_timer_enabled',
-					'operator' => '==',
-					'value'    => '1',
-				] ] ],
-			],
+			// Timer is controlled from Site Settings → Topbar, not here.
 		],
 	] );
 
