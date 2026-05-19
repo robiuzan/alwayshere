@@ -90,6 +90,13 @@
 	&__timer {
 		display: inline-flex;
 		align-items: center;
+		gap: 6px;
+		direction: ltr;
+	}
+
+	&__timer-digits {
+		display: inline-flex;
+		align-items: center;
 		gap: 4px;
 		direction: ltr;
 	}
@@ -97,16 +104,16 @@
 	&__timer-prefix {
 		color: var(--white);
 		font-size: 12px;
-		margin-inline-end: 4px;
 	}
 
 	&__timer-pill {
-		background: rgba(255, 255, 255, 0.15);
+		background: rgba(255, 255, 255, 0.12);
+		border: 1px solid rgba(245, 197, 24, 0.55);
 		color: #f5c518;
 		font-family: monospace;
 		font-size: 14px;
 		font-weight: 700;
-		padding: 1px 5px;
+		padding: 1px 6px;
 		border-radius: 4px;
 		min-width: 26px;
 		text-align: center;
@@ -116,6 +123,11 @@
 	&__timer-sep {
 		color: #f5c518;
 		font-weight: 700;
+	}
+
+	&__sep {
+		color: rgba(255, 255, 255, 0.4);
+		margin-inline: 6px;
 	}
 
 	&__social {
@@ -159,7 +171,7 @@
 .ah-main-header {
 	background: var(--white);
 	border-block-end: 1px solid var(--gray-border);
-	padding: 10px 48px;
+	padding: 5px 48px;
 	position: sticky;
 	inset-block-start: 0;
 	z-index: 1000;
@@ -204,6 +216,10 @@
 		width: auto;
 		display: block;
 		object-fit: contain;
+
+		@media (min-width: #{$bp-md + 1px}) {
+			max-width: 280px;
+		}
 
 		@media (max-width: $bp-sm) {
 			height: 66px;

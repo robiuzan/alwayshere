@@ -34,12 +34,14 @@ if ( $timer_enabled && $timer_duration > 0 && '' !== $timer_anchor ) {
 	      data-anchor="<?php echo esc_attr( $anchor_utc ); ?>"
 	      data-duration-ms="<?php echo esc_attr( (string) $duration_ms ); ?>"
 	      aria-label="<?php echo esc_attr( $timer_label ); ?>">
+		<span class="ah-topbar__timer-digits">
+			<span class="ah-topbar__timer-pill" data-ah-countdown-hours><?php echo esc_html( $init_h ); ?></span>
+			<span class="ah-topbar__timer-sep" aria-hidden="true">:</span>
+			<span class="ah-topbar__timer-pill" data-ah-countdown-minutes><?php echo esc_html( $init_m ); ?></span>
+			<span class="ah-topbar__timer-sep" aria-hidden="true">:</span>
+			<span class="ah-topbar__timer-pill" data-ah-countdown-seconds><?php echo esc_html( $init_s ); ?></span>
+		</span>
 		<span class="ah-topbar__timer-prefix"><?php echo esc_html( $timer_label ); ?></span>
-		<span class="ah-topbar__timer-pill" data-ah-countdown-hours><?php echo esc_html( $init_h ); ?></span>
-		<span class="ah-topbar__timer-sep" aria-hidden="true">:</span>
-		<span class="ah-topbar__timer-pill" data-ah-countdown-minutes><?php echo esc_html( $init_m ); ?></span>
-		<span class="ah-topbar__timer-sep" aria-hidden="true">:</span>
-		<span class="ah-topbar__timer-pill" data-ah-countdown-seconds><?php echo esc_html( $init_s ); ?></span>
 	</span>
 	<?php
 	$timer_html = ob_get_clean();
@@ -69,27 +71,26 @@ if ( $timer_enabled && $timer_duration > 0 && '' !== $timer_anchor ) {
 		<?php endif; ?>
 	</div>
 
-	<!-- Center — promo / timer -->
+	<!-- Center — promo + optional timer -->
 	<div class="ah-topbar__promo">
+		<?php if ( '' !== $promo['emoji'] ) : ?>
+			<?php echo esc_html( $promo['emoji'] ); ?>
+		<?php endif; ?>
+		<?php if ( '' !== $promo['text'] ) : ?>
+			<?php echo esc_html( $promo['text'] ); ?>
+		<?php endif; ?>
+		<?php if ( '' !== $promo['highlight'] ) : ?>
+			<strong><?php echo esc_html( $promo['highlight'] ); ?></strong>
+		<?php endif; ?>
+		<?php if ( '' !== $promo['cta_text'] ) : ?>
+			<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php echo esc_html( $promo['cta_text'] ); ?></a>
+		<?php endif; ?>
 		<?php if ( $timer_html ) : ?>
+			<span class="ah-topbar__sep" aria-hidden="true">|</span>
 			<?php echo $timer_html; // phpcs:ignore WordPress.Security.EscapeOutput -- already escaped above ?>
-		<?php else : ?>
-			<?php if ( '' !== $promo['emoji'] ) : ?>
-				<?php echo esc_html( $promo['emoji'] ); ?>
-			<?php endif; ?>
-			<?php if ( '' !== $promo['text'] ) : ?>
-				<?php echo esc_html( $promo['text'] ); ?>
-			<?php endif; ?>
-			<?php if ( '' !== $promo['highlight'] ) : ?>
-				<strong><?php echo esc_html( $promo['highlight'] ); ?></strong>
-			<?php endif; ?>
-			<?php if ( '' !== $promo['cta_text'] ) : ?>
-				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php echo esc_html( $promo['cta_text'] ); ?></a>
-			<?php endif; ?>
-			<?php if ( '' !== $promo['shipping_text'] ) : ?>
-				&nbsp;|&nbsp;
-				<?php echo esc_html( $promo['shipping_text'] ); ?>
-			<?php endif; ?>
+		<?php elseif ( '' !== $promo['shipping_text'] ) : ?>
+			<span class="ah-topbar__sep" aria-hidden="true">|</span>
+			<?php echo esc_html( $promo['shipping_text'] ); ?>
 		<?php endif; ?>
 	</div>
 
