@@ -1,7 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$badge      = get_field( 'promo_badge' )     ?: '🔥 מבצע';
 $headline   = get_field( 'promo_headline' )  ?: __( '30% הנחה על כל הסטור', 'alwayshere-child' );
 $subtext    = get_field( 'promo_subtext' )   ?: '';
 $coupon     = get_field( 'promo_coupon' )    ?: 'ALWAYS30';
@@ -38,23 +37,26 @@ if ( $show_timer ) {
 
 		<!-- Col 1 (RTL right): text + coupon chip -->
 		<div class="ah-promo-banner__text">
-			<?php if ( $badge ) : ?>
-				<span class="ah-promo-banner__badge"><?php echo esc_html( $badge ); ?></span>
-			<?php endif; ?>
 			<h3 class="ah-promo-banner__headline"><?php echo esc_html( $headline ); ?></h3>
-			<?php if ( $subtext ) : ?>
-				<p class="ah-promo-banner__sub"><?php echo esc_html( $subtext ); ?></p>
-			<?php endif; ?>
-			<?php if ( $coupon ) : ?>
-				<button
-					type="button"
-					class="ah-promo-banner__coupon"
-					data-coupon="<?php echo esc_attr( $coupon ); ?>"
-					aria-label="<?php echo esc_attr( sprintf( __( 'העתק קוד קופון %s', 'alwayshere-child' ), $coupon ) ); ?>"
-				>
-					<span class="ah-promo-banner__coupon-code"><?php echo esc_html( $coupon ); ?></span>
-				</button>
-			<?php endif; ?>
+			<div class="ah-promo-banner__sub-row">
+				<?php if ( $subtext ) : ?>
+					<p class="ah-promo-banner__sub"><?php echo esc_html( $subtext ); ?></p>
+				<?php endif; ?>
+				<?php if ( $coupon ) : ?>
+					<button
+						type="button"
+						class="ah-promo-banner__coupon"
+						data-coupon="<?php echo esc_attr( $coupon ); ?>"
+						aria-label="<?php echo esc_attr( sprintf( __( 'העתק קוד קופון %s', 'alwayshere-child' ), $coupon ) ); ?>"
+					>
+						<span class="ah-promo-banner__coupon-code"><?php echo esc_html( $coupon ); ?></span>
+						<svg class="ah-promo-banner__coupon-icon" viewBox="0 0 24 24" aria-hidden="true">
+							<rect x="9" y="9" width="13" height="13" rx="2"/>
+							<path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+						</svg>
+					</button>
+				<?php endif; ?>
+			</div>
 		</div>
 
 		<!-- Col 2 (center): countdown timer (when enabled) -->
