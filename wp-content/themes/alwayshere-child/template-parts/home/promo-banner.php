@@ -7,6 +7,7 @@ $coupon     = get_field( 'promo_coupon' )    ?: 'ALWAYS30';
 $cta_l      = get_field( 'promo_cta_label' ) ?: __( 'למימוש המבצע', 'alwayshere-child' );
 $cta_url    = get_field( 'promo_cta_url' )   ?: ( function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : '/' );
 $bg_color   = get_field( 'promo_bg_color' )  ?: '#2C4FE0';
+$section_id = get_field( 'promo_section_id' ) ?: '';
 
 // Timer fields — share the topbar's countdown so both always display identical time.
 $topbar_promo   = class_exists( 'Alwayshere_Site_Settings' ) ? Alwayshere_Site_Settings::get_topbar_promo() : [];
@@ -31,7 +32,9 @@ if ( $show_timer ) {
 }
 ?>
 
-<div class="ah-promo-banner" style="--ah-promo-bg: <?php echo esc_attr( $bg_color ); ?>;"
+<div class="ah-promo-banner"
+     <?php if ( $section_id ) : ?>id="<?php echo esc_attr( $section_id ); ?>"<?php endif; ?>
+     style="--ah-promo-bg: <?php echo esc_attr( $bg_color ); ?>;"
      aria-label="<?php esc_attr_e( 'מבצע מיוחד', 'alwayshere-child' ); ?>">
 	<div class="ah-promo-banner__inner">
 

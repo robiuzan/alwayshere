@@ -245,6 +245,14 @@ function alwayshere_register_homepage_fields(): void {
 				'type'          => 'color_picker',
 				'default_value' => '#2C4FE0',
 			],
+			[
+				'key'          => 'field_alwayshere_promo_section_id',
+				'label'        => 'ID',
+				'name'         => 'promo_section_id',
+				'type'         => 'text',
+				'instructions' => 'מזהה HTML לאלמנט (לעוגנים, CSS ו-JS)',
+				'required'     => 0,
+			],
 			// Timer is controlled from Site Settings → Topbar, not here.
 		],
 	] );
